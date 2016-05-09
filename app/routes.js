@@ -1,6 +1,8 @@
+var path = require("path");
+
 module.exports = function(app) {
     // server routes ================================================
     app.get("*", function(req, res) {
-        res.sendFile("./public/views/index.html");
+        res.sendFile(path.resolve('public/views/index.html'));
     });
 }
