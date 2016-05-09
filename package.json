@@ -1,0 +1,30 @@
+{
+  "name": "magellan",
+  "version": "0.0.1",
+  "description": "Test your knowledge about the countries of our world",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MICSTI/magellan.git"
+  },
+  "keywords": [
+    "country",
+    "quiz"
+  ],
+  "author": "MICSTI",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/MICSTI/magellan/issues"
+  },
+  "homepage": "https://github.com/MICSTI/magellan#readme",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "method-override": "^2.3.5",
+    "mongoose": "^4.4.15"
+  }
+}
