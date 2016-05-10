@@ -59,11 +59,11 @@ gulp.task("styles", function() {
        .pipe(concat('styles.scss'))
        .pipe(sass())
        .pipe(cleanCss())
-       .pipe(gulp.dest("./public/css/"));
+       .pipe(gulp.dest("./build/styles/"));
 });
 
 // default task
-gulp.task("default", ["jshint", "imagemin", "htmlpage", "scripts", "styles"], function() {
+gulp.task("default", ["imagemin", "htmlpage", "scripts", "styles"], function() {
     var html = ["htmlpage"];
     var js = ["scripts"];
     var css = ["styles"];
