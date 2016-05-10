@@ -12,6 +12,7 @@ var sass = require("gulp-sass");
 var cleanCss = require("gulp-clean-css");
 var ngAnnotate = require("gulp-ng-annotate");
 var sourcemaps = require("gulp-sourcemaps");
+var protractor = require("gulp-protractor").protractor;
 
 // JS hint task
 gulp.task("jshint", function() {
@@ -60,6 +61,16 @@ gulp.task("styles", function() {
        .pipe(sass())
        .pipe(cleanCss())
        .pipe(gulp.dest("./build/styles/"));
+});
+
+// Protractor test
+gulp.task("protractor", function() {
+    gulp.src(["./test/protractor/*.js"])
+        .pipe(protractor({
+            configFile: "./test/protractor.config.js",
+            args: ['--baseUrl', 'http://localhost:8000']
+        }))
+        .on("error", function(e) { throw e; });
 });
 
 // default task
