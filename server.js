@@ -5,7 +5,6 @@ var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 
 // config files ====================================
-var DB = require("./config/db");
 var SERVER = require("./config/server");
 
 // set port
