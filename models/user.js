@@ -19,14 +19,8 @@ var User = db.model('User', {
         required: true,
         select: false
     },
-    salt: {
-        type: String,
-        required: true,
-        select: false
-    },
     created: {
         type: Date,
-        required: true,
         default: Date.now
     },
     signupToken: {

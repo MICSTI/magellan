@@ -22,10 +22,12 @@
   },
   "homepage": "https://github.com/MICSTI/magellan#readme",
   "dependencies": {
+    "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.1",
     "cluster": "^0.7.7",
     "express": "^4.13.4",
     "jwt-simple": "^0.5.0",
+    "lodash": "^4.13.1",
     "method-override": "^2.3.5",
     "mongoose": "^4.4.15",
     "os": "^0.1.1"
