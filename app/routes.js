@@ -10,14 +10,6 @@ module.exports = function(app) {
 
     // api routes ===================================================
     app.get('/api/countries', function(req, res, next) {
-        /*res.status(200).json([{
-            id: 1,
-            name: 'Austria'
-        }, {
-            id: 2,
-            name: 'Australia'
-        }]);*/
-
         Country.find(function(err, countries) {
             if (err) {
                 return next(err);
