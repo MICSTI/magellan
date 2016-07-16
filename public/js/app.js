@@ -1,4 +1,6 @@
-var magellan = angular.module("magellan", []);
+var magellan = angular.module("magellan", [
+    'ngRoute'
+]);
 
 magellan.controller("AppCtrl", function($scope) {
     // app config

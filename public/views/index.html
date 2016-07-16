@@ -2,6 +2,8 @@
 <html lang="en" ng-app="magellan" ng-controller="AppCtrl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
     <title>Magellan</title>
 
     <link rel="stylesheet" type="text/css" href="lib/fonts/OpenSans/OpenSans.css" />
@@ -14,10 +16,13 @@
     </style>
 </head>
 <body class="ng-cloak" ng-cloak>
-    <h1>{{app.config.title}}</h1>
-    <h3>Test your knowledge about the countries of our world</h3>
+    <header>
+        <h1>{{app.config.title}}</h1>
+        <h3>Test your knowledge about the countries of our world</h3>
+    </header>
 
     <script type="text/javascript" src="lib/angular/angular.min.js"></script>
+    <script type="text/javascript" src="lib/angular/angular-route.min.js"></script>
 
     <script type="text/javascript" src="build/scripts/script.js"></script>
 </body>
