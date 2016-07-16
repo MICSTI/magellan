@@ -23,6 +23,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
 // routes ====================================
+app.use('/api', require('./controllers/api/users.js'));
+app.use('/api/countries', require('./controllers/api/countries.js'));
+
 require("./app/routes")(app);
 
 // start app ====================================
