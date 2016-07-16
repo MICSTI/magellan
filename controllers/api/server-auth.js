@@ -15,7 +15,7 @@ router.post('/session', function(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
 
-    User.findOne( { username: username } )
+    User.findOne( { username: username, confirmed: true, active: true } )
         .select('password')
         .exec(function(err, user) {
             if (err) {

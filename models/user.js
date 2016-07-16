@@ -33,11 +33,13 @@ var User = db.model('User', {
     },
     confirmed: {
         type: Boolean,
-        default: false
+        default: true,
+        select: false
     },
     active: {
         type: Boolean,
-        default: false
+        default: true,
+        select: false
     }
 });
 
