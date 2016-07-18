@@ -35,7 +35,7 @@ gulp.task("imagemin", function() {
 // minify new or changed HTML pages
 gulp.task("htmlpage", function() {
     var htmlSrc = "./public/views/*.html";
-    var htmlDst = "./build";
+    var htmlDst = "./build/views";
 
     gulp.src(htmlSrc)
         .pipe(changed(htmlDst))

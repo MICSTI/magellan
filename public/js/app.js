@@ -1,5 +1,5 @@
 var magellan = angular.module("magellan", [
-    'ngRoute'
+    'ui.router'
 ]);
 
 magellan.controller("AppCtrl", function($scope) {
