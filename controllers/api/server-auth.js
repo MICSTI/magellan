@@ -35,7 +35,7 @@ router.post('/session', function(req, res, next) {
                     return res.status(401).send();
                 }
 
-                var token = jwt.encode({ username: username }, config.secretKey);
+                var token = jwt.encode({ user: user._id }, config.secretKey);
                 res.status(200).json(token);
             });
         });
@@ -98,8 +98,18 @@ router.get('/user', function(req, res, next) {
     }
 
     User.findOne({
-        username: auth.username
+        _id: auth.user
     }, function(err, user) {
+        if (err) {
+            return res.status(400).json(err);
+        }
+
+        if (!user) {
+            return res.status(401).send({
+                message: "Unknown user"
+            });
+        }
+
         res.status(200).json(user);
     });
 });
