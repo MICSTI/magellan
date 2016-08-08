@@ -5,7 +5,7 @@ angular
     .controller('LogoutCtrl', function($scope, UserSrv) {
         UserSrv.logout()
             .then(function() {
-                // inform application control about login event
+                // inform application control about logout event
                 $scope.$emit('app.logout');
             });
     });
