@@ -30,6 +30,11 @@
                 <li ui-sref-active="active"><a href="/quiz" ui-sref="quiz">Quiz</a></li>
             </ul>
         </div>
+
+        <span>
+            <span ng-if="user">logged in as <span class="bold">{{user.username}}</span></span>
+            <span ng-if="!user"><a href="/login">Login</a></span>
+        </span>
     </nav>
 
     <div class="content" ui-view></div>

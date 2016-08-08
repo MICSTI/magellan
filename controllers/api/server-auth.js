@@ -23,7 +23,7 @@ router.post('/session', function(req, res, next) {
             }
 
             if (!user) {
-                return res.status(401).send();
+                return res.status(401).send("Username or password not valid");
             }
 
             bcrypt.compare(password, user.password, function(err, valid) {
@@ -32,7 +32,7 @@ router.post('/session', function(req, res, next) {
                 }
 
                 if (!valid) {
-                    return res.status(401).send();
+                    return res.status(401).send("Username or password wrong");
                 }
 
                 var token = jwt.encode({ user: user._id }, config.secretKey);
