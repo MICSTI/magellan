@@ -81,6 +81,10 @@ nav {
     color: $text_primary;
   }
 }
+
+.navbar li.active {
+  background-color: #03c9a9;
+}
 /* ---------------------------------- */
 
 /* ------------- Content ------------ */
