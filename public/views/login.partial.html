@@ -1,1 +1,23 @@
-Login page
+<div ng-controller="LoginCtrl">
+    <section class="section-element section-title">
+        Log into Magellan
+    </section>
+
+    <section class="section-element">
+        <form ng-submit="login(username, password)">
+            <div class="form-group">
+                <label>Username</label>
+                <input class="form-control" id="username" type="text" placeholder="Username" ng-model="username" />
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input class="form-control" type="password" placeholder="Password" ng-model="password" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Login" />
+            </div>
+        </form>
+    </section>
+</div>
