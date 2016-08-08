@@ -58,7 +58,7 @@ gulp.task("scripts", function() {
 gulp.task("styles", function() {
    gulp.src(["./public/sass/**/*.scss"])
        .pipe(concat('styles.scss'))
-       .pipe(sass())
+       .pipe(sass().on('error', sass.logError))
        .pipe(cleanCss())
        .pipe(gulp.dest("./build/styles/"));
 });
