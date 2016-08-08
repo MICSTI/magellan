@@ -3,6 +3,9 @@ $title: #81cfe0;
 $text_primary: #444;
 $link_color: cornflowerblue;
 
+$jaffa: #f27935;
+$confetti: #e9d460;
+
 body {
   background-color: $primary;
   text-align: center;
@@ -30,6 +33,34 @@ a:hover {
 input[type=text], input[type=password] {
   font-family: 'Open Sans', Verdana, sans-serif;
 }
+
+.bold {
+  font-weight: bold;
+}
+
+/* ------------- Colors ------------- */
+.bg-confetti {
+  background-color: $confetti;
+}
+
+.bg-jaffa {
+  background-color: $jaffa;
+}
+/* ---------------------------------- */
+
+/* ---------- User profile ---------- */
+.user-profile {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+
+  position: relative;
+  top: 0.14em;
+
+  margin-right: 0.1em;
+}
+/* ---------------------------------- */
 
 /* ------------- Header ------------- */
 header {
@@ -68,6 +99,10 @@ nav {
   }
 }
 
+.navbar {
+  display: inline-block;
+}
+
 .navbar li {
   display: inline-block;
 
@@ -88,6 +123,20 @@ nav {
 
 .navbar li.active {
   background-color: #03c9a9;
+}
+
+.loginStatusContainer {
+  float: right;
+  padding-top: 0.4em;
+  margin-right: 0.8em;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover .username {
+    color: #999;
+  }
 }
 /* ---------------------------------- */
 

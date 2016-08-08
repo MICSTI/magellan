@@ -29,12 +29,15 @@
                 <li ui-sref-active="active"><a href="/home" ui-sref="home">Home</a></li>
                 <li ui-sref-active="active"><a href="/quiz" ui-sref="quiz">Quiz</a></li>
             </ul>
-        </div>
 
-        <span>
-            <span ng-if="user">logged in as <span class="bold">{{user.username}}</span></span>
-            <span ng-if="!user"><a href="/login">Login</a></span>
-        </span>
+            <span class="loginStatusContainer">
+                <span ng-if="user">
+                    <span class="user-profile bg-confetti"></span>
+                    <span class="username">{{user.username}}</span>
+                </span>
+                <span ng-if="!user"><a href="/login">Login</a></span>
+            </span>
+        </div>
     </nav>
 
     <div class="content" ui-view></div>
