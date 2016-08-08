@@ -22,8 +22,17 @@ angular
             });
         };
 
+        var logout = function() {
+            return new Promise(function(resolve, reject) {
+                self.token = null;
+
+                resolve();
+            });
+        };
+
         return {
             getUser: getUser,
-            login: login
+            login: login,
+            logout: logout
         }
     });

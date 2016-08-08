@@ -19,4 +19,11 @@ magellan.controller("AppCtrl", function($scope, $state) {
         // go to quiz page
         $state.go('quiz');
     });
+
+    $scope.$on('app.logout', function(event, data) {
+        $scope.user = null;
+
+        // go to home page
+        $state.go('home');
+    });
 });

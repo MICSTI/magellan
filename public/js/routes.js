@@ -18,6 +18,10 @@ angular.module('magellan')
                 url: '/login',
                 templateUrl: '/build/views/login.partial.html'
             })
+            .state('logout', {
+                url: '/logout',
+                controller: 'LogoutCtrl'
+            })
             .state('register', {
                 url: '/register',
                 templateUrl: '/build/views/register.partial.html'
