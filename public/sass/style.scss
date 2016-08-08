@@ -138,6 +138,15 @@ nav {
     color: #999;
   }
 }
+
+@media screen and (max-width: 400px) {
+  .loginStatusContainer {
+    width: 100%;
+    float: none;
+    margin: 0;
+    display: block;
+  }
+}
 /* ---------------------------------- */
 
 /* -------------- Form -------------- */
