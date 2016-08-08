@@ -27,6 +27,10 @@ a:hover {
   text-decoration: underline;
 }
 
+input[type=text], input[type=password] {
+  font-family: 'Open Sans', Verdana, sans-serif;
+}
+
 /* ------------- Header ------------- */
 header {
   width: 100%;
@@ -87,20 +91,42 @@ nav {
 }
 /* ---------------------------------- */
 
+/* -------------- Form -------------- */
+.form-group {
+  margin-bottom: 1.5em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.1em;
+  }
+}
+
+.form-control {
+  padding: 0.3em;
+  width: 50%;
+}
+/* ---------------------------------- */
+
 /* ------------- Content ------------ */
 .content {
-  padding: 0.5em;
+  padding: 1em 0.5em;
 }
 
 .section-element {
   margin-bottom: 1em;
 }
-/* ---------------------------------- */
 
-/* --------------- Home ------------- */
-.welcome {
+.section-title {
   margin-top: 0.5em;
   font-weight: bold;
   font-size: 1.2em;
 }
+/* ---------------------------------- */
+
+/* --------------- Home ------------- */
+
 /* ---------------------------------- */
