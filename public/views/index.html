@@ -30,13 +30,19 @@
                 <li ui-sref-active="active"><a href="/quiz" ui-sref="quiz">Quiz</a></li>
             </ul>
 
-            <span class="loginStatusContainer">
-                <span ng-if="user">
+            <div class="loginStatusContainer" ng-controller="DropdownCtrl">
+                <span ng-if="user" ng-click="toggleDropdown()">
                     <span class="user-profile bg-confetti"></span>
                     <span class="username bold">{{user.username}}</span>
                 </span>
                 <span ng-if="!user"><a href="/login">Login</a></span>
-            </span>
+
+                <div class="dropdownItemsContainer" ng-if="isDropdownVisible()">
+                    <ul>
+                        <li><a href="/logout" ng-click="hideDropdown()">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </nav>
 

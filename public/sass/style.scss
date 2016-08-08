@@ -5,6 +5,7 @@ $link_color: cornflowerblue;
 
 $jaffa: #f27935;
 $confetti: #e9d460;
+$jade: #00b16a;
 
 body {
   background-color: $primary;
@@ -147,6 +148,27 @@ nav {
     display: block;
   }
 }
+/* ---------------------------------- */
+
+/* ------------ Dropdown ------------ */
+.dropdownItemsContainer {
+  z-index: 10000;
+  background-color: $jade;
+
+  position: relative;
+  top: 0.5em;
+
+  ul {
+    li {
+      padding: 0.3em 0.5em;
+
+      a {
+        color: #ebebeb;
+      }
+    }
+  }
+}
+
 /* ---------------------------------- */
 
 /* -------------- Form -------------- */
