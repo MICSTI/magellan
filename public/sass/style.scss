@@ -1,6 +1,7 @@
 $primary: #c5eff7;
 $title: #81cfe0;
 $text_primary: #444;
+$link_color: cornflowerblue;
 
 body {
   background-color: $primary;
@@ -17,11 +18,14 @@ ul {
   padding: 0;
 }
 
-a, a:focus, a:visited, a:active {
-  color: $text_primary;
+a, a:link, a:focus, a:visited, a:active {
+  color: $link_color;
   text-decoration: none;
 }
 
+a:hover {
+  text-decoration: underline;
+}
 
 /* ------------- Header ------------- */
 header {
@@ -30,18 +34,18 @@ header {
   margin: 0 0;
   padding: 0.4em 0.4em 0.6em 0.4em;
   display: inline-block;
-}
 
-header h1 {
-  display: inline-block;
-  margin: 0 0.5em 0 0;
-}
+  h1 {
+    display: inline-block;
+    margin: 0 0.5em 0 0;
+  }
 
-header h3 {
-  color: #666;
-  font-size: 1.1em;
-  margin-bottom: 0;
-  display: inline-block;
+  h3 {
+    color: #666;
+    font-size: 1.1em;
+    margin-bottom: 0;
+    display: inline-block;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -54,16 +58,45 @@ header h3 {
 /* ------------- Navbar ------------- */
 nav {
   background-color: #86e2d5;
+
+  a, a:focus, a:visited, a:active {
+    text-decoration: none;
+  }
 }
 
 .navbar li {
   display: inline-block;
-  margin: 0.4em 0.5em;
+
+  a {
+    display: inline-block;
+    padding: 0.5em 0.7em;
+
+    &:hover {
+      background-color: #03c9a9;
+      text-decoration: none;
+    }
+  }
+
+  a, a:link, a:focus, a:visited, a:active {
+    color: $text_primary;
+  }
 }
 /* ---------------------------------- */
 
 /* ------------- Content ------------ */
 .content {
   padding: 0.5em;
+}
+
+.section-element {
+  margin-bottom: 1em;
+}
+/* ---------------------------------- */
+
+/* --------------- Home ------------- */
+.welcome {
+  margin-top: 0.5em;
+  font-weight: bold;
+  font-size: 1.2em;
 }
 /* ---------------------------------- */

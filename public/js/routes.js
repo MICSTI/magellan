@@ -10,6 +10,10 @@ angular.module('magellan')
                 url: '/home',
                 templateUrl: '/build/views/home.partial.html'
             })
+            .state('quiz', {
+                url: '/quiz',
+                templateUrl: '/build/views/quiz.partial.html'
+            })
             .state('login', {
                 url: '/login',
                 templateUrl: '/build/views/login.partial.html'
