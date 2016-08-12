@@ -11,3 +11,6 @@ Test your knowledge about the countries of our world
 
 # Database
 The application must have access to a MongoDB instance.
+
+# Country data
+The country data used is imported from [REST Countries](https://restcountries.eu/).
