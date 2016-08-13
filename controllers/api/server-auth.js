@@ -2,6 +2,7 @@ var jwt = require('jwt-simple');
 var bcrypt = require('bcryptjs');
 var config = require('../../config/server');
 var _ = require('lodash');
+var protectRoute = require('../protect');
 
 var router = require('express').Router();
 var User = require('../../models/user');
@@ -80,14 +81,9 @@ router.post('/user', function(req, res, next) {
     });
 });
 
-router.get('/user', function(req, res, next) {
-    if (req.user) {
-        res.status(200).json(req.user);
-    } else {
-        res.status(403).json({
-            message: "Not authenticated"
-        });
-    }
+router.get('/user', protectRoute, function(req, res) {
+    // since the route is protected, we can just send back the user object
+    res.status(200).json(req.user);
 });
 
 module.exports = router;
