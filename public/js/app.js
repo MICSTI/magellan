@@ -1,9 +1,11 @@
 var magellan = angular.module("magellan", [
     'ui.router'
-]);
+], function config($httpProvider) {
+    $httpProvider.interceptors.push('AuthInterceptor');
+});
 
-magellan.controller("AppCtrl", function($scope, $state) {
-    // app config
+magellan.controller("AppCtrl", function($scope, $state, UserSrv) {
+    // ----------- App config ------------
     $scope.app = {
         config: {
             title: "Magellan",
@@ -12,8 +14,19 @@ magellan.controller("AppCtrl", function($scope, $state) {
         }
     };
 
+    // ----------- App initialization ------------
+    UserSrv.getUserFromStorage()
+        .then(function(user) {
+            // store user object in scope
+            $scope.user = user;
+        })
+        .catch(function(err) {
+            console.error(err);
+        });
+
     // ----------- Event handling ------------
     $scope.$on('app.login', function(event, data) {
+        // store user object in scope
         $scope.user = data;
 
         // go to quiz page
@@ -21,6 +34,7 @@ magellan.controller("AppCtrl", function($scope, $state) {
     });
 
     $scope.$on('app.logout', function(event, data) {
+        // remove user object from scope
         $scope.user = null;
 
         // go to home page
