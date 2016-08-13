@@ -21,7 +21,7 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv) {
             $scope.user = user;
         })
         .catch(function(err) {
-            console.error(err);
+            // the only error that can occur is that there is no token in storage, we do not need to react to that
         });
 
     // ----------- Event handling ------------

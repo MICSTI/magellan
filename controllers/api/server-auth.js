@@ -81,37 +81,13 @@ router.post('/user', function(req, res, next) {
 });
 
 router.get('/user', function(req, res, next) {
-    if (!req.headers['x-auth']) {
-        return res.status(401).send({
-            message: "Missing authentication token"
+    if (req.user) {
+        res.status(200).json(req.user);
+    } else {
+        res.status(403).json({
+            message: "Not authenticated"
         });
     }
-
-    var token = req.headers['x-auth'];
-
-    var auth;
-
-    try {
-        auth = jwt.decode(token, config.secretKey);
-    } catch (ex) {
-        return res.status(401).send(ex.message);
-    }
-
-    User.findOne({
-        _id: auth.user
-    }, function(err, user) {
-        if (err) {
-            return res.status(400).json(err);
-        }
-
-        if (!user) {
-            return res.status(401).send({
-                message: "Unknown user"
-            });
-        }
-
-        res.status(200).json(user);
-    });
 });
 
 module.exports = router;

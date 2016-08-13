@@ -2,7 +2,7 @@
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
-var methodOverride = require("method-override");
+var authentication = require('./controllers/authentication');
 
 // config files ====================================
 var SERVER = require("./config/server");
@@ -18,6 +18,9 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// parse JWT token
+app.use(authentication);
 
 // set the static files location (/public/img will be /img for users)
 app.use(express.static(__dirname + "/public"));
