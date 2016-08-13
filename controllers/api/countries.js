@@ -1,28 +1,34 @@
 var router = require('express').Router();
 var Country = require('../../models/country');
+var config = require('../../config/server');
+var protectRoute = require('../protect');
+var fs = require('fs');
 
-router.get('/', function(req, res, next) {
-    Country.find(function(err, countries) {
-        if (err) {
-            return next(err);
-        }
+// read the countries.json file
+var countries = JSON.parse(fs.readFileSync('./assets/countries.json', 'utf8'));
 
-        res.status(200).json(countries);
+/**
+ * Returns the current version of the countries JSON file.
+ */
+router.get('/version', protectRoute, function(req, res, next) {
+    var version = config.countriesFile.version;
+
+    if (!version) {
+        return res.status(400).json({
+            message: 'No version found'
+        });
+    }
+
+    res.status(200).json({
+        version: version
     });
 });
 
-router.post('/', function(req, res, next) {
-    var country = new Country({
-        name: req.body.name
-    });
-
-    country.save(function(err, country) {
-        if (err) {
-            return next(err);
-        }
-
-        res.status(201).json(country);
-    });
+/**
+ * Returns an array containing all countries
+ */
+router.get('/', protectRoute, function(req, res, next) {
+    res.status(200).json(countries);
 });
 
 module.exports = router;
