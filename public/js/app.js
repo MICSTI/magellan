@@ -4,7 +4,7 @@ var magellan = angular.module("magellan", [
     $httpProvider.interceptors.push('AuthInterceptor');
 });
 
-magellan.controller("AppCtrl", function($scope, $state, UserSrv, IndexedDBSrv) {
+magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv) {
     // ----------- App config ------------
     $scope.app = {
         config: {
@@ -24,11 +24,7 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, IndexedDBSrv) {
             // the only error that can occur is that there is no token in storage, we do not need to react to that
         });
 
-    // IndexedDB
-    var database = 'countryStore';
-    var store = 'countryStore';
-    var keyCountries = 'countries';
-    var keyVersion = 'version';
+    CountrySrv.loadCountries();
 
     /*IndexedDBSrv.createDatabase(database)
         .then(function(e) {

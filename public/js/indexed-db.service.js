@@ -7,7 +7,6 @@ angular
 
         var indexedDB = $window.indexedDB || $window.webkitIndexedDB || $window.msIndexedDB;
         var IDBKeyRange = $window.IDBKeyRange || $window.webkitIDBKeyRange;
-        var openCopy = indexedDB && indexedDB.open;
 
         var IDBTransaction = $window.IDBTransaction || $window.webkitIDBTransaction;
 
@@ -16,7 +15,11 @@ angular
             IDBTransaction.READ_ONLY = IDBTransaction.READ_ONLY || 'readonly';
         }
 
-        var createDatabase = function(dbName) {
+        var indexedDBAvailable = function() {
+            return indexedDB ? true : false;
+        };
+
+        var createDatabase = function(dbName, storeName) {
             return new Promise(function(resolve, reject) {
                 var request = indexedDB.open(dbName);
 
@@ -24,7 +27,7 @@ angular
                     // e is an instance of IDBVersionChangeEvent
                     var idb = e.target.result;
 
-                    var store = idb.createObjectStore(dbName, { keyPath: keyPath });
+                    var store = idb.createObjectStore(storeName, { keyPath: keyPath });
                 };
 
                 request.onsuccess = function(e) {
@@ -145,6 +148,7 @@ angular
             dropDatabase: dropDatabase,
             addItem: addItem,
             retrieveItem: retrieveItem,
-            retrieveItems: retrieveItems
+            retrieveItems: retrieveItems,
+            indexedDBAvailable: indexedDBAvailable
         };
     });

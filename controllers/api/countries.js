@@ -9,7 +9,7 @@ var countries = null;
 try {
     countries = JSON.parse(fs.readFileSync(config.countriesFile.path, 'utf8'));
 } catch (ex) {
-    
+
 }
 
 /**
