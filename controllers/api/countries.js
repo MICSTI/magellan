@@ -32,7 +32,7 @@ router.get('/version', protectRoute, function(req, res, next) {
 /**
  * Returns an array containing all countries
  */
-router.get('/', function(req, res, next) {
+router.get('/', protectRoute, function(req, res, next) {
     if (!countries) {
         return res.status(400).json({
             message: 'Could not load countries'
