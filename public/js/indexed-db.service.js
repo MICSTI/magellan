@@ -81,6 +81,29 @@ angular
             });
         };
 
+        var putItem = function(dbName, storeName, item) {
+            return new Promise(function(resolve, reject) {
+                var request = indexedDB.open(dbName);
+
+                request.onsuccess = function(e) {
+                    var idb = e.target.result;
+                    var transaction = idb.transaction(storeName, IDBTransaction.READ_WRITE);
+                    var store = transaction.objectStore(storeName);
+
+                    // add
+                    var requestAdd = store.put(item);
+
+                    requestAdd.onsuccess = function(e) {
+                        resolve(e);
+                    };
+
+                    requestAdd.onerror = function(e) {
+                        reject(e);
+                    };
+                };
+            });
+        };
+
         var retrieveItem = function(dbName, storeName, itemName) {
             return new Promise(function(resolve, reject) {
                 var item = null;
@@ -147,6 +170,7 @@ angular
             createDatabase: createDatabase,
             dropDatabase: dropDatabase,
             addItem: addItem,
+            putItem: putItem,
             retrieveItem: retrieveItem,
             retrieveItems: retrieveItems,
             indexedDBAvailable: indexedDBAvailable

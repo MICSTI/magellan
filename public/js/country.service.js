@@ -32,6 +32,8 @@ angular
                         .then(function(obj) {
                             countries = obj['countries'];
 
+                            console.log("loaded countries from", obj['loadStrategy'].toUpperCase());
+
                             resolve(countries);
                         })
                         .catch(function(err) {
@@ -76,12 +78,12 @@ angular
                                 obj["countries"] = countries;
 
                                 // store countries and version number in database
-                                IndexedDBSrv.addItem(database, store, {
+                                IndexedDBSrv.putItem(database, store, {
                                     name: keyCountries,
                                     value:  countries
                                 });
 
-                                IndexedDBSrv.addItem(database, store, {
+                                IndexedDBSrv.putItem(database, store, {
                                     name: keyVersion,
                                     value: obj["externalVersion"]
                                 });
@@ -126,7 +128,9 @@ angular
                         resolve(obj);
                     })
                     .catch(function(err) {
-                        resolve(null);
+                        obj["internalVersion"] = null;
+
+                        resolve(obj);
                     });
             });
         };
