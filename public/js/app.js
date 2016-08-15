@@ -21,7 +21,10 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv) {
             $scope.user = user;
 
             // init country service
-            CountrySrv.init();
+            CountrySrv.init()
+                .then(function(countries) {
+                    $scope.$broadcast('countries.loaded', countries);
+                });
         })
         .catch(function(err) {
             // the only error that can occur is that there is no token in storage, we do not need to react to that
@@ -67,7 +70,10 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv) {
         $scope.user = data;
 
         // init country service
-        CountrySrv.init();
+        CountrySrv.init()
+            .then(function(countries) {
+                $scope.$broadcast('countries.loaded', countries);
+            });
 
         // go to quiz page
         $state.go('quiz');

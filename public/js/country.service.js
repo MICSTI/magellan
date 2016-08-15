@@ -3,6 +3,9 @@
 angular
     .module('magellan')
     .factory('CountrySrv', function($http, IndexedDBSrv) {
+        // Countries array
+        var countries = null;
+
         // IndexedDB
         var database = 'magellan';
         var store = 'countryStore';
@@ -24,17 +27,88 @@ angular
                         .then(getEmptyObject)
                         .then(getInternalVersion)
                         .then(getExternalVersion)
+                        .then(determineLoadStrategy)
+                        .then(loadData)
                         .then(function(obj) {
-                            console.log("OBJ", obj);
+                            countries = obj['countries'];
+
+                            resolve(countries);
                         })
                         .catch(function(err) {
-                            console.error(err);
+                            reject(err);
                         });
                 });
             } else {
                 // if not, we always try to download it from the country API endpoint
                 return getCountriesFromAPI();
             }
+        };
+
+        var determineLoadStrategy = function(obj) {
+            return new Promise(function(resolve, reject) {
+                var strategy;
+
+                var internalVersion = obj["internalVersion"];
+                var externalVersion = obj["externalVersion"];
+
+                if (internalVersion === null) {
+                    strategy = 'api';
+                } else if (externalVersion > internalVersion) {
+                    strategy = 'api';
+                } else {
+                    strategy = 'db';
+                }
+
+                obj['loadStrategy'] = strategy;
+
+                resolve(obj);
+            });
+        };
+
+        var loadData = function(obj) {
+            return new Promise(function(resolve, reject) {
+                var strategy = obj['loadStrategy'];
+
+                switch (strategy) {
+                    case 'api':
+                        getCountriesFromAPI()
+                            .then(function(countries) {
+                                obj["countries"] = countries;
+
+                                // store countries and version number in database
+                                IndexedDBSrv.addItem(database, store, {
+                                    name: keyCountries,
+                                    value:  countries
+                                });
+
+                                IndexedDBSrv.addItem(database, store, {
+                                    name: keyVersion,
+                                    value: obj["externalVersion"]
+                                });
+
+                                resolve(obj);
+                            })
+                            .catch(function(err) {
+                                reject(err);
+                            });
+
+                        break;
+
+                    case 'db':
+                        getCountriesFromDB(obj)
+                            .then(function(_obj) {
+                                resolve(_obj);
+                            })
+                            .catch(function(err) {
+                                reject(err);
+                            });
+
+                        break;
+
+                    default:
+                        reject('Unknown load strategy');
+                }
+            });
         };
 
         var getEmptyObject = function() {
@@ -47,7 +121,7 @@ angular
             return new Promise(function(resolve, reject) {
                 IndexedDBSrv.retrieveItem(database, store, keyVersion)
                     .then(function(item) {
-                        obj["internalVersion"] = item;
+                        obj["internalVersion"] = item.value;
 
                         resolve(obj);
                     })
@@ -70,7 +144,9 @@ angular
             return new Promise(function(resolve, reject) {
                 IndexedDBSrv.retrieveItem(database, store, keyCountries)
                     .then(function(item) {
-                        obj["internalCountries"] = item;
+                        obj["countries"] = item.value;
+
+                        resolve(obj);
                     })
                     .catch(function(err) {
                         resolve(null);
