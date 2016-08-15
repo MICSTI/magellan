@@ -11,6 +11,10 @@ angular
 
         var indexedDBAvailable = IndexedDBSrv.indexedDBAvailable();
 
+        var init = function() {
+            return loadCountries();
+        };
+
         var loadCountries = function() {
             // check if indexedDB is available
             if (indexedDBAvailable) {
@@ -62,6 +66,18 @@ angular
                 });
         };
 
+        var getCountriesFromDB = function(obj) {
+            return new Promise(function(resolve, reject) {
+                IndexedDBSrv.retrieveItem(database, store, keyCountries)
+                    .then(function(item) {
+                        obj["internalCountries"] = item;
+                    })
+                    .catch(function(err) {
+                        resolve(null);
+                    })
+            });
+        };
+
         var getCountriesFromAPI = function() {
             return new Promise(function(resolve, reject) {
                 $http.get('/api/countries')
@@ -87,6 +103,6 @@ angular
         };
 
         return {
-            loadCountries: loadCountries
+            init: init
         };
     });

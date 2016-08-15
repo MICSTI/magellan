@@ -19,12 +19,13 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv) {
         .then(function(user) {
             // store user object in scope
             $scope.user = user;
+
+            // init country service
+            CountrySrv.init();
         })
         .catch(function(err) {
             // the only error that can occur is that there is no token in storage, we do not need to react to that
         });
-
-    CountrySrv.loadCountries();
 
     /*IndexedDBSrv.createDatabase(database)
         .then(function(e) {
@@ -64,6 +65,9 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv) {
     $scope.$on('app.login', function(event, data) {
         // store user object in scope
         $scope.user = data;
+
+        // init country service
+        CountrySrv.init();
 
         // go to quiz page
         $state.go('quiz');
