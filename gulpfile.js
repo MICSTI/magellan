@@ -48,8 +48,8 @@ gulp.task("scripts", function() {
    gulp.src(["./public/js/*.js"])
        .pipe(sourcemaps.init())
             .pipe(concat("script.js"))
-            .pipe(ngAnnotate())
-            .pipe(uglify())
+            .pipe(ngAnnotate().on('error', gutil.log))
+            .pipe(uglify().on('error', gutil.log))
        .pipe(sourcemaps.write())
        .pipe(gulp.dest("./build/scripts/"));
 });
