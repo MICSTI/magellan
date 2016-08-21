@@ -6,8 +6,10 @@ var magellan = angular.module("magellan", [
 
 // define application constants
 magellan.constant("AppConfig", {
-    "LOG_INFO": true,
-    "LOG_ERROR": true
+    "log.info": true,
+    "log.error": true,
+
+    "quiz.questions.number": 5
 });
 
 magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, QuizSrv) {
@@ -65,3 +67,50 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, Qui
         $state.go('home');
     });
 });
+
+// own classes and functions
+
+// ---------- QUIZ ----------
+var Quiz = function() {
+    // questions array
+    var questions = [];
+
+    /**
+     * Adds a question to the questions array
+     * @param question
+     */
+    this.addQuestion = function(question) {
+        questions.push(question);
+    };
+
+    this.getQuestions = function() {
+        return questions;
+    };
+};
+
+// ---------- QUESTION ----------
+var Question = function(options) {
+    options = options || {};
+
+    this.type = options.type || this.getRandomType();
+    this.country = options.country || null;
+};
+
+Question.prototype.types = {
+    "CAPITAL_OF_COUNTRY": "capital-of-country",
+    "COUNTRY_OF_CAPITAL": "country-of-capital"
+};
+
+Question.prototype.getRandomType = function() {
+    var types = Object.keys(this.types);
+
+    return types[getRandomInt(0, types.length - 1)];
+};
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive)
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+var getRandomInt = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};

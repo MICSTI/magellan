@@ -2,18 +2,32 @@
 
 angular
     .module('magellan')
-    .factory('QuizSrv', function(LogSrv) {
+    .factory('QuizSrv', function(AppConfig, LogSrv) {
         var countries = null;
 
         // flag to indicate if a quiz is currently running
         var quizRunning = false;
 
         var init = function() {
-            if (!countriesLoaded()) {
-                LogSrv.logError("Countries not loaded");
-            }
+            return new Promise(function(resolve, reject) {
+                if (!countriesLoaded()) {
+                    reject("Countries not loaded");
+                }
 
-            LogSrv.logInfo("Country", getRandomCountry());
+                // set quiz running flag
+                quizRunning = true;
+
+                // create quiz object
+                var quiz = new Quiz();
+
+                for (var i = 0; i < AppConfig['quiz.questions.number']; i++) {
+                    quiz.addQuestion(new Question({
+                        country: getRandomCountry()
+                    }));
+                }
+
+                resolve(quiz);
+            });
         };
 
         var setCountries = function(_countries) {
@@ -32,17 +46,9 @@ angular
             return quizRunning;
         }
 
-        /**
-         * Returns a random integer between min (inclusive) and max (inclusive)
-         * Using Math.round() will give you a non-uniform distribution!
-         */
-        var getRandomInt = function(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        };
-
         return {
             init: init,
             setCountries: setCountries,
-            isQuizRunning: isQuizRunning()
+            isQuizRunning: isQuizRunning
         };
     });

@@ -1,1 +1,7 @@
-Quiz page
+<section class="quiz" ng-controller="QuizCtrl">
+    <div ng-if="!isQuizRunning()">
+        <h2>Start a new quiz</h2>
+
+        <button ng-click="startQuiz()">Start</button>
+    </div>
+</section>
