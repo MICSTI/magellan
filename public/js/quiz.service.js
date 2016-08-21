@@ -74,10 +74,13 @@ angular
 
             switch (question.type) {
                 case question.types.CAPITAL_OF_COUNTRY:
-                    return "Wie heißt die Hauptstadt von [" + question.country.translations.de || question.country.name + "]?";
+                    return "Wie heißt die Hauptstadt von [" + (question.country.translations.de || question.country.name) + "]";
 
                 case question.types.COUNTRY_OF_CAPITAL:
-                    return "[" + question.country.capital + "] ist die Hauptstadt von welchem Land?";
+                    return "[" + question.country.capital + "] ist die Hauptstadt von welchem Land";
+
+                case question.types.INHABITANTS_OF_COUNTRY:
+                    return "Wie viele Einwohner hat [" + (question.country.translations.de || question.country.name) + "]";
 
                 default:
                     LogSrv.error("Unknown question type", question.type);
@@ -95,6 +98,9 @@ angular
 
                 case question.types.COUNTRY_OF_CAPITAL:
                     return question.country.translations.de || question.country.name;
+
+                case question.types.INHABITANTS_OF_COUNTRY:
+                    return question.country.population;
 
                 default:
                     LogSrv.error("Unknown question type", question.type);

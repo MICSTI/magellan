@@ -27,7 +27,7 @@ angular
         };
 
         var getQuestionText = function() {
-            return renderQuestion(QuizSrv.getQuestionText(), "question-highlight");
+            return renderQuestion(QuizSrv.getQuestionText(), "question-highlight") + "?";
         };
 
         var getAnswerText = function() {
@@ -62,6 +62,12 @@ angular
             FocusSrv('answer');
         };
 
+        var handleKeyPress = function(keyEvent) {
+            if (keyEvent.which == 13) {
+                submitAnswer($scope.qu.answer);
+            }
+        };
+
         $scope.startQuiz = startQuiz;
         $scope.isQuizRunning = isQuizRunning;
         $scope.getCurrentQuestionNumber = getCurrentQuestionNumber;
@@ -71,6 +77,7 @@ angular
         $scope.submitAnswer = submitAnswer;
         $scope.questionAnswered = questionAnswered;
         $scope.nextQuestion = nextQuestion;
+        $scope.handleKeyPress = handleKeyPress;
 
         $scope.qu = {
             answer: ""

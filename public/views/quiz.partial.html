@@ -13,7 +13,7 @@
         </div>
 
         <div class="answer">
-            <input type="text" id="answer" ng-model="qu.answer" />
+            <input type="text" id="answer" ng-model="qu.answer" ng-keypress="handleKeyPress($event)" />
 
             <button ng-click="submitAnswer(qu.answer)">Ok</button>
         </div>

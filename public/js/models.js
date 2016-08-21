@@ -42,7 +42,8 @@ Question.prototype.states = {
 
 Question.prototype.types = {
     "CAPITAL_OF_COUNTRY": "capital-of-country",
-    "COUNTRY_OF_CAPITAL": "country-of-capital"
+    "COUNTRY_OF_CAPITAL": "country-of-capital",
+    "INHABITANTS_OF_COUNTRY": "inhabitants-of-country"
 };
 
 Question.prototype.getRandomType = function() {
