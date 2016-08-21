@@ -37,6 +37,8 @@ angular
                             resolve(countries);
                         })
                         .catch(function(err) {
+                            LogSrv.logError("failed to load countries", err);
+
                             reject(err);
                         });
                 });
