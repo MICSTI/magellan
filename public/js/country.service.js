@@ -32,12 +32,12 @@ angular
                         .then(function(obj) {
                             countries = obj['countries'];
 
-                            LogSrv.logInfo("loaded countries from", obj['loadStrategy'].toUpperCase());
+                            LogSrv.info("loaded countries from", obj['loadStrategy'].toUpperCase());
 
                             resolve(countries);
                         })
                         .catch(function(err) {
-                            LogSrv.logError("failed to load countries", err);
+                            LogSrv.error("failed to load countries", err);
 
                             reject(err);
                         });

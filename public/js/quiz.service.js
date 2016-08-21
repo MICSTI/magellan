@@ -5,8 +5,8 @@ angular
     .factory('QuizSrv', function(AppConfig, LogSrv) {
         var countries = null;
 
-        // flag to indicate if a quiz is currently running
-        var quizRunning = false;
+        var quiz = null;
+        var currentQuestionNo = null;
 
         var init = function() {
             return new Promise(function(resolve, reject) {
@@ -14,11 +14,12 @@ angular
                     reject("Countries not loaded");
                 }
 
-                // set quiz running flag
-                quizRunning = true;
+                if (quiz !== null && quiz.isActive() === true) {
+                    reject("A quiz is currently being played");
+                }
 
                 // create quiz object
-                var quiz = new Quiz();
+                quiz = new Quiz();
 
                 for (var i = 0; i < AppConfig['quiz.questions.number']; i++) {
                     quiz.addQuestion(new Question({
@@ -26,7 +27,9 @@ angular
                     }));
                 }
 
-                resolve(quiz);
+                currentQuestionNo = 0;
+
+                resolve();
             });
         };
 
@@ -43,12 +46,108 @@ angular
         };
 
         var isQuizRunning = function() {
-            return quizRunning;
-        }
+            return quiz !== null;
+        };
+
+        var getCurrentQuestion = function() {
+            return quiz.getQuestions()[currentQuestionNo];
+        };
+
+        var getCurrentQuestionNumber = function() {
+            return currentQuestionNo !== null ? currentQuestionNo + 1 : null;
+        };
+
+        var getNumberOfQuizQuestions = function() {
+            return quiz !== null ? quiz.getQuestions().length : null;
+        };
+
+        var submitAnswer = function(answer) {
+            var question = getCurrentQuestion();
+
+            var correctAnswer = getAnswerToQuestion(question);
+
+            question.state = answer === correctAnswer ? question.states.CORRECT : question.states.INCORRECT;
+        };
+
+        var getQuestionText = function() {
+            var question = getCurrentQuestion();
+
+            switch (question.type) {
+                case question.types.CAPITAL_OF_COUNTRY:
+                    return "Wie heißt die Hauptstadt von [" + question.country.translations.de || question.country.name + "]?";
+
+                case question.types.COUNTRY_OF_CAPITAL:
+                    return "[" + question.country.capital + "] ist die Hauptstadt von welchem Land?";
+
+                default:
+                    LogSrv.error("Unknown question type", question.type);
+            }
+        };
+
+        var getAnswerToQuestion = function(question) {
+            if (!question || !question.type) {
+                return;
+            }
+
+            switch (question.type) {
+                case question.types.CAPITAL_OF_COUNTRY:
+                    return question.country.capital;
+
+                case question.types.COUNTRY_OF_CAPITAL:
+                    return question.country.translations.de || question.country.name;
+
+                default:
+                    LogSrv.error("Unknown question type", question.type);
+                    return null;
+            }
+        };
+
+        var getAnswerStatus = function() {
+            var question = getCurrentQuestion();
+
+            var state = question.state;
+
+            switch (state) {
+                case question.states.CORRECT:
+                    return "correct";
+
+                case question.states.INCORRECT:
+                    return "incorrect";
+
+                default:
+                    return null;
+            }
+        };
+
+        var questionAnswered = function() {
+            var question = getCurrentQuestion();
+
+            return question.state !== question.states.NOT_ANSWERED;
+        };
+
+        var getAnswerText = function() {
+            var question = getCurrentQuestion();
+
+            return "[" + getAnswerToQuestion(question) + "]";
+        };
+
+        var nextQuestion = function() {
+            if (getCurrentQuestionNumber() + 1 <= getNumberOfQuizQuestions()) {
+                currentQuestionNo++;
+            }
+        };
 
         return {
             init: init,
             setCountries: setCountries,
-            isQuizRunning: isQuizRunning
+            isQuizRunning: isQuizRunning,
+            getCurrentQuestionNumber: getCurrentQuestionNumber,
+            getNumberOfQuizQuestions: getNumberOfQuizQuestions,
+            getQuestionText: getQuestionText,
+            getAnswerStatus: getAnswerStatus,
+            getAnswerText: getAnswerText,
+            submitAnswer: submitAnswer,
+            questionAnswered: questionAnswered,
+            nextQuestion: nextQuestion
         };
     });

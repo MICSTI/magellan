@@ -16,7 +16,7 @@ angular
         };
 
         return {
-            logInfo: logInfo,
-            logError: logError
+            info: logInfo,
+            error: logError
         };
     });

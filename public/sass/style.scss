@@ -195,6 +195,22 @@ nav {
 }
 /* ---------------------------------- */
 
-/* --------------- Home ------------- */
+/* --------------- Quiz ------------- */
+.question, .answer, .solution {
+  margin-bottom: 1.5em;
+}
 
+.question-highlight {
+  font-weight: bold;
+}
+
+.answer-highlight-correct {
+  color: #019875;
+  font-weight: bold;
+}
+
+.answer-highlight-incorrect {
+  color: #ec644b;
+  font-weight: bold;
+}
 /* ---------------------------------- */
