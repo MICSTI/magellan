@@ -10,7 +10,7 @@ magellan.constant("AppConfig", {
     "LOG_ERROR": true
 });
 
-magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv) {
+magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, QuizSrv) {
     // ----------- App config ------------
     $scope.app = {
         config: {
@@ -30,45 +30,14 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv) {
             CountrySrv.init()
                 .then(function(countries) {
                     $scope.$broadcast('countries.loaded', countries);
+
+                    // set countries in quiz service
+                    QuizSrv.setCountries(countries);
                 });
         })
         .catch(function(err) {
             // the only error that can occur is that there is no token in storage, we do not need to react to that
         });
-
-    /*IndexedDBSrv.createDatabase(database)
-        .then(function(e) {
-            console.log("INDEXEDDB created SUCCESS", e);
-
-            IndexedDBSrv.addItem(database, store, {
-                name: keyCountries,
-                value: [{name: 'Austria'}, {name: 'England'}]
-            }).then(function(e) {
-                console.log("ADD ITEM SUCCESS", e);
-            }).catch(function(e) {
-                console.error("ADD ITEM ERROR", e);
-            })
-        })
-        .catch(function(e) {
-            console.error("INDEXEDDB created ERROR", e);
-        });*/
-
-    /*IndexedDBSrv.addItem(database, store, {
-        name: keyVersion,
-        value: 1
-    }).then(function(e) {
-        console.log("ADD ITEM SUCCESS", e);
-    }).catch(function(e) {
-        console.error("ADD ITEM ERROR", e);
-    })*/
-
-    /*IndexedDBSrv.retrieveItem(database, store, keyVersion)
-        .then(function(e) {
-            console.log("RETRIEVE SUCCESS", e);
-        })
-        .catch(function(e) {
-            console.error("RETRIEVE ERROR", e);
-        });*/
 
     // ----------- Event handling ------------
     $scope.$on('app.login', function(event, data) {
@@ -79,6 +48,9 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv) {
         CountrySrv.init()
             .then(function(countries) {
                 $scope.$broadcast('countries.loaded', countries);
+
+                // set countries in quiz service
+                QuizSrv.setCountries(countries);
             });
 
         // go to quiz page
