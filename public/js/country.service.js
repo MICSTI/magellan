@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .factory('CountrySrv', function($http, IndexedDBSrv) {
+    .factory('CountrySrv', function($http, IndexedDBSrv, LogSrv) {
         // Countries array
         var countries = null;
 
@@ -32,7 +32,7 @@ angular
                         .then(function(obj) {
                             countries = obj['countries'];
 
-                            console.log("loaded countries from", obj['loadStrategy'].toUpperCase());
+                            LogSrv.logInfo("loaded countries from", obj['loadStrategy'].toUpperCase());
 
                             resolve(countries);
                         })

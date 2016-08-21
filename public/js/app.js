@@ -4,6 +4,12 @@ var magellan = angular.module("magellan", [
     $httpProvider.interceptors.push('AuthInterceptor');
 });
 
+// define application constants
+magellan.constant("AppConfig", {
+    "LOG_INFO": true,
+    "LOG_ERROR": true
+});
+
 magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv) {
     // ----------- App config ------------
     $scope.app = {
