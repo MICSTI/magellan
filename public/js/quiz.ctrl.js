@@ -7,8 +7,6 @@ angular
         // Progress bar initialization
         $scope.progressbar = ngProgressFactory.createInstance();
 
-        // TODO add to parent?
-
         var startQuiz = function() {
             QuizSrv.init()
                 .then(function() {
