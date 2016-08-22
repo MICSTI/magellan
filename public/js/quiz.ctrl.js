@@ -2,7 +2,12 @@
 
 angular
     .module('magellan')
-    .controller('QuizCtrl', function($scope, QuizSrv, LogSrv, FocusSrv) {
+    .controller('QuizCtrl', function($scope, QuizSrv, LogSrv, FocusSrv, ngProgressFactory) {
+
+        // Progress bar initialization
+        $scope.progressbar = ngProgressFactory.createInstance();
+
+        // TODO add to parent?
 
         var startQuiz = function() {
             QuizSrv.init()
@@ -58,6 +63,9 @@ angular
             $scope.qu.answer = "";
 
             QuizSrv.nextQuestion();
+
+            // set progress bar
+            $scope.progressbar.set(QuizSrv.getProgressPercentage() * 100);
 
             FocusSrv('answer');
         };

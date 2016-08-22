@@ -143,6 +143,10 @@ angular
             }
         };
 
+        var getProgressPercentage = function() {
+            return (getCurrentQuestionNumber() - 1) / getNumberOfQuizQuestions();
+        }
+
         return {
             init: init,
             setCountries: setCountries,
@@ -154,6 +158,7 @@ angular
             getAnswerText: getAnswerText,
             submitAnswer: submitAnswer,
             questionAnswered: questionAnswered,
-            nextQuestion: nextQuestion
+            nextQuestion: nextQuestion,
+            getProgressPercentage: getProgressPercentage
         };
     });

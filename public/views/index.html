@@ -7,6 +7,7 @@
     <title>Magellan</title>
 
     <link rel="stylesheet" type="text/css" href="lib/fonts/OpenSans/OpenSans.css" />
+    <link rel="stylesheet" type="text/css" href="lib/angular/ngprogress.css" />
     <link rel="stylesheet" href="build/styles/styles.css" />
 
     <base href="/" />
@@ -44,20 +45,6 @@
                     <li><a href="/logout" ng-click="hideDropdown()">Logout</a></li>
                 </ul>
             </ul>
-
-            <!--<div class="loginStatusContainer" ng-controller="DropdownCtrl">
-                <span ng-if="user" ng-click="toggleDropdown()">
-                    <span class="user-profile bg-confetti"></span>
-                    <span class="username bold">{{user.username}}</span>
-                </span>
-                <span ng-if="!user"><a href="/login">Login</a></span>
-
-                <div class="dropdownItemsContainer" ng-if="isDropdownVisible()">
-                    <ul>
-                        <li><a href="/logout" ng-click="hideDropdown()">Logout</a></li>
-                    </ul>
-                </div>
-            </div>-->
         </div>
     </nav>
 
@@ -65,6 +52,7 @@
 
     <script type="text/javascript" src="lib/angular/angular.min.js"></script>
     <script type="text/javascript" src="lib/angular/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="lib/angular/ngprogress.min.js"></script>
 
     <script type="text/javascript" src="build/scripts/script.js"></script>
 </body>

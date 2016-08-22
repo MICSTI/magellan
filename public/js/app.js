@@ -1,5 +1,6 @@
 var magellan = angular.module("magellan", [
-    'ui.router'
+    'ui.router',
+    'ngProgress'
 ], function config($httpProvider) {
     $httpProvider.interceptors.push('AuthInterceptor');
 });
