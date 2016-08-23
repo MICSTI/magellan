@@ -6,6 +6,9 @@ angular
 
         // Progress bar initialization
         $scope.progressbar = ngProgressFactory.createInstance();
+        $scope.progressbar.setParent(document.getElementById('quiz-progress'));
+        $scope.progressbar.setAbsolute();
+        $scope.progressbar.setColor("#336e7b");
 
         var startQuiz = function() {
             QuizSrv.init()
@@ -50,6 +53,9 @@ angular
         var submitAnswer = function(answer) {
             if (answer) {
                 QuizSrv.submitAnswer(answer);
+
+                // set progress bar
+                $scope.progressbar.set(QuizSrv.getProgressPercentage() * 100);
             }
         };
 
@@ -61,9 +67,6 @@ angular
             $scope.qu.answer = "";
 
             QuizSrv.nextQuestion();
-
-            // set progress bar
-            $scope.progressbar.set(QuizSrv.getProgressPercentage() * 100);
 
             FocusSrv('answer');
         };

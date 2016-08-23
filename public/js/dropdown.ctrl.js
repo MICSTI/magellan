@@ -10,6 +10,10 @@ angular
         $scope.hideDropdown = hideDropdown;
         $scope.isDropdownVisible = isDropdownVisible;
 
+        $scope.handleClickOutside = function(event) {
+            console.log("CLICKED OUTSIDE");
+        }
+
         function toggleDropdown() {
             visible = !visible;
         }

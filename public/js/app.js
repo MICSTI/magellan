@@ -42,6 +42,10 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, Qui
             // the only error that can occur is that there is no token in storage, we do not need to react to that
         });
 
+    $scope.isProgressBarVisible = function() {
+        return $state.is('quiz');
+    };
+
     // ----------- Event handling ------------
     $scope.$on('app.login', function(event, data) {
         // store user object in scope

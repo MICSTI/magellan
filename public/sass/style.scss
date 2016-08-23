@@ -127,6 +127,19 @@ nav {
 }
 /* ---------------------------------- */
 
+/* ------ User menu dropdown -------- */
+.menu-dropdown {
+  li {
+    display: block;
+    padding: 0;
+
+    a {
+      display: block;
+      padding: 0.5em 0.7em;
+    }
+  }
+}
+
 /* ------------ Dropdown ------------ */
 .navbar-login {
   float: right;
@@ -194,6 +207,11 @@ nav {
   font-size: 1.2em;
 }
 /* ---------------------------------- */
+
+/* ----------- Progress bar --------- */
+.quiz-progress {
+  position: relative;
+}
 
 /* --------------- Quiz ------------- */
 .question, .answer, .solution {

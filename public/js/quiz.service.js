@@ -144,7 +144,7 @@ angular
         };
 
         var getProgressPercentage = function() {
-            return (getCurrentQuestionNumber() - 1) / getNumberOfQuizQuestions();
+            return getCurrentQuestionNumber() / getNumberOfQuizQuestions();
         }
 
         return {
