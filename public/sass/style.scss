@@ -9,6 +9,8 @@ $jade: #00b16a;
 
 $grass: #3ac569;
 $snow: #ffffff;
+$alge: #79a8a9;
+$dark: #333030;
 
 body {
   background-color: $primary;
@@ -102,6 +104,16 @@ input[type=text], input[type=password] {
 .ui-button-primary {
   color: $snow;
   background: $grass;
+}
+
+.ui-button-higher {
+  color: $snow;
+  background: $dark;
+}
+
+.ui-button-lower {
+  color: #f4f7f7;
+  background: $alge;
 }
 /* ---------------------------------- */
 
@@ -277,6 +289,13 @@ nav {
 /* --------------- Quiz ------------- */
 .question, .answer, .solution {
   margin-bottom: 1.5em;
+}
+
+.answer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .question-highlight {

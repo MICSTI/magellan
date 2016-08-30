@@ -28,7 +28,7 @@
         <div class="container">
             <ul class="navbar">
                 <li ui-sref-active="active"><a href="/home" ui-sref="home">Home</a></li>
-                <li ui-sref-active="active"><a href="/quiz" ui-sref="quiz">Quiz</a></li>
+                <li ui-sref-active="active" ng-if="user"><a href="/quiz" ui-sref="quiz">Quiz</a></li>
             </ul>
 
             <ul class="navbar navbar-login" ng-controller="DropdownCtrl">

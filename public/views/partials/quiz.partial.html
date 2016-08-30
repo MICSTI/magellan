@@ -15,13 +15,13 @@
         <div class="answer">
             <input type="text" id="answer" ng-model="qu.answer" ng-keypress="handleKeyPress($event)" />
 
-            <button ng-click="submitAnswer(qu.answer)">Ok</button>
+            <div class="ui-button ui-button-primary" role="button" ng-click="submitAnswer(qu.answer)">Ok</div>
         </div>
 
         <div class="solution" ng-if="questionAnswered()" ng-bind-html="getAnswerText() | renderHtml"></div>
 
         <div class="next-question" ng-if="questionAnswered()">
-            <button id="btnNextQuestion" ng-click="nextQuestion()">Nächste Frage</button>
+            <div role="button" class="ui-button ui-button-higher" id="btnNextQuestion" ng-click="nextQuestion()">Nächste Frage</div>
         </div>
     </section>
 </section>

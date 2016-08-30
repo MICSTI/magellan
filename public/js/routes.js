@@ -8,15 +8,15 @@ angular.module('magellan')
         $stateProvider
             .state('home', {
                 url: '/home',
-                templateUrl: '/build/views/home.partial.html'
+                templateUrl: '/build/views/partials/home.partial.html'
             })
             .state('quiz', {
                 url: '/quiz',
-                templateUrl: '/build/views/quiz.partial.html'
+                templateUrl: '/build/views/partials/quiz.partial.html'
             })
             .state('login', {
                 url: '/login',
-                templateUrl: '/build/views/login.partial.html'
+                templateUrl: '/build/views/partials/login.partial.html'
             })
             .state('logout', {
                 url: '/logout',
@@ -24,10 +24,10 @@ angular.module('magellan')
             })
             .state('register', {
                 url: '/register',
-                templateUrl: '/build/views/register.partial.html'
+                templateUrl: '/build/views/partials/register.partial.html'
             })
             .state('about', {
                 url: '/about',
-                templateUrl: '/build/views/about.partial.html'
+                templateUrl: '/build/views/partials/about.partial.html'
             });
     });
