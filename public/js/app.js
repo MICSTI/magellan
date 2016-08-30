@@ -10,7 +10,7 @@ magellan.constant("AppConfig", {
     "log.info": true,
     "log.error": true,
 
-    "quiz.questions.number": 5
+    "quiz.questions.number": 16
 });
 
 magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, QuizSrv) {
