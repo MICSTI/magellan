@@ -46,7 +46,7 @@ gulp.task("htmlpage", function() {
 
 // JS concat and minify
 gulp.task("scripts", function() {
-   gulp.src(["./public/js/*.js"])
+   gulp.src(["./public/js/**/*.js"])
        .pipe(sourcemaps.init())
             .pipe(concat("script.js"))
             .pipe(ngAnnotate().on('error', gutil.log))
