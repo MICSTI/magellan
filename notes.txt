@@ -1,0 +1,60 @@
+VERSION 1.0
+
+Hauptstadt zu Land
+Land zu Hauptstadt
+Land zu Flagge
+Einwohner von Land
+Fläche von Land
+4 Länder reihen nach Einwohner 
+4 Länder reihen nach Fläche
+Grenzstaaten zu Land (4 in Auswahl, 1-4 richtig)
+
+VERSION 1.1
+
+1 (Land in Weltkarte auswählen)
+1 (Namen von in Weltkarte markiertem Land eingeben)
+
+3 Schwierigkeitsstufen für Fragen (leicht, mittel, schwer)
+
+16 Fragen: 5 leicht, 5 mittel, 5 schwer, 1 Bonus-Frage schwer mit 2.5fachen Punkten
+pro Frage 100 Punkte --> 1750 Punkte maximal
+
+
+LÄNDER
+
+leicht:		Europe
+			Australia and New Zealand
+			South America > 1M
+			Northern America
+			Central America > 100M
+			Africa > 100M
+			Asia > 500M
+			
+mittel:		Oceania [- Australia and New Zealand] > 1M
+			Africa > 25M
+			Asia > 25M
+			Central America > 1M
+
+schwer:		South America < 1M
+			Africa < 25M
+			Asia < 25M
+			Central America < 1M
+			
+ZAHLENEINGABEN
+
+100			+/-  3%
+90			+/-  6%
+80			+/-  9%
+70			+/- 12%
+60			+/- 14%
+50			+/- 16%
+40			+/- 18%
+30			+/- 20%
+20			+/- 25%
+10			+/- 30%
+
+4 LÄNDER REIHEN
+
+leicht		48 benachbarte [(zufällig 1-12) (zufällig 13-24) (zufällig 25-36) (zufällig 37-48)]
+mittel		24 benachbarte [(zufällig 1-6) (zufällig 7-12) (zufällig 13-18) (zufällig 19-24)]
+schwer		zufällig aus 10 benachbarten
