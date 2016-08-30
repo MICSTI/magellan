@@ -2,7 +2,7 @@
     <section class="start-quiz" ng-if="!isQuizRunning()">
         <h2>Start a new quiz</h2>
 
-        <button ng-click="startQuiz()">Start</button>
+        <div role="button" class="ui-button ui-button-primary" ng-click="startQuiz()">Start</div>
     </section>
 
     <section class="play-quiz" ng-if="isQuizRunning()">
