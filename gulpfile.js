@@ -13,6 +13,7 @@ var cleanCss = require("gulp-clean-css");
 var ngAnnotate = require("gulp-ng-annotate");
 var sourcemaps = require("gulp-sourcemaps");
 var protractor = require("gulp-protractor").protractor;
+var jsonMinify = require("gulp-jsonminify");
 
 // JS hint task
 gulp.task("jshint", function() {
@@ -71,6 +72,13 @@ gulp.task("protractor", function() {
             args: ['--baseUrl', 'http://localhost:8000']
         }))
         .on("error", function(e) { throw e; });
+});
+
+// Country file minification
+gulp.task("countries", function() {
+    gulp.src(["./assets/countries.json"])
+        .pipe(jsonMinify().on('error', gutil.log))
+        .pipe(gulp.dest("./build/assets/"));
 });
 
 // default task
