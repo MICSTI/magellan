@@ -21,7 +21,7 @@
         <div class="solution" ng-if="questionAnswered()" ng-bind-html="getAnswerText() | renderHtml"></div>
 
         <div class="next-question" ng-if="questionAnswered()">
-            <button ng-click="nextQuestion()">Nächste Frage</button>
+            <button id="btnNextQuestion" ng-click="nextQuestion()">Nächste Frage</button>
         </div>
     </section>
 </section>

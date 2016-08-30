@@ -56,6 +56,9 @@ angular
 
                 // set progress bar
                 $scope.progressbar.set(QuizSrv.getProgressPercentage() * 100);
+
+                // set focus to next question button
+                FocusSrv('btnNextQuestion');
             }
         };
 
