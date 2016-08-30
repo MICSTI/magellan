@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node boot.js",
-    "test": "mocha"
+    "test": "mocha test/mocha"
   },
   "repository": {
     "type": "git",

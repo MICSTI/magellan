@@ -2,44 +2,33 @@ var chai = require("chai");
 var chaiHttp = require("chai-http");
 
 var should = chai.should();
+var expect = chai.expect;
 
 chai.use(chaiHttp);
 
-// we mock the server for now
-var server = new function() {
-    this.greet = function(name) {
-        return "Hello " + name;
-    };
+// countries asset file
+var countries = require('../../build/assets/countries.json');
 
-    this.getUsers = function() {
-        return [{
-            id: 1,
-            username: "nodejs",
-            name: "Node"
-        }, {
-            id: 2,
-            username: "angular"
-        }];
-    };
-};
-
-describe("Server tests", function() {
-    it("should say hello", function(done) {
-        var greeting = server.greet("Magellan");
-
-        greeting.should.equal("Hello Magellan");
+// check countries file
+describe('Countries file', function() {
+    it('should have more than 150 countries', function(done) {
+        expect(countries).to.have.length.above(150);
 
         done();
     });
 
-    it("should return users", function(done) {
-        var users = server.getUsers();
-
-        users.should.be.an("array");
-        users[0].should.be.an("object");
-        users[0].should.have.property("id");
-        users[0].should.have.property("username");
-        users[1].username.should.equal("angular");
+    it('each country should have all properties', function(done) {
+        countries.forEach(function(country) {
+            country.should.have.property('name');
+            country.should.have.property('capital');
+            country.should.have.property('region');
+            country.should.have.property('subregion');
+            country.should.have.property('population');
+            country.should.have.property('area');
+            country.should.have.property('borders');
+            country.should.have.property('alpha2Code');
+            country.should.have.property('alpha3Code');
+        });
 
         done();
     });
