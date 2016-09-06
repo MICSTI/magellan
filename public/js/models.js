@@ -27,29 +27,101 @@ var Quiz = function() {
 
 // ---------- QUESTION ----------
 var Question = function(options) {
-    options = options || {};
+    var text = null;
+    var type = null;
+    var answer = null;
+    var hints = null;
 
-    this.type = options.type || this.getRandomType();
-    this.country = options.country || null;
-    this.state = options.state || this.states.NOT_ANSWERED;
-};
+    var answered = false;
 
-Question.prototype.states = {
-    "NOT_ANSWERED": 1,
-    "CORRECT": 2,
-    "INCORRECT": 3
-};
+    var init = function(opts) {
+        text = opts.text;
+        type = opts.type;
 
-Question.prototype.types = {
-    "CAPITAL_OF_COUNTRY": "capital-of-country",
-    "COUNTRY_OF_CAPITAL": "country-of-capital",
-    "INHABITANTS_OF_COUNTRY": "inhabitants-of-country"
-};
+        if (typeof opts.answer == 'string') {
+            answer = {
+                correct: opts.answer,
+                altSpellings: []
+            }
+        } else {
+            answer = {};
 
-Question.prototype.getRandomType = function() {
-    var types = Object.keys(this.types);
+            answer.correct = opts.answer.correct;
 
-    return this.types[types[getRandomInt(0, types.length - 1)]];
+            answer.altSpellings = opts.answer.altSpellings !== undefined ? opts.answer.altSpellings : [];
+        }
+    };
+
+    var checkAnswer = function(submitted) {
+        var status = {};
+
+        switch(typeof submitted) {
+            case 'string':
+                status["correct"] = submitted === answer.correct || answer.altSpellings.indexOf(submitted) > 0;
+
+                break;
+
+            default:
+                break;
+        }
+
+        return status;
+    };
+
+    if (options) {
+        init(options);
+    }
+
+    this.config = function(opts) {
+        init(opts);
+    };
+
+    /**
+     * Returns the question text.
+     */
+    this.question = function() {
+        return text;
+    };
+
+    /**
+     * Returns the question type.
+     */
+    this.type = function() {
+        return type;
+    };
+
+    /**
+     * Returns the correct answer to the question after the question has been answered.
+     * If the question has not been answered yet, it returns null.
+     */
+    this.solution = function() {
+        if (answered) {
+            return answer.correct;
+        }
+
+        return null;
+    };
+
+    /**
+     * Submits an answer to the question.
+     * If the question has already been answered, this method does nothing.
+     */
+    this.answer = function(answer) {
+        if (answered) {
+            return;
+        }
+
+        answered = true;
+
+        return checkAnswer(answer);
+    };
+
+    /**
+     * Returns the state of the question.
+     */
+    this.answered = function() {
+        return answered;
+    };
 };
 
 /**
@@ -73,3 +145,7 @@ var getStringBetween = function(text, firstString, secondString) {
 
     return null;
 };
+
+if (module && module.exports) {
+    module.exports.Question = Question;
+}
