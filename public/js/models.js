@@ -27,45 +27,34 @@ var Quiz = function() {
 
 // ---------- QUESTION ----------
 var Question = function(options) {
+    // Text of the question
     var text = null;
-    var type = null;
-    var answer = null;
-    var hints = null;
 
+    // Type of the question
+    var type = null;
+
+    // Answer of the question
+    var answer = null;
+
+    // Hints of the question
+    var hints = null;
+    var hintsUsed = 0;
+
+    // Lambda function to determine the answer status of the question
+    var checkAnswer = null;
+
+    // Points awarded for the question
+    var points = null;
+
+    // Flag indicating whether question has already been answered
     var answered = false;
 
     var init = function(opts) {
         text = opts.text;
         type = opts.type;
-
-        if (typeof opts.answer == 'string') {
-            answer = {
-                correct: opts.answer,
-                altSpellings: []
-            }
-        } else {
-            answer = {};
-
-            answer.correct = opts.answer.correct;
-
-            answer.altSpellings = opts.answer.altSpellings !== undefined ? opts.answer.altSpellings : [];
-        }
-    };
-
-    var checkAnswer = function(submitted) {
-        var status = {};
-
-        switch(typeof submitted) {
-            case 'string':
-                status["correct"] = submitted === answer.correct || answer.altSpellings.indexOf(submitted) > 0;
-
-                break;
-
-            default:
-                break;
-        }
-
-        return status;
+        answer = opts.answer;
+        hints = opts.hints || 0;
+        checkAnswer = opts.checkAnswer || null;
     };
 
     if (options) {
@@ -96,7 +85,7 @@ var Question = function(options) {
      */
     this.solution = function() {
         if (answered) {
-            return answer.correct;
+            return answer;
         }
 
         return null;
@@ -104,17 +93,28 @@ var Question = function(options) {
 
     /**
      * Submits an answer to the question.
-     * If the question has already been answered, this method does nothing.
+     * If the question has already been answered or no checkAnswer lambda has been set, this method does nothing.
      */
-    this.answer = function(answer) {
-        if (answered) {
+    this.answer = function(submittedAnswer) {
+        if (answered ||!checkAnswer) {
             return;
         }
 
         answered = true;
 
-        return checkAnswer(answer);
+        // checkAnswer method should return the status results
+        points = checkAnswer(answer, submittedAnswer, type, hintsUsed);
+
+        return points;
     };
+
+    this.points = function() {
+        if (!answered || points === null) {
+            return;
+        }
+
+        return points;
+    }
 
     /**
      * Returns the state of the question.

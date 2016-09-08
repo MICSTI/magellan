@@ -43,10 +43,26 @@ describe('Question model', function () {
     beforeEach(function(done) {
         question = new Question({
             text: "Hauptstadt von Österreich?",
-            type: "CAPITAL",
+            type: "text",
             answer: {
                 correct: "Wien",
                 altSpellings: ["Wein"]
+            },
+            checkAnswer: function(answer, submittedAnswer, type, hintsUsed) {
+                var points = 0;
+
+                switch (type) {
+                    case "text":
+                        var correct = submittedAnswer === answer.correct || answer.altSpellings.indexOf(submittedAnswer) >= 0;
+                        points = correct ? 100 : 0;
+
+                        // subtract used hints
+                        points -= (hintsUsed * 20);
+
+                        break;
+                }
+
+                return points;
             }
         });
 
@@ -55,7 +71,7 @@ describe('Question model', function () {
 
     it('configures the object correctly', function (done) {
         expect(question.question()).to.equal('Hauptstadt von Österreich?');
-        expect(question.type()).to.equal('CAPITAL');
+        expect(question.type()).to.equal('text');
         expect(question.answered()).to.be.false;
 
         done();
@@ -71,26 +87,9 @@ describe('Question model', function () {
         done();
     });
 
-    it('returns an answer status after submitting an answwer', function(done) {
-        var status = question.answer("Wien");
-
-        expect(status).to.have.property('correct');
-
-        done();
-    });
-
-    it('returns the correct answer status for correctly submitted answers', function(done) {
-        var status = question.answer("Wien");
-
-        expect(status.correct).to.be.true;
-
-        done();
-    });
-
-    it('returns the correct answer status for incorrectly submitted answers', function(done) {
-        var status = question.answer("Win");
-
-        expect(status.correct).to.be.false;
+    it('returns a number with the achieved points after answering a question', function(done) {
+        expect(question.answer("Wien")).to.be.a('number');
+        expect(question.points()).to.be.a('number')
 
         done();
     });
