@@ -2,26 +2,106 @@
 
 // ---------- QUIZ ----------
 var Quiz = function() {
-    // questions array
+    // index of current question
+    var currentQuestionIdx = null;
+
+    // array containing all questions
     var questions = [];
 
-    // flag indicating if quiz is currently active
-    var active = true;
-
     /**
-     * Adds a question to the questions array
-     * @param question
+     * Starts the quiz.
      */
-    this.addQuestion = function(question) {
-        questions.push(question);
-    };
+    this.start = function() {
+        // check if quiz has questions
+        if (questions.length <= 0)
+            throw Error("Cannot start a quiz without questions");
 
-    this.getQuestions = function() {
-        return questions;
+        return this.nextQuestion();
     };
 
     this.isActive = function() {
-        return active;
+        return this.hasStarted() && !this.hasEnded();
+    };
+
+    this.hasStarted = function() {
+        return currentQuestionIdx !== null;
+    };
+
+    this.hasEnded = function() {
+        return this.hasStarted() && currentQuestionIdx >= questions.length;
+    };
+
+    /**
+     * Adds a new question to the quiz.
+     * The parameter must be an question object.
+     * If no question object is passed or an object with missing properties, an error is thrown.
+     */
+    this.addQuestion = function(question) {
+        if (question === undefined)
+            throw Error("No question object passed");
+
+        var valid = true;
+
+        // a question object must contain all these properties
+        var necessaryProperties = ['config', 'hint', 'solution', 'answer', 'question', 'getInfo', 'info', 'points', 'answered', 'hintsAllowed', 'hintsRemaining'];
+
+        necessaryProperties.forEach(function(property) {
+            if (!question.hasOwnProperty(property)) {
+                valid = false;
+                throw new Error("Question must have property '" + property + "'");
+            }
+        });
+
+        if (valid) {
+            questions.push(question);
+        }
+    };
+
+    /**
+     * Returns the next question of the quiz.
+     * If the quiz has ended, it returns nothing.
+     */
+    this.nextQuestion = function() {
+        if (currentQuestionIdx === null) {
+            currentQuestionIdx = 0;
+        } else {
+            currentQuestionIdx++;
+        }
+
+        if (this.hasEnded()) {
+            return this.isActive();
+        }
+
+        return questions[currentQuestionIdx];
+    };
+
+    this.getTotalPoints = function () {
+        if (!this.hasStarted()) {
+            return null;
+        }
+
+        var totalPoints = 0;
+
+        questions.forEach(function(question) {
+            var points = question.points();
+
+            if (points !== undefined) {
+                totalPoints += points;
+            }
+        });
+
+        return totalPoints;
+    };
+
+    this.getCurrentQuestionNumber = function() {
+        if (currentQuestionIdx === null)
+            return null;
+
+        return currentQuestionIdx + 1;
+    };
+
+    this.getNumberOfQuestions = function() {
+        return questions.length;
     };
 };
 
@@ -30,8 +110,8 @@ var Question = function(options) {
     // Text of the question
     var text = null;
 
-    // Type of the question
-    var type = null;
+    // Info object for the question
+    var info = null;
 
     // Answer of the question
     var answer = null;
@@ -51,10 +131,18 @@ var Question = function(options) {
 
     var init = function(opts) {
         text = opts.text;
-        type = opts.type;
+        info = opts.info || {};
         answer = opts.answer;
-        hints = opts.hints || 0;
+        options = opts.options;
         checkAnswer = opts.checkAnswer || null;
+        giveHint = opts.giveHint || null;
+
+        hints = opts.hints || {
+                allowed: false,     // is a hint allowed?
+                maximum: 0,         // maximum number of hints for this question (irrelevant if allowed is set to false)
+                cost: 0,            // number of points subtracted per used hint (irrelevant if allowed is set to false)
+                give: null          // lambda function to give a hint for a question
+            };
     };
 
     if (options) {
@@ -73,10 +161,24 @@ var Question = function(options) {
     };
 
     /**
-     * Returns the question type.
+     * Returns the question info object.
+     * Acts as getter (with only one argument) and setter (with two arguments)
      */
-    this.type = function() {
-        return type;
+    this.info = function(prop, value) {
+        if (value !== undefined) {
+            // setter
+            info[prop] = value;
+        } else {
+            // getter
+            return info[prop];
+        }
+    };
+
+    /**
+     * Returns the entire info object.
+     */
+    this.getInfo = function() {
+        return info;
     };
 
     /**
@@ -92,6 +194,24 @@ var Question = function(options) {
     };
 
     /**
+     * Returns a hint for the question.
+     * If no hints are allowed, or the maximum number of hints have been used, null is returned.
+     */
+    this.hint = function() {
+        if (!hints.allowed || hintsUsed >= hints.maximum) {
+            return null;
+        }
+
+        if (hints.allowed && !hints.give) {
+            throw new Error("Hints allowed but no give method passed");
+        }
+
+        hintsUsed++;
+
+        return hints.give(hintsUsed, answer);
+    };
+
+    /**
      * Submits an answer to the question.
      * If the question has already been answered or no checkAnswer lambda has been set, this method does nothing.
      */
@@ -103,7 +223,12 @@ var Question = function(options) {
         answered = true;
 
         // checkAnswer method should return the status results
-        points = checkAnswer(answer, submittedAnswer, type, hintsUsed);
+        points = checkAnswer(answer, submittedAnswer, info);
+
+        // if hints are allowed and have been used, subtract the points
+        if (hints.allowed && hintsUsed > 0) {
+            points -= (hintsUsed * hints.cost);
+        }
 
         return points;
     };
@@ -121,6 +246,32 @@ var Question = function(options) {
      */
     this.answered = function() {
         return answered;
+    };
+
+    /**
+     * Returns true if hints are allowed for this question, false if not.
+     * If hints have not been initialized yet, null is returned.
+     */
+    this.hintsAllowed = function() {
+        if (hints !== null) {
+            return hints.allowed;
+        }
+
+        return null;
+    };
+
+    /**
+     * Returns the number of remaining hints.
+     * If no hints are allowed for this question, null is returned.
+     */
+    this.hintsRemaining = function() {
+        var allowed = this.hintsAllowed();
+
+        if (allowed === null || allowed === false) {
+            return null;
+        }
+
+        return hints.maximum - hintsUsed;
     };
 };
 
@@ -148,4 +299,5 @@ var getStringBetween = function(text, firstString, secondString) {
 
 if (module && module.exports) {
     module.exports.Question = Question;
+    module.exports.Quiz = Quiz;
 }
