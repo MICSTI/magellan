@@ -75,6 +75,14 @@ var Quiz = function() {
         return questions[currentQuestionIdx];
     };
 
+    this.currentQuestion = function() {
+        if (!this.isActive()) {
+            return null;
+        }
+
+        return questions[currentQuestionIdx];
+    };
+
     this.getTotalPoints = function () {
         if (!this.hasStarted()) {
             return null;
@@ -133,9 +141,7 @@ var Question = function(options) {
         text = opts.text;
         info = opts.info || {};
         answer = opts.answer;
-        options = opts.options;
         checkAnswer = opts.checkAnswer || null;
-        giveHint = opts.giveHint || null;
 
         hints = opts.hints || {
                 allowed: false,     // is a hint allowed?
@@ -230,7 +236,8 @@ var Question = function(options) {
             points -= (hintsUsed * hints.cost);
         }
 
-        return points;
+        // ensure that no negative points are awarded
+        return Math.max(0, points);
     };
 
     this.points = function() {
@@ -297,7 +304,7 @@ var getStringBetween = function(text, firstString, secondString) {
     return null;
 };
 
-if (module && module.exports) {
+if (typeof module !== 'undefined' && module.exports) {
     module.exports.Question = Question;
     module.exports.Quiz = Quiz;
 }

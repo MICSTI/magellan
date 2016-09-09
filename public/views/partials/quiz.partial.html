@@ -6,6 +6,7 @@
     </section>
 
     <section class="play-quiz" ng-if="isQuizRunning()">
+
         <h2>Frage {{getCurrentQuestionNumber()}} von {{getNumberOfQuizQuestions()}}</h2>
 
         <div class="question">
@@ -13,12 +14,12 @@
         </div>
 
         <div class="answer">
-            <input type="text" id="answer" ng-model="qu.answer" ng-keypress="handleKeyPress($event)" />
+            <input type="text" id="answer" ng-model="answerObj.answer" ng-keypress="handleKeyPress($event)" />
 
-            <div class="ui-button ui-button-primary" role="button" ng-click="submitAnswer(qu.answer)">Ok</div>
+            <div class="ui-button ui-button-primary" role="button" ng-click="submitAnswer(answerObj.answer)">Ok</div>
         </div>
 
-        <div class="solution" ng-if="questionAnswered()" ng-bind-html="getAnswerText() | renderHtml"></div>
+        <div class="solution" ng-if="questionAnswered()" ng-bind="getAnswerText()"></div>
 
         <div class="next-question" ng-if="questionAnswered()">
             <div role="button" class="ui-button ui-button-higher" id="btnNextQuestion" ng-click="nextQuestion()">Nächste Frage</div>

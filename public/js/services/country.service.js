@@ -6,6 +6,8 @@ angular
         // Countries array
         var countries = null;
 
+        var countriesByAlpha3 = null;
+
         // IndexedDB
         var database = 'magellan';
         var store = 'countryStore';
@@ -33,6 +35,13 @@ angular
                             countries = obj['countries'];
 
                             LogSrv.info("loaded countries from", obj['loadStrategy'].toUpperCase());
+
+                            // additionally map countries by alpha3 code
+                            countriesByAlpha3 = {};
+
+                            countries.forEach(function(c) {
+                                countriesByAlpha3[c['alpha3Code']] = c;
+                            });
 
                             resolve(countries);
                         })
@@ -184,7 +193,16 @@ angular
             });
         };
 
+        var getCountryByAlpha3 = function(alpha3) {
+            if (countriesByAlpha3 === null) {
+                return null;
+            }
+
+            return countriesByAlpha3[alpha3];
+        }
+
         return {
-            init: init
+            init: init,
+            getCountryByAlpha3: getCountryByAlpha3
         };
     });

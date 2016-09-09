@@ -10,7 +10,13 @@ magellan.constant("AppConfig", {
     "log.info": true,
     "log.error": true,
 
-    "quiz.questions.number": 16
+    "quiz.country.questions": 16,
+    "quiz.country.types": {
+        1: "CAPITAL_OF_COUNTRY",
+        2: "COUNTRY_OF_CAPITAL",
+        3: "POPULATION_OF_COUNTRY",
+        4: "AREA_OF_COUNTRY"
+    }
 });
 
 magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, QuizSrv) {

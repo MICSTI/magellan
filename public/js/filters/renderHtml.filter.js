@@ -3,5 +3,7 @@
 angular
     .module('magellan')
     .filter('renderHtml', function($sce) {
-        return $sce.trustAsHtml;
+        return function(text) {
+            return $sce.trustAsHtml(text);
+        };
     });

@@ -10,14 +10,48 @@ angular
         $scope.progressbar.setAbsolute();
         $scope.progressbar.setColor("#336e7b");
 
+        var question = null;
+
         var startQuiz = function() {
             QuizSrv.init()
                 .then(function() {
-                    FocusSrv('answer');
+                    LogSrv.info("Quiz started");
+
+                    updateQuestion();
                 })
                 .catch(function(err) {
-                    LogSrv.error("Could not start quiz", err);
+                    LogSrv.error(err);
                 });
+        };
+
+        var updateQuestion = function() {
+            question = QuizSrv.getCurrentQuestion();
+
+            FocusSrv('answer');
+        };
+
+        var renderQuestion = function(text, className) {
+            return text
+                .replace("[", "<span class='" + className + "'>")
+                .replace("]", "</span>");
+        };
+
+        var submitAnswer = function(submittedAnswer) {
+            if (submittedAnswer) {
+                console.log(question.answer(submittedAnswer));
+
+                // set progress bar
+                //$scope.progressbar.set();
+
+                // set focus to next question button
+                FocusSrv('btnNextQuestion');
+            }
+        };
+
+        var handleKeyPress = function(keyEvent) {
+            if (keyEvent.which == 13) {
+                submitAnswer($scope.answerObj.answer);
+            }
         };
 
         var isQuizRunning = function() {
@@ -32,52 +66,36 @@ angular
             return QuizSrv.getNumberOfQuizQuestions();
         };
 
+        var questionAnswered = function() {
+            if (!isQuizRunning() || question === null) {
+                return false;
+            }
+
+            return question.answered();
+        };
+
         var getQuestionText = function() {
-            return renderQuestion(QuizSrv.getQuestionText(), "question-highlight") + "?";
+            if (question === null) {
+                return null;
+            }
+
+            return renderQuestion(question.question(), 'question-highlight') + "?";
         };
 
         var getAnswerText = function() {
-            return renderQuestion(QuizSrv.getAnswerText(), "answer-highlight-" + QuizSrv.getAnswerStatus());
-        };
-
-        var questionAnswered = function() {
-            return QuizSrv.questionAnswered();
-        }
-
-        var renderQuestion = function(text, className) {
-            return text
-                .replace("[", "<span class='" + className + "'>")
-                .replace("]", "</span>");
-        };
-
-        var submitAnswer = function(answer) {
-            if (answer) {
-                QuizSrv.submitAnswer(answer);
-
-                // set progress bar
-                $scope.progressbar.set(QuizSrv.getProgressPercentage() * 100);
-
-                // set focus to next question button
-                FocusSrv('btnNextQuestion');
+            if (question === null) {
+                return null;
             }
-        };
 
-        var questionAnswered = function() {
-            return QuizSrv.questionAnswered();
+            return question.solution().correct;
         };
 
         var nextQuestion = function() {
-            $scope.qu.answer = "";
-
             QuizSrv.nextQuestion();
 
-            FocusSrv('answer');
-        };
+            $scope.answerObj.answer = "";
 
-        var handleKeyPress = function(keyEvent) {
-            if (keyEvent.which == 13) {
-                submitAnswer($scope.qu.answer);
-            }
+            updateQuestion();
         };
 
         $scope.startQuiz = startQuiz;
@@ -86,13 +104,15 @@ angular
         $scope.getNumberOfQuizQuestions = getNumberOfQuizQuestions;
         $scope.getQuestionText = getQuestionText;
         $scope.getAnswerText = getAnswerText;
+        $scope.handleKeyPress = handleKeyPress;
         $scope.submitAnswer = submitAnswer;
         $scope.questionAnswered = questionAnswered;
         $scope.nextQuestion = nextQuestion;
-        $scope.handleKeyPress = handleKeyPress;
 
-        $scope.qu = {
+        $scope.answerObj = {
             answer: ""
         };
 
+        // initially try to update question
+        updateQuestion();
     });
