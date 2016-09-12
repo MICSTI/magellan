@@ -3,6 +3,8 @@ $title: #81cfe0;
 $text_primary: #444;
 $link_color: cornflowerblue;
 
+$primary_dark: #65acba;
+
 $jaffa: #f27935;
 $confetti: #e9d460;
 $jade: #00b16a;
@@ -274,6 +276,11 @@ nav {
   font-weight: bold;
   font-size: 1.2em;
 }
+
+.group-header {
+  font-weight: bold;
+  font-size: 1.5em;
+}
 /* ---------------------------------- */
 
 /* ----------- Progress bar --------- */
@@ -310,5 +317,38 @@ nav {
 .answer-highlight-incorrect {
   color: #ec644b;
   font-weight: bold;
+}
+/* ---------------------------------- */
+
+/* ------------ Countries ----------- */
+.countries {
+  width: 75%;
+  margin: 0 12.5%;
+  text-align: left;
+
+  .group-header {
+    border-bottom: 1px solid $primary_dark;
+    margin-bottom: 0.5em;
+  }
+
+  .letter-list li {
+    margin-bottom: 1.2em;
+  }
+
+  .country-list li {
+    display: inline-block;
+
+    margin: 0 3em 0.6em 0;
+  }
+
+  .country-list li:last-child {
+    margin-right: 0;
+  }
+
+  @media screen and (max-width: 600px) {
+    .country-list li {
+      padding: 0.4em;
+    }
+  }
 }
 /* ---------------------------------- */

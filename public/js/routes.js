@@ -14,6 +14,14 @@ angular.module('magellan')
                 url: '/quiz',
                 templateUrl: '/build/views/partials/quiz.partial.html'
             })
+            .state('countries', {
+                url: '/countries',
+                templateUrl: '/build/views/partials/countries.partial.html'
+            })
+            .state('countries.detail', {
+                url: '/:alpha3Code',
+                templateUrl: '/build/views/partials/countries-detail.partial.html'
+            })
             .state('login', {
                 url: '/login',
                 templateUrl: '/build/views/partials/login.partial.html'

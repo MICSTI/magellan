@@ -7,6 +7,7 @@ angular
         var countries = null;
 
         var countriesByAlpha3 = null;
+        var countriesByLetter = null;
 
         // IndexedDB
         var database = 'magellan';
@@ -36,11 +37,41 @@ angular
 
                             LogSrv.info("loaded countries from", obj['loadStrategy'].toUpperCase());
 
-                            // additionally map countries by alpha3 code
+                            // additionally map countries by various properties
                             countriesByAlpha3 = {};
+                            countriesByLetter = {};
 
                             countries.forEach(function(c) {
+                                // by alpha3 code
                                 countriesByAlpha3[c['alpha3Code']] = c;
+
+                                // by letter
+                                var firstLetter = c['name'].substr(0, 1).toUpperCase();
+
+                                switch (firstLetter) {
+                                    case 'Ä':
+                                        firstLetter = 'A';
+                                        break;
+
+                                    case 'Ö':
+                                        firstLetter = 'O';
+                                        break;
+
+                                    case 'Ü':
+                                        firstLetter = 'U';
+                                        break;
+
+                                    default:
+                                }
+
+                                if (countriesByLetter[firstLetter] === undefined) {
+                                    countriesByLetter[firstLetter] = [];
+                                }
+
+                                countriesByLetter[firstLetter].push({
+                                    alpha3Code: c.alpha3Code,
+                                    name: c.name
+                                });
                             });
 
                             resolve(countries);
@@ -199,10 +230,24 @@ angular
             }
 
             return countriesByAlpha3[alpha3];
-        }
+        };
+
+        var getCountriesByLetter = function() {
+            if (countriesByLetter === null) {
+                return null;
+            }
+
+            return countriesByLetter;
+        };
+
+        var areCountriesLoaded = function() {
+            return countries !== null && countries.length > 0;
+        };
 
         return {
             init: init,
-            getCountryByAlpha3: getCountryByAlpha3
+            getCountryByAlpha3: getCountryByAlpha3,
+            getCountriesByLetter: getCountriesByLetter,
+            areCountriesLoaded: areCountriesLoaded
         };
     });
