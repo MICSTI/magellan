@@ -78,7 +78,7 @@ angular
 
                 var country = CountrySrv.getCountryByAlpha3(alpha3);
 
-                var questionType = questionTypes[getRandomInt(0, questionTypesLength - 1)];
+                var questionType = questionTypes[getRandomInt(1, questionTypesLength)];
 
                 var text = getQuestionText(questionType, country);
                 var info = {
