@@ -3,6 +3,7 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var authentication = require('./controllers/authentication');
+var appcache = require('./controllers/appcache');
 
 // config files ====================================
 var SERVER = require("./config/server");
@@ -21,6 +22,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // parse JWT token
 app.use(authentication);
+
+// manifest file
+app.use('/magellan.appcache', appcache);
 
 // set the static files location (/public/img will be /img for users)
 app.use(express.static(__dirname + "/public"));

@@ -45,7 +45,7 @@ describe('Countries file', function() {
 describe('Flags', function() {
     it('each country should have a flag file', function() {
         countries.forEach(function(country) {
-            fs.statSync(path.resolve(__dirname, '../../public/flags/flags/4x3/' + country.alpha2Code.toLowerCase() + '.svg'));
+            fs.statSync(path.resolve(__dirname, '../../lib/flags/flags/4x3/' + country.alpha2Code.toLowerCase() + '.svg'));
         });
     });
 });
