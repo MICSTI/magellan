@@ -14,4 +14,10 @@ angular
                 $scope.country = CountrySrv.getCountryByAlpha3(alpha3Code);
             })
         });
+
+        var getCountryFromService = function(alpha3) {
+            return CountrySrv.getCountryByAlpha3(alpha3);
+        };
+
+        $scope.getCountryFromService = getCountryFromService;
     });

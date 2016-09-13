@@ -356,3 +356,63 @@ nav {
   }
 }
 /* ---------------------------------- */
+
+/* --------- Country Detail --------- */
+.countryDetail {
+  .section-title {
+    border-bottom: 1px solid $primary_dark;
+  }
+}
+
+.countryDetailTable {
+  margin-top: 1.2em;
+
+  tr {
+    td:first-child {
+      vertical-align: top;
+    }
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .countryDetailTable {
+    width: 100%;
+  }
+
+  tr {
+    td:first-child {
+      width: 25%;
+    }
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .countryDetailTable {
+    width: 100%;
+  }
+
+  tr {
+    td:first-child {
+      width: 35%;
+    }
+  }
+}
+
+@media screen and (max-width: 399px) {
+  .countryDetailTable {
+    width: 100%;
+  }
+
+  tr {
+    td {
+      display: block;
+      box-sizing: border-box;
+      clear: both;
+    }
+
+    td:last-child {
+      padding-bottom: 1em;
+    }
+  }
+}
+/* ---------------------------------- */
