@@ -414,5 +414,13 @@ nav {
       padding-bottom: 1em;
     }
   }
+
+  tr:last-child {
+    ul {
+      li {
+        padding: 0.3em;
+      }
+    }
+  }
 }
 /* ---------------------------------- */
