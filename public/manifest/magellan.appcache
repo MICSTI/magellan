@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2016-09-13:v1
+# 2016-09-13:v2
 
 CACHE:
 /lib/flags/flags/4x3/af.svg
@@ -199,6 +199,3 @@ CACHE:
 /lib/flags/flags/4x3/by.svg
 /lib/flags/flags/4x3/cf.svg
 /lib/flags/flags/4x3/cy.svg
-
-NETWORK:
-*

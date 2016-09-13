@@ -2,10 +2,16 @@
  * Returns the app cache manifest file with the correct content type.
  */
 
-var path = require('path');
+var config = require('../config/server');
 var fs = require('fs');
 
 var serveManifest = function(req, res, next) {
+    if (!config.useAppCache) {
+        return res.status(400).json({
+            message: "No appcache enabled"
+        });
+    }
+
     fs.readFile('public/manifest/magellan.appcache', 'utf8', function(err, data) {
         if (err || !data) {
             return res.status(400).json({

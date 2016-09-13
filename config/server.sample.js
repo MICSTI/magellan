@@ -4,5 +4,6 @@ module.exports = {
     countriesFile: {
         version: 0,
         path: '/path/to/countries/file'
-    }
+    },
+    useAppCache: false
 };

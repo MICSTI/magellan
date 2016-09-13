@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="magellan" ng-controller="AppCtrl" manifest="/magellan.appcache">
+<html lang="en" ng-app="magellan" ng-controller="AppCtrl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -44,6 +44,7 @@
                 </li>
 
                 <ul class="menu-dropdown" ng-if="isDropdownVisible()">
+                    <li><a href="/settings" ng-click="hideDropdown()">Einstellungen</a></li>
                     <li><a href="/logout" ng-click="hideDropdown()">Logout</a></li>
                 </ul>
             </ul>

@@ -34,6 +34,10 @@ angular.module('magellan')
                 url: '/register',
                 templateUrl: '/build/views/partials/register.partial.html'
             })
+            .state('settings', {
+                url: '/settings',
+                templateUrl: '/build/views/partials/settings.partial.html'
+            })
             .state('about', {
                 url: '/about',
                 templateUrl: '/build/views/partials/about.partial.html'
