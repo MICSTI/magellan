@@ -783,7 +783,6 @@
       "ARG",
       "BOL",
       "COL",
-      "GUF",
       "GUY",
       "PRY",
       "PER",
@@ -1324,7 +1323,7 @@
     ]
   },
   {
-    "name": "Estonia",
+    "name": "Estland",
     "capital": "Tallinn",
     "region": "Europe",
     "subregion": "Northern Europe",
@@ -5329,7 +5328,6 @@
     ],
     "borders": [
       "BRA",
-      "GUF",
       "FRA",
       "GUY"
     ],
