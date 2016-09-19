@@ -17,7 +17,13 @@ magellan.constant("AppConfig", {
         2: "COUNTRY_OF_CAPITAL",
         3: "POPULATION_OF_COUNTRY",
         4: "AREA_OF_COUNTRY"
-    }
+    },
+
+    "settings.user.colors": [
+        'jaffa',
+        'confetti',
+        'jade'
+    ]
 });
 
 magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, QuizSrv) {

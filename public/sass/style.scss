@@ -404,3 +404,24 @@ nav {
 
 }
 /* ---------------------------------- */
+
+/* ----------- User colours --------- */
+.user-icon {
+  radius: 50%;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+.jade {
+  background-color: $jade;
+}
+
+.jaffa {
+  background-color: $jaffa;
+}
+
+.confetti {
+  background-color: $confetti;
+}
+/* ---------------------------------- */

@@ -1,4 +1,4 @@
-<section class="settingsContainer">
+<section class="settingsContainer" ng-controller="SettingsCtrl">
     <section class="section-element section-title">Einstellungen</section>
 
     <section class="section-element">
@@ -6,6 +6,11 @@
             <div class="form-group">
                 <label>Username</label>
                 <input class="form-control" id="username" type="text" placeholder="Username" ng-model="username" />
+            </div>
+
+            <div class="form-group">
+                <label>E-Mail-Adresse</label>
+                <input class="form-control" id="email" type="email" placeholder="E-Mail-Adresse" ng-model="email" />
             </div>
 
             <div class="form-group">
