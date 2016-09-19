@@ -15,7 +15,9 @@
 
             <div class="form-group">
                 <label>Farbe</label>
-                <ul></ul>
+                <ul class="color-list">
+                    <li ng-repeat="color in userColors" class="user-icon bg-{{color}}"></li>
+                </ul>
             </div>
 
             <div class="form-group">

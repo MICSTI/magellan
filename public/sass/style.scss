@@ -58,6 +58,10 @@ input[type=text], input[type=password] {
 .bg-jaffa {
   background-color: $jaffa;
 }
+
+.bg-jade {
+  background-color: $jade;
+}
 /* ---------------------------------- */
 
 /* ------------- Buttons ------------ */
@@ -401,27 +405,25 @@ nav {
 
 /* ------------ Settings ------------ */
 .settingsContainer {
+  .color-list {
+    margin-top: 0.5em;
+  }
 
+  .user-icon {
+    margin-right: 1em;
+  }
+
+  .user-icon:last-child {
+    margin-right: 0;
+  }
 }
 /* ---------------------------------- */
 
 /* ----------- User colours --------- */
 .user-icon {
-  radius: 50%;
+  border-radius: 50%;
   display: inline-block;
-  width: 20px;
-  height: 20px;
-}
-
-.jade {
-  background-color: $jade;
-}
-
-.jaffa {
-  background-color: $jaffa;
-}
-
-.confetti {
-  background-color: $confetti;
+  width: 38px;
+  height: 38px;
 }
 /* ---------------------------------- */
