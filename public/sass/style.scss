@@ -5,9 +5,30 @@ $link_color: cornflowerblue;
 
 $primary_dark: #65acba;
 
-$jaffa: #f27935;
-$confetti: #e9d460;
+$soft_red: #ec644b;
+$thunderbird: #d91e18;
+$old_brick: #96281b;
+$new_york_pink: #e08283;
+$snuff: #dcc6e0;
+$honey_flower: #674172;
+$san_marino: #446cb3;
+$shakespeare: #52b3d9;
+$ming: #336e7b;
+$gossip: #87d37c;
+$eucalyptus: #26a65b;
+$mountain_meadow: #1bbc9b;
 $jade: #00b16a;
+$confetti: #e9d460;
+$california: #f89406;
+$burnt_orange: #d35400;
+$jaffa: #f27935;
+$gallery: #eeeeee;
+$edward: #abb7b7;
+$lynch: #6c7a89;
+
+$jelly_bean: #2574a9;
+$madison: #2c3e50;
+$carrara: #f2f1ef;
 
 $grass: #3ac569;
 $snow: #ffffff;
@@ -51,16 +72,84 @@ input[type=text], input[type=password] {
 }
 
 /* ------------- Colors ------------- */
+.bg-soft_red {
+  background-color: $soft_red;
+}
+
+.bg-thunderbird {
+  background-color: $thunderbird;
+}
+
+.bg-old_brick {
+  background-color: $old_brick;
+}
+
+.bg-new_york_pink {
+  background-color: $new_york_pink;
+}
+
+.bg-snuff {
+  background-color: $snuff;
+}
+
+.bg-honey_flower {
+  background-color: $honey_flower;
+}
+
+.bg-san_marino {
+  background-color: $san_marino;
+}
+
+.bg-shakespeare {
+  background-color: $shakespeare;
+}
+
+.bg-ming {
+  background-color: $ming;
+}
+
+.bg-gossip {
+  background-color: $gossip;
+}
+
+.bg-eucalyptus {
+  background-color: $eucalyptus;
+}
+
+.bg-mountain_meadow {
+  background-color: $mountain_meadow;
+}
+
+.bg-jade {
+  background-color: $jade;
+}
+
 .bg-confetti {
   background-color: $confetti;
+}
+
+.bg-california {
+  background-color: $california;
+}
+
+.bg-burnt_orange {
+  background-color: $burnt_orange;
 }
 
 .bg-jaffa {
   background-color: $jaffa;
 }
 
-.bg-jade {
-  background-color: $jade;
+.bg-gallery {
+  background-color: $gallery;
+}
+
+.bg-edward {
+  background-color: $edward;
+}
+
+.bg-lynch {
+  background-color: $lynch;
 }
 /* ---------------------------------- */
 
@@ -407,14 +496,33 @@ nav {
 .settingsContainer {
   .color-list {
     margin-top: 0.5em;
-  }
+    margin-left: 25%;
+    width: 50%;
 
-  .user-icon {
-    margin-right: 1em;
-  }
+    li {
+      display: inline-block;
+      margin-right: 1em;
+      margin-bottom: 0.3em;
+      border: 1px solid transparent;
+      padding: 0.4em;
 
-  .user-icon:last-child {
-    margin-right: 0;
+      .user-icon {
+        position: relative;
+        top: 0.17em;
+      }
+
+      &.selected {
+        border: 1px solid $madison;
+      }
+
+      &:not(.selected):hover {
+        border: 1px solid $jelly_bean;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
 }
 /* ---------------------------------- */

@@ -16,7 +16,9 @@
             <div class="form-group">
                 <label>Farbe</label>
                 <ul class="color-list">
-                    <li ng-repeat="color in userColors" class="user-icon bg-{{color}}"></li>
+                    <li ng-repeat="color in userColors" ng-class="{ 'selected': userObj.color === color }" ng-click="setColor(color)">
+                        <span class="user-icon bg-{{color}}"></span>
+                    </li>
                 </ul>
             </div>
 

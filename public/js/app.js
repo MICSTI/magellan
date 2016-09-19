@@ -20,9 +20,26 @@ magellan.constant("AppConfig", {
     },
 
     "settings.user.colors": [
-        'jaffa',
+        'soft_red',
+        'thunderbird',
+        'old_brick',
+        'new_york_pink',
+        'snuff',
+        'honey_flower',
+        'san_marino',
+        'shakespeare',
+        'ming',
+        'gossip',
+        'eucalyptus',
+        'mountain_meadow',
+        'jade',
         'confetti',
-        'jade'
+        'california',
+        'burnt_orange',
+        'jaffa',
+        'gallery',
+        'edward',
+        'lynch'
     ]
 });
 
