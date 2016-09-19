@@ -2,15 +2,15 @@
     <section class="section-element section-title">Einstellungen</section>
 
     <section class="section-element">
-        <form ng-submit="update(username,color)">
+        <form ng-submit="updateUser()">
             <div class="form-group">
                 <label>Username</label>
-                <input class="form-control" id="username" type="text" placeholder="Username" ng-model="username" />
+                <input class="form-control" id="username" type="text" placeholder="Username" ng-model="userObj.username" required />
             </div>
 
             <div class="form-group">
                 <label>E-Mail-Adresse</label>
-                <input class="form-control" id="email" type="email" placeholder="E-Mail-Adresse" ng-model="email" />
+                <input class="form-control" id="email" type="email" placeholder="E-Mail-Adresse" ng-model="userObj.email" required />
             </div>
 
             <div class="form-group">
@@ -23,7 +23,7 @@
             </div>
 
             <div class="form-group">
-                <div class="ui-button ui-button-primary" role="button" ng-click="update(username,color)">Speichern</div>
+                <div class="ui-button ui-button-primary" role="button" ng-click="updateUser()">Speichern</div>
                 <input type="submit" value="Speichern" ng-hide="true" />
             </div>
         </form>

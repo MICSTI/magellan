@@ -101,4 +101,8 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, Qui
         // go to home page
         $state.go('home');
     });
+
+    $scope.$on('user.update', function(event, data) {
+        $scope.user = data;
+    });
 });

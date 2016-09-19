@@ -8,6 +8,8 @@ angular
 
         // user object
         $scope.userObj = {
+            username: null,
+            email: null,
             color: null
         };
 
@@ -17,7 +19,19 @@ angular
             $scope.userObj.color = newColor;
         };
 
+        var updateUser = function() {
+            // TODO persist user info
+
+            // emit user update event
+            $scope.$emit('user.update', {
+                username: $scope.userObj.username,
+                email: $scope.userObj.email,
+                color: $scope.userObj.color
+            });
+        };
+
         $scope.setColor = setColor;
+        $scope.updateUser = updateUser;
 
         // focus username field
         FocusSrv('username');
