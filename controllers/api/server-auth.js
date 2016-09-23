@@ -87,6 +87,38 @@ router.post('/user', function(req, res, next) {
     });
 });
 
+/**
+ * Route for basic user update (username, email and color).
+ */
+router.put('/user/basic', protectRoute, function(req, res) {
+    // ensure username is not already in use
+    User.findOne({
+        username: req.body.username
+    }, function(err, existingUser) {
+        if (err) {
+            return next(err);
+        }
+
+        if (existingUser && !existingUser._id.equals(req.user._id)) {
+            return res.status(400).send({
+                message: "Username already exists"
+            });
+        }
+
+        existingUser.username = req.body.username;
+        existingUser.email = req.body.email;
+        existingUser.color = req.body.color;
+
+        existingUser.save(function(err) {
+            if (err) {
+                return next(err);
+            }
+
+            res.status(200).json(req.user);
+        });
+    });
+});
+
 router.get('/user', protectRoute, function(req, res) {
     // since the route is protected, we can just send back the user object
     res.status(200).json(req.user);

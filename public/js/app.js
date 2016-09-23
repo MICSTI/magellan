@@ -59,6 +59,8 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, Qui
             // store user object in scope
             $scope.user = user;
 
+            $scope.$broadcast('user.loaded');
+
             // init country service
             CountrySrv.init()
                 .then(function(countries) {
@@ -100,9 +102,5 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, Qui
 
         // go to home page
         $state.go('home');
-    });
-
-    $scope.$on('user.update', function(event, data) {
-        $scope.user = data;
     });
 });
