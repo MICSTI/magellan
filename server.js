@@ -4,6 +4,7 @@ var app = express();
 var bodyParser = require("body-parser");
 var authentication = require('./controllers/authentication');
 var appcache = require('./controllers/appcache');
+var errorHandler = require('./controllers/error-handler');
 
 // config files ====================================
 var SERVER = require("./config/server");
@@ -34,6 +35,9 @@ app.use('/api', require('./controllers/api/server-auth.js'));
 app.use('/api/countries', require('./controllers/api/countries.js'));
 
 require("./app/routes")(app);
+
+// error handler ====================================
+app.use(errorHandler);
 
 // start app ====================================
 app.listen(port);

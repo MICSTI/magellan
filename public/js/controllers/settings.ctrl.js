@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .controller('SettingsCtrl', function($scope, AppConfig, FocusSrv, LogSrv) {
+    .controller('SettingsCtrl', function($scope, AppConfig, FocusSrv, LogSrv, UserSrv) {
         var init = function() {
             $scope.message = null;
 
@@ -23,12 +23,40 @@ angular
             };
 
             var updateUser = function() {
-                // TODO persist user info
+                UserSrv.updateBasic($scope.userObj).then(function(data) {
+                    // update user object
+                    $scope.user.username = $scope.userObj.username;
+                    $scope.user.email = $scope.userObj.email;
+                    $scope.user.color = $scope.userObj.color;
 
-                // update user object
-                $scope.user.username = $scope.userObj.username;
-                $scope.user.email = $scope.userObj.email;
-                $scope.user.color = $scope.userObj.color;
+                    $scope.$apply(function() {
+                        $scope.message = {
+                            type: 'success',
+                            text: 'Einstellungen wurden erfolgreich gespeichert'
+                        };
+                    });
+                }).catch(function(err) {
+                    LogSrv.error('Update user', err);
+
+                    var messageText;
+
+                    switch (err.message) {
+                        case 'Username already exists':
+                            messageText = 'Der Benutzername ist bereits vergeben';
+                            break;
+
+                        default:
+                            messageText = 'Die Einstellungen konnten nicht gespeichert werden';
+                            break;
+                    }
+
+                    $scope.$apply(function() {
+                        $scope.message = {
+                            type: 'error',
+                            text: messageText
+                        };
+                    });
+                });
             };
 
             var delegateSubmit = function() {

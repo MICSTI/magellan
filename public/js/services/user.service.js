@@ -78,11 +78,24 @@ angular
             })  ;
         };
 
+        var updateBasic = function(user) {
+            return new Promise(function(resolve, reject) {
+                $http.put('/api/user/basic', user)
+                    .success(function(data) {
+                       resolve(data);
+                    })
+                    .error(function(err) {
+                        reject(err);
+                    });
+            });
+        };
+
         return {
             getUser: getUser,
             getUserFromStorage: getUserFromStorage,
             login: login,
             logout: logout,
-            register: register
-        }
+            register: register,
+            updateBasic: updateBasic
+        };
     });

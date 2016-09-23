@@ -90,7 +90,7 @@ router.post('/user', function(req, res, next) {
 /**
  * Route for basic user update (username, email and color).
  */
-router.put('/user/basic', protectRoute, function(req, res) {
+router.put('/user/basic', protectRoute, function(req, res, next) {
     // ensure username is not already in use
     User.findOne({
         username: req.body.username
@@ -100,21 +100,41 @@ router.put('/user/basic', protectRoute, function(req, res) {
         }
 
         if (existingUser && !existingUser._id.equals(req.user._id)) {
-            return res.status(400).send({
-                message: "Username already exists"
-            });
+            var error = new Error();
+
+            error.status = 400;
+            error.message = "Username already exists";
+
+            return next(error);
         }
 
-        existingUser.username = req.body.username;
-        existingUser.email = req.body.email;
-        existingUser.color = req.body.color;
-
-        existingUser.save(function(err) {
+        // find the own user
+        User.findOne({
+            _id: req.user._id
+        }, function(err, user) {
             if (err) {
                 return next(err);
             }
 
-            res.status(200).json(req.user);
+            if (!user) {
+                var error = new Error();
+
+                error.message = 'No user with this id found';
+
+                return next(error);
+            }
+
+            user.username = req.body.username;
+            user.email = req.body.email;
+            user.color = req.body.color;
+
+            user.save(function(err) {
+                if (err) {
+                    return next(err);
+                }
+
+                res.status(200).json(user);
+            });
         });
     });
 });
