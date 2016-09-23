@@ -29,12 +29,37 @@ angular
                         } else {
                             $scope.message = {
                                 type: 'error',
-                                message: 'Bei der Anmeldung scheint etwas schief gegangen zu sein'
+                                text: 'Bei der Anmeldung scheint etwas schief gegangen zu sein'
                             }
                         }
                     })
                     .catch(function(err) {
-                        LogSrv.error('REGISTER', err);
+                        LogSrv.error(err);
+
+                        var messageText;
+
+                        switch (err.message) {
+                            case 'Username already exists':
+                                messageText = 'Der Benutzername existiert bereits';
+                                break;
+
+                            default:
+                                messageText = 'Bei der Anmeldung scheint etwas schief gegangen zu sein';
+                        }
+
+                        if (!$scope.$$phase) {
+                            $scope.$apply(function() {
+                                $scope.message = {
+                                    type: 'error',
+                                    text: messageText
+                                };
+                            });
+                        } else {
+                            $scope.message = {
+                                type: 'error',
+                                text: messageText
+                            };
+                        }
                     });
             }
         };
@@ -49,17 +74,17 @@ angular
             if (!$scope.newUser.username || !$scope.newUser.email || !password || !password2) {
                 $scope.message = {
                     type: 'error',
-                    text: 'All fields must be filled in'
+                    text: 'Alle Felder müssen ausgefüllt sein'
                 };
             } else if (password === "" || password2 === "") {
                 $scope.message = {
                     type: 'error',
-                    text: 'Passwords cannot be empty'
+                    text: 'Die Passwörter können nicht leer sein'
                 };
             } else if (password !== password2) {
                 $scope.message = {
                     type: 'error',
-                    text: 'Passwords do not match'
+                    text: 'Die Passwörter stimmen nicht überein'
                 };
             }
 
