@@ -16,7 +16,7 @@ router.post('/session', function(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
 
-    User.findOne( { username: username, confirmed: true, active: true } )
+    User.findOne( { username: username, active: true } )
         .select('password')
         .exec(function(err, user) {
             if (err) {
@@ -44,9 +44,9 @@ router.post('/session', function(req, res, next) {
 
 router.post('/user', function(req, res, next) {
     // ensure username and password were sent
-    if (!req.body.username || !req.body.password) {
+    /*if (!req.body.username || !req.body.password) {
         return res.status(401).send();
-    }
+    }*/
 
     // ensure username is not already in use
     User.findOne({
@@ -64,7 +64,8 @@ router.post('/user', function(req, res, next) {
 
         // create new user
         var user = new User({
-            username: req.body.username
+            username: req.body.username,
+            email: req.body.email
         });
 
         // generate salt and hash for password
@@ -72,11 +73,20 @@ router.post('/user', function(req, res, next) {
             user.password = hash;
             user.save(function(err, user) {
                 if (err) {
-                    return next(err);
+                    return res.status(400).json({
+                        message: 'Failed to create user',
+                        error: err
+                    });
                 }
-            });
 
-            res.status(201).send();
+                if (!user) {
+                    return res.status(400).json({
+                        message: 'User could not be created'
+                    });
+                }
+
+                res.status(201).send();
+            });
         });
     });
 });

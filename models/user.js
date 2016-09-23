@@ -5,14 +5,9 @@ var User = db.model('User', {
         type: String,
         required: true
     },
-    firstName: {
-        type: String
-    },
-    lastName: {
-        type: String
-    },
-    displayName: {
-        type: String
+    email: {
+        type: String,
+        required: true
     },
     password: {
         type: String,
@@ -22,19 +17,6 @@ var User = db.model('User', {
     created: {
         type: Date,
         default: Date.now
-    },
-    signupToken: {
-        type: String,
-        select: false
-    },
-    tokenExpiration: {
-        type: Date,
-        select: false
-    },
-    confirmed: {
-        type: Boolean,
-        default: true,
-        select: false
     },
     active: {
         type: Boolean,

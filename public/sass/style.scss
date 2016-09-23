@@ -71,6 +71,34 @@ input[type=text], input[type=password], input[type=email] {
   margin-bottom: 1.5em;
 }
 
+.info {
+  margin-top: 0.6em;
+  font-size: 0.8em;
+}
+
+/* ------------ Messages ------------ */
+.ui-message {
+  padding: 1em;
+}
+
+.ui-message-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ui-message-center {
+  width: 50%;
+}
+
+.ui-message-success {
+  background-color: $gossip;
+}
+
+.ui-message-error {
+  background-color: $soft_red;
+}
+
 /* ------------- Colors ------------- */
 .bg-soft_red {
   background-color: $soft_red;

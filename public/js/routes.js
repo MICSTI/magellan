@@ -8,7 +8,10 @@ angular.module('magellan')
         $stateProvider
             .state('home', {
                 url: '/home',
-                templateUrl: '/build/views/partials/home.partial.html'
+                templateUrl: '/build/views/partials/home.partial.html',
+                params: {
+                    action: null
+                }
             })
             .state('quiz', {
                 url: '/quiz',

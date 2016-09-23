@@ -55,10 +55,30 @@ angular
             });
         };
 
+        var register = function(newUser) {
+            return new Promise(function(resolve, reject) {
+                $http.post('/api/user', newUser)
+                    .success(function(data) {
+                        // immediately log the user in
+                        login(newUser.username, newUser.password)
+                            .then(function(data) {
+                                resolve(data);
+                            })
+                            .catch(function(err) {
+                                reject(err);
+                            });
+                    })
+                    .error(function(err) {
+                        reject(err);
+                    });
+            })  ;
+        };
+
         return {
             getUser: getUser,
             getUserFromStorage: getUserFromStorage,
             login: login,
-            logout: logout
+            logout: logout,
+            register: register
         }
     });
