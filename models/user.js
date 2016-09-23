@@ -18,6 +18,9 @@ var User = db.model('User', {
         type: Date,
         default: Date.now
     },
+    color: {
+        type: String
+    },
     active: {
         type: Boolean,
         default: true,

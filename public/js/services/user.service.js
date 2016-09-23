@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .factory('UserSrv', function($http, AuthTokenSrv) {
+    .factory('UserSrv', function($http, AuthTokenSrv, AppConfig) {
         var self = this;
 
         var getUser = function() {
@@ -57,6 +57,10 @@ angular
 
         var register = function(newUser) {
             return new Promise(function(resolve, reject) {
+                // select a random color for the user
+                var colors = AppConfig['settings.user.colors'];
+                newUser.color = colors[getRandomInt(0, colors.length - 1)];
+
                 $http.post('/api/user', newUser)
                     .success(function(data) {
                         // immediately log the user in

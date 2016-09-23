@@ -43,11 +43,6 @@ router.post('/session', function(req, res, next) {
 });
 
 router.post('/user', function(req, res, next) {
-    // ensure username and password were sent
-    /*if (!req.body.username || !req.body.password) {
-        return res.status(401).send();
-    }*/
-
     // ensure username is not already in use
     User.findOne({
         username: req.body.username
@@ -65,7 +60,8 @@ router.post('/user', function(req, res, next) {
         // create new user
         var user = new User({
             username: req.body.username,
-            email: req.body.email
+            email: req.body.email,
+            color: req.body.color
         });
 
         // generate salt and hash for password
