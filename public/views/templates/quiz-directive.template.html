@@ -10,7 +10,24 @@
     <!-- Answer input -->
     <div class="input-container" ng-switch="getQuestion().getInfo().input">
         <div ng-switch-when="text.standard">
-            <input type="text" class="answerInput" id="answerTextInput" ng-model="answerInput.answer" placeholder="Answer" />
+            <input type="text" class="answerInput" ng-model="answerInput.answer" placeholder="Answer" ng-keypress="handleKeyPress($event)" />
+        </div>
+
+        <div ng-switch-when="number.medium">
+            <input type="text" class="answerInput" ng-model="answerInput.answer" placeholder="Answer" ng-keypress="handleKeyPress($event)" />
+            <select>
+                <option selected="selected">Tsd.</option>
+                <option>Mio.</option>
+            </select>
+            <span class="question-unit"> {{getQuestion().getInfo().unit}}</span>
+        </div>
+
+        <div ng-switch-when="number.high">
+            <input type="text" class="answerInput" ng-model="answerInput.answer" placeholder="Answer" ng-keypress="handleKeyPress($event)" />
+            <select>
+                <option>Tsd.</option>
+                <option selected="selected">Mio.</option>
+            </select>
         </div>
 
         <div ng-switch-default>

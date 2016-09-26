@@ -100,5 +100,5 @@ angular
         $scope.register = register;
 
         // focus user name field
-        FocusSrv('username');
+        FocusSrv('#username');
     });

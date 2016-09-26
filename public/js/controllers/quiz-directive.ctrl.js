@@ -21,7 +21,7 @@ angular
             updateProgressBar();
 
             // focus answer input
-            FocusSrv('answerTextInput');
+            FocusSrv('.answerInput');
         };
 
         var getQuestion = function() {
@@ -45,7 +45,7 @@ angular
                 console.log(question.answer($scope.answerInput.answer));
 
                 // set focus to next question button
-                FocusSrv('btnNextQuestion');
+                FocusSrv('#btnNextQuestion');
             }
         };
 
@@ -71,6 +71,12 @@ angular
                 .replace("]", "</span>");
         };
 
+        var handleKeyPress = function(keyEvent) {
+            if (keyEvent.which == 13) {
+                submitAnswer();
+            }
+        };
+
         var updateProgressBar = function() {
             var progressPercent = getCurrentQuestionNumber() / getNumberOfQuizQuestions() * 100;
 
@@ -86,4 +92,5 @@ angular
         $scope.submitAnswer = submitAnswer;
         $scope.questionAnswered = questionAnswered;
         $scope.nextQuestion = nextQuestion;
+        $scope.handleKeyPress = handleKeyPress;
     });

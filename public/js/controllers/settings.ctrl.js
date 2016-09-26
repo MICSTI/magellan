@@ -68,7 +68,7 @@ angular
             $scope.delegateSubmit = delegateSubmit;
 
             // focus username field
-            FocusSrv('username');
+            FocusSrv('#username');
         };
 
         if ($scope.user) {

@@ -83,7 +83,8 @@ angular
                 var text = getQuestionText(questionType, country);
                 var info = {
                     type: questionType,
-                    input: getQuestionInput(questionType)
+                    input: getQuestionInput(questionType),
+                    unit: getQuestionUnit(questionType)
                 };
                 var answer = getQuestionAnswer(questionType, country);
                 var checkAnswer = getCheckAnswerLambda(questionType, fullPoints, lastQuestionBonus);
@@ -170,6 +171,19 @@ angular
                 case 'COUNTRY_OF_CAPITAL':
                 default:
                     return 'text.standard';
+            }
+        };
+
+        var getQuestionUnit = function(type) {
+            switch (type) {
+                case 'AREA_OF_COUNTRY':
+                    return 'km²';
+
+                case 'POPULATION_OF_COUNTRY':
+                    return 'Einwohner';
+
+                default:
+                    return null;
             }
         };
 

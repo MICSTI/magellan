@@ -32,5 +32,5 @@ angular
         };
 
         // focus username field
-        FocusSrv('username');
+        FocusSrv('#username');
     });
