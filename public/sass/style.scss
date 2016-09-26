@@ -418,33 +418,6 @@ nav {
 
 /* ---------------------------------- */
 
-/* --------------- Quiz ------------- */
-.question, .answer, .solution {
-  margin-bottom: 1.5em;
-}
-
-.answer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.question-highlight {
-  font-weight: bold;
-}
-
-.answer-highlight-correct {
-  color: #019875;
-  font-weight: bold;
-}
-
-.answer-highlight-incorrect {
-  color: #ec644b;
-  font-weight: bold;
-}
-/* ---------------------------------- */
-
 /* ------------ Countries ----------- */
 .countries {
   width: 75%;
@@ -561,5 +534,23 @@ nav {
   display: inline-block;
   width: 38px;
   height: 38px;
+}
+/* ---------------------------------- */
+
+/* --------------- Quiz ------------- */
+quiz {
+  display: block;
+  width: 75%;
+  margin-left: 12.5%;
+}
+
+.quiz-container {
+  text-align: left;
+  display: flex;
+
+  .current-question-number {
+    font-weight: bold;
+    font-size: 1.4em;
+  }
 }
 /* ---------------------------------- */

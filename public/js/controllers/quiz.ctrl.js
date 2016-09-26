@@ -2,29 +2,28 @@
 
 angular
     .module('magellan')
-    .controller('QuizCtrl', function($scope, QuizSrv, LogSrv, FocusSrv, ngProgressFactory) {
+    .controller('QuizCtrl', function($scope, QuizSrv, LogSrv, FocusSrv) {
 
-        // Progress bar initialization
-        $scope.progressbar = ngProgressFactory.createInstance();
-        $scope.progressbar.setParent(document.getElementById('quiz-progress'));
-        $scope.progressbar.setAbsolute();
-        $scope.progressbar.setColor("#336e7b");
 
-        var question = null;
 
         var startQuiz = function() {
             QuizSrv.init()
                 .then(function() {
                     LogSrv.info("Quiz started");
-
-                    updateQuestion();
                 })
                 .catch(function(err) {
                     LogSrv.error(err);
                 });
         };
 
-        var updateQuestion = function() {
+        var isQuizRunning = function() {
+            return QuizSrv.isQuizRunning();
+        };
+
+        $scope.startQuiz = startQuiz;
+        $scope.isQuizRunning = isQuizRunning;
+
+        /*var updateQuestion = function() {
             question = QuizSrv.getCurrentQuestion();
 
             FocusSrv('answer');
@@ -54,9 +53,7 @@ angular
             }
         };
 
-        var isQuizRunning = function() {
-            return QuizSrv.isQuizRunning();
-        };
+
 
         var getCurrentQuestionNumber = function() {
             return QuizSrv.getCurrentQuestionNumber();
@@ -98,8 +95,7 @@ angular
             updateQuestion();
         };
 
-        $scope.startQuiz = startQuiz;
-        $scope.isQuizRunning = isQuizRunning;
+
         $scope.getCurrentQuestionNumber = getCurrentQuestionNumber;
         $scope.getNumberOfQuizQuestions = getNumberOfQuizQuestions;
         $scope.getQuestionText = getQuestionText;
@@ -114,5 +110,5 @@ angular
         };
 
         // initially try to update question
-        updateQuestion();
+        updateQuestion();*/
     });

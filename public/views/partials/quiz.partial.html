@@ -7,7 +7,9 @@
 
     <section class="play-quiz" ng-if="isQuizRunning()">
 
-        <h2>Frage {{getCurrentQuestionNumber()}} von {{getNumberOfQuizQuestions()}}</h2>
+        <quiz></quiz>
+
+        <!--<h2>Frage {{getCurrentQuestionNumber()}} von {{getNumberOfQuizQuestions()}}</h2>
 
         <div class="question">
             <div class="question-text" ng-bind-html="getQuestionText() | renderHtml"></div>
@@ -23,6 +25,6 @@
 
         <div class="next-question" ng-if="questionAnswered()">
             <div role="button" class="ui-button ui-button-higher" id="btnNextQuestion" ng-click="nextQuestion()">Nächste Frage</div>
-        </div>
+        </div>-->
     </section>
 </section>
