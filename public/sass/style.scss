@@ -547,10 +547,21 @@ quiz {
 .quiz-container {
   text-align: left;
   display: flex;
+  flex-direction: column;
 
   .current-question-number {
     font-weight: bold;
     font-size: 1.4em;
   }
+}
+
+.question-container {
+  padding: 1.2em 0;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.question-highlight {
+  color: $jelly_bean;
 }
 /* ---------------------------------- */

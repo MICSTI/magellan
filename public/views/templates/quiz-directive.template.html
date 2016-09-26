@@ -5,6 +5,7 @@
     <div class="current-question-number">Frage {{getCurrentQuestionNumber()}}</div>
 
     <!-- Question -->
+    <div class="question-container" ng-bind-html="renderQuestionText() | renderHtml"></div>
 
     <!-- Answer input -->
 

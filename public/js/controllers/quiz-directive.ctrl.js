@@ -12,7 +12,11 @@ angular
         var question = null;
 
         var updateUi = function() {
+            // get current question from quiz service
             question = QuizSrv.getCurrentQuestion();
+
+            // update progress bar
+            updateProgressBar();
         };
 
         var getQuestion = function() {
@@ -23,9 +27,30 @@ angular
             return QuizSrv.getCurrentQuestionNumber();
         };
 
+        var getNumberOfQuizQuestions = function() {
+            return QuizSrv.getNumberOfQuizQuestions();
+        };
+
+        var renderQuestionText = function() {
+            return render(getQuestion().question(), 'question-highlight') + '?';
+        };
+
+        var render = function(text, className) {
+            return text
+                .replace("[", "<span class='" + className + "'>")
+                .replace("]", "</span>");
+        };
+
+        var updateProgressBar = function() {
+            var progressPercent = getCurrentQuestionNumber() / getNumberOfQuizQuestions() * 100;
+
+            $scope.progressbar.set(progressPercent);
+        };
+
         // initially update UI
         updateUi();
 
         $scope.getQuestion = getQuestion;
         $scope.getCurrentQuestionNumber = getCurrentQuestionNumber;
+        $scope.renderQuestionText = renderQuestionText;
     });
