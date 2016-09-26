@@ -82,7 +82,8 @@ angular
 
                 var text = getQuestionText(questionType, country);
                 var info = {
-                    type: questionType
+                    type: questionType,
+                    input: getQuestionInput(questionType)
                 };
                 var answer = getQuestionAnswer(questionType, country);
                 var checkAnswer = getCheckAnswerLambda(questionType, fullPoints, lastQuestionBonus);
@@ -154,6 +155,21 @@ angular
 
                 default:
                     return "?"
+            }
+        };
+
+        var getQuestionInput = function(type) {
+            switch (type) {
+                case 'POPULATION_OF_COUNTRY':
+                    return 'number.high';
+
+                case 'AREA_OF_COUNTRY':
+                    return 'number.medium';
+
+                case 'CAPITAL_OF_COUNTRY':
+                case 'COUNTRY_OF_CAPITAL':
+                default:
+                    return 'text.standard';
             }
         };
 

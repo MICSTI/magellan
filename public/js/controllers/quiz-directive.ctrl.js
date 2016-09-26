@@ -2,12 +2,14 @@
 
 angular
     .module('magellan')
-    .controller('QuizDirectiveController', function($scope, QuizSrv, LogSrv, ngProgressFactory) {
+    .controller('QuizDirectiveController', function($scope, QuizSrv, LogSrv, FocusSrv, ngProgressFactory) {
         // Progress bar initialization
         $scope.progressbar = ngProgressFactory.createInstance();
         $scope.progressbar.setParent(document.getElementById('quiz-progress'));
         $scope.progressbar.setAbsolute();
         $scope.progressbar.setColor("#336e7b");
+
+        $scope.answerInput = {};
 
         var question = null;
 
@@ -17,6 +19,9 @@ angular
 
             // update progress bar
             updateProgressBar();
+
+            // focus answer input
+            FocusSrv('answerTextInput');
         };
 
         var getQuestion = function() {
@@ -33,6 +38,31 @@ angular
 
         var renderQuestionText = function() {
             return render(getQuestion().question(), 'question-highlight') + '?';
+        };
+
+        var submitAnswer = function() {
+            if ($scope.answerInput.answer) {
+                console.log(question.answer($scope.answerInput.answer));
+
+                // set focus to next question button
+                FocusSrv('btnNextQuestion');
+            }
+        };
+
+        var questionAnswered = function() {
+            if (!QuizSrv.isQuizRunning() || question === null) {
+                return false;
+            }
+
+            return question.answered();
+        };
+
+        var nextQuestion = function() {
+            QuizSrv.nextQuestion();
+
+            $scope.answerInput.answer = "";
+
+            updateUi();
         };
 
         var render = function(text, className) {
@@ -53,4 +83,7 @@ angular
         $scope.getQuestion = getQuestion;
         $scope.getCurrentQuestionNumber = getCurrentQuestionNumber;
         $scope.renderQuestionText = renderQuestionText;
+        $scope.submitAnswer = submitAnswer;
+        $scope.questionAnswered = questionAnswered;
+        $scope.nextQuestion = nextQuestion;
     });
