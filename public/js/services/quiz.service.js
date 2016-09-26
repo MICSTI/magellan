@@ -68,6 +68,7 @@ angular
                     countryOk = selectedCountries.indexOf(country['alpha3Code']) < 0;
                 }
 
+
                 selectedCountries.push(country['alpha3Code']);
             }
 
@@ -93,6 +94,12 @@ angular
                 // the last question is the bonus question
                 if (qcnt >= numberOfQuestions) {
                     info['bonus'] = true;
+                }
+
+                // add info for flag of country
+                if (questionType === 'FLAG_OF_COUNTRY') {
+                    info.media = 'flag';
+                    info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
                 }
 
                 countryQuiz.addQuestion(new Question({
@@ -121,6 +128,9 @@ angular
                 case 'AREA_OF_COUNTRY':
                     return "Wie groß ist die Fläche von [" + country.name + "]";
 
+                case 'FLAG_OF_COUNTRY':
+                    return "Welches Land hat diese Flagge";
+
                 default:
                     return "?"
             }
@@ -137,6 +147,7 @@ angular
                     };
 
                 case 'COUNTRY_OF_CAPITAL':
+                case 'FLAG_OF_COUNTRY':
                     var altSpellings = country.altSpellings !== undefined && country.altSpellings['name'] !== undefined ? country.altSpellings['name'] : [];
 
                     return {
@@ -169,6 +180,7 @@ angular
 
                 case 'CAPITAL_OF_COUNTRY':
                 case 'COUNTRY_OF_CAPITAL':
+                case 'FLAG_OF_COUNTRY':
                 default:
                     return 'text.standard';
             }
@@ -191,6 +203,7 @@ angular
             switch (type) {
                 case 'CAPITAL_OF_COUNTRY':
                 case 'COUNTRY_OF_CAPITAL':
+                case 'FLAG_OF_COUNTRY':
                     return function(answer, submittedAnswer, info) {
                         var correct = submittedAnswer === answer.correct || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
 
@@ -251,6 +264,7 @@ angular
             switch (type) {
                 case 'CAPITAL_OF_COUNTRY':
                 case 'COUNTRY_OF_CAPITAL':
+                case 'FLAG_OF_COUNTRY':
                     return {
                         allowed: true,
                         maximum: hintsPossible,

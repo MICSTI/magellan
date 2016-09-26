@@ -16,7 +16,8 @@ magellan.constant("AppConfig", {
         1: "CAPITAL_OF_COUNTRY",
         2: "COUNTRY_OF_CAPITAL",
         3: "POPULATION_OF_COUNTRY",
-        4: "AREA_OF_COUNTRY"
+        4: "AREA_OF_COUNTRY",
+        5: "FLAG_OF_COUNTRY"
     },
 
     "settings.user.colors": [

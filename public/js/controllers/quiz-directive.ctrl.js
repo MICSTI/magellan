@@ -40,6 +40,13 @@ angular
             return render(getQuestion().question(), 'question-highlight') + '?';
         };
 
+        var getQuestionMedia = function() {
+            if (!question || !question.getInfo().media)
+                return null;
+
+            return question.getInfo().media;
+        };
+
         var submitAnswer = function() {
             if ($scope.answerInput.answer) {
                 console.log(question.answer($scope.answerInput.answer));
@@ -93,4 +100,5 @@ angular
         $scope.questionAnswered = questionAnswered;
         $scope.nextQuestion = nextQuestion;
         $scope.handleKeyPress = handleKeyPress;
+        $scope.getQuestionMedia = getQuestionMedia;
     });
