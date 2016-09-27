@@ -33,6 +33,7 @@ app.use(express.static(__dirname + "/public"));
 // routes ====================================
 app.use('/api', require('./controllers/api/server-auth.js'));
 app.use('/api/countries', require('./controllers/api/countries.js'));
+app.use('/api/scores', require('./controllers/api/scores.js'));
 
 require("./app/routes")(app);
 
