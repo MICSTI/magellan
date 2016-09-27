@@ -32,7 +32,21 @@ angular
             if (quiz === null)
                 return false;
 
+            return quiz.hasStarted() && !quiz.hasEnded();
+        };
+
+        var hasQuizStarted = function() {
+            if (quiz === null)
+                return false;
+
             return quiz.hasStarted();
+        };
+
+        var hasQuizEnded = function() {
+            if (quiz === null)
+                return false;
+
+            return quiz.hasEnded();
         };
 
         var createQuiz = function(quizType) {
@@ -326,13 +340,24 @@ angular
             quiz.nextQuestion();
         };
 
+        var getTotalPoints = function() {
+            if (quiz === null) {
+                return null;
+            }
+
+            return quiz.getTotalPoints();
+        };
+
         return {
             init: init,
             setCountries: setCountries,
             isQuizRunning: isQuizRunning,
+            hasQuizStarted: hasQuizStarted,
+            hasQuizEnded: hasQuizEnded,
             getCurrentQuestionNumber: getCurrentQuestionNumber,
             getNumberOfQuizQuestions: getNumberOfQuizQuestions,
             getCurrentQuestion: getCurrentQuestion,
-            nextQuestion: nextQuestion
+            nextQuestion: nextQuestion,
+            getTotalPoints: getTotalPoints
         };
     });

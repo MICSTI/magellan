@@ -69,7 +69,7 @@ var Quiz = function() {
         }
 
         if (this.hasEnded()) {
-            return this.isActive();
+            return false;
         }
 
         return questions[currentQuestionIdx];
@@ -232,7 +232,9 @@ var Question = function(options) {
         points = checkAnswer(answer, submittedAnswer, hintsUsed, hints.cost, info);
 
         // ensure that no negative points are awarded
-        return Math.max(0, points);
+        points = Math.max(0, points);
+
+        return points;
     };
 
     this.points = function() {

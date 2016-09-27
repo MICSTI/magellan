@@ -55,7 +55,12 @@
     </div>
 
     <!-- Next question -->
-    <div class="nextQuestionContainer" ng-if="questionAnswered()">
+    <div class="nextQuestionContainer" ng-if="questionAnswered() && !wasLastQuestion()">
         <div role="button" class="ui-button ui-button-higher" id="btnNextQuestion" ng-click="nextQuestion()" tabindex="10">Nächste Frage</div>
+    </div>
+
+    <!-- Continue to finished page -->
+    <div class="finishedContinueContainer" ng-if="questionAnswered() && wasLastQuestion()">
+        <div role="button" class="ui-button ui-button-primary" ng-click="continueFinished()" tabindex="11">Fertig</div>
     </div>
 </section>

@@ -28,30 +28,35 @@ angular
             // delete previous hints
             $scope.hint = null;
 
-            // multipliers for questions containing numbers
-            if (question.getInfo().input && question.getInfo().input.indexOf('number') === 0) {
-                switch (question.getInfo().input) {
-                    case 'number.high':
-                        $scope.answerInput.multiplier = { value: 1000000, label: 'Mio.'};
-                        break;
+            if (question !== null) {
+                // multipliers for questions containing numbers
+                if (question.getInfo().input && question.getInfo().input.indexOf('number') === 0) {
+                    switch (question.getInfo().input) {
+                        case 'number.high':
+                            $scope.answerInput.multiplier = { value: 1000000, label: 'Mio.'};
+                            break;
 
-                    case 'number.medium':
-                        $scope.answerInput.multiplier = { value: 1000, label: 'Tsd.'};
-                        break;
+                        case 'number.medium':
+                            $scope.answerInput.multiplier = { value: 1000, label: 'Tsd.'};
+                            break;
 
-                    default:
-                        $scope.answerInput.multiplier = { value: 1, label: '' };
-                        break;
+                        default:
+                            $scope.answerInput.multiplier = { value: 1, label: '' };
+                            break;
+                    }
+                } else {
+                    $scope.answerInput.multiplier = null;
                 }
+
+                // update progress bar
+                updateProgressBar();
+
+                // focus answer input
+                FocusSrv('.answerInput');
             } else {
-                $scope.answerInput.multiplier = null;
+                // quiz has ended, set progress bar to 0
+                $scope.progressbar.set(0);
             }
-
-            // update progress bar
-            updateProgressBar();
-
-            // focus answer input
-            FocusSrv('.answerInput');
         };
 
         var getQuestion = function() {
@@ -80,6 +85,11 @@ angular
         var submitAnswer = function() {
             if ($scope.answerInput.answer) {
                 var answer = $scope.answerInput.answer;
+
+                // if it is a number input, replace ',' with '.'
+                if (question.getInfo().input && question.getInfo().input.indexOf('number') === 0) {
+                    answer = answer.replace(',', '.');
+                }
 
                 // if a multiplier is available, calculate answer
                 if ($scope.answerInput.multiplier) {
@@ -112,6 +122,8 @@ angular
 
         var requestHint = function() {
             $scope.hint = question.hint();
+
+            FocusSrv('.answerInput');
         };
 
         var render = function(text, className) {
@@ -132,6 +144,16 @@ angular
             $scope.progressbar.set(progressPercent);
         };
 
+        var wasLastQuestion = function() {
+            return getCurrentQuestionNumber() >= getNumberOfQuizQuestions();
+        };
+
+        var continueFinished = function() {
+            nextQuestion();
+
+            // TODO write result to DB
+        };
+
         // initially update UI
         updateUi();
 
@@ -144,4 +166,6 @@ angular
         $scope.handleKeyPress = handleKeyPress;
         $scope.getQuestionMedia = getQuestionMedia;
         $scope.requestHint = requestHint;
+        $scope.wasLastQuestion = wasLastQuestion;
+        $scope.continueFinished = continueFinished;
     });

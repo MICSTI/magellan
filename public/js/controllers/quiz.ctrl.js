@@ -18,7 +18,21 @@ angular
             return QuizSrv.isQuizRunning();
         };
 
+        var hasQuizStarted = function() {
+            return QuizSrv.hasQuizStarted();
+        };
+
+        var hasQuizEnded = function() {
+            return QuizSrv.hasQuizEnded();
+        };
+
+        var getTotalPoints = function() {
+            return QuizSrv.getTotalPoints();
+        }
+
         $scope.startQuiz = startQuiz;
         $scope.isQuizRunning = isQuizRunning;
-
+        $scope.hasQuizStarted = hasQuizStarted;
+        $scope.hasQuizEnded = hasQuizEnded;
+        $scope.getTotalPoints = getTotalPoints;
     });
