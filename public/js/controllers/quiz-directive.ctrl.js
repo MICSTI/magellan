@@ -10,6 +10,7 @@ angular
         $scope.progressbar.setColor("#336e7b");
 
         $scope.answerInput = {};
+        $scope.hint = null;
 
         // add options for multiplier selection
         $scope.multiplierOptions = [
@@ -23,6 +24,9 @@ angular
         var updateUi = function() {
             // get current question from quiz service
             question = QuizSrv.getCurrentQuestion();
+
+            // delete previous hints
+            $scope.hint = null;
 
             // multipliers for questions containing numbers
             if (question.getInfo().input && question.getInfo().input.indexOf('number') === 0) {
@@ -75,13 +79,15 @@ angular
 
         var submitAnswer = function() {
             if ($scope.answerInput.answer) {
+                var answer = $scope.answerInput.answer;
+
                 // if a multiplier is available, calculate answer
                 if ($scope.answerInput.multiplier) {
-                    $scope.answerInput.answer *= $scope.answerInput.multiplier.value;
+                    answer *= $scope.answerInput.multiplier.value;
                 }
 
-                LogSrv.info('submitting answer', $scope.answerInput.answer);
-                console.log(question.answer($scope.answerInput.answer));
+                LogSrv.info('submitting answer', answer);
+                $scope.answerInput.points = question.answer(answer);
 
                 // set focus to next question button
                 FocusSrv('#btnNextQuestion');
@@ -102,6 +108,10 @@ angular
             $scope.answerInput.answer = "";
 
             updateUi();
+        };
+
+        var requestHint = function() {
+            $scope.hint = question.hint();
         };
 
         var render = function(text, className) {
@@ -133,4 +143,5 @@ angular
         $scope.nextQuestion = nextQuestion;
         $scope.handleKeyPress = handleKeyPress;
         $scope.getQuestionMedia = getQuestionMedia;
+        $scope.requestHint = requestHint;
     });

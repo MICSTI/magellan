@@ -41,15 +41,17 @@
 
     <!-- Hint -->
     <div class="hint-container" ng-if="getQuestion().hintsAllowed()">
-        Hints are possible
+        <div role="button" class="ui-button ui-button-lower" id="btnRequestHint" ng-click="requestHint()" ng-class="{ 'disabled': questionAnswered() }">Hinweis</div>
+        <div class="hint-display" ng-bind="hint"></div>
     </div>
 
     <!-- Submit button -->
-    <div class="ui-button ui-button-primary" role="button" ng-click="submitAnswer()">Ok</div>
+    <div class="ui-button ui-button-primary" role="button" ng-click="submitAnswer()" ng-class="{ 'disabled': questionAnswered() }">Ok</div>
 
     <!-- Solution -->
     <div class="solutionContainer" ng-if="questionAnswered()">
-        {{getQuestion().solution()}}
+        <div class="answer-correct">{{getQuestion().solution().correct}}</div>
+        <div class="answer-points">{{answerInput.points}} Punkte</div>
     </div>
 
     <!-- Next question -->

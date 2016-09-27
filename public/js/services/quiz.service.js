@@ -204,11 +204,17 @@ angular
                 case 'CAPITAL_OF_COUNTRY':
                 case 'COUNTRY_OF_CAPITAL':
                 case 'FLAG_OF_COUNTRY':
-                    return function(answer, submittedAnswer, info) {
+                    return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
                         var correct = submittedAnswer === answer.correct || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
 
                         var points = correct ? fullPoints : 0;
 
+                        // if hints are allowed and have been used, subtract the points
+                        if (hintsUsed > 0) {
+                            points -= (hintsUsed * hintCost);
+                        }
+
+                        // bonus points for last question
                         if (info !== undefined && info.bonus !== undefined && info.bonus === true) {
                             points *= lastQuestionBonus;
                         }
@@ -218,7 +224,7 @@ angular
 
                 case 'POPULATION_OF_COUNTRY':
                 case 'AREA_OF_COUNTRY':
-                    return function(answer, submittedAnswer, info) {
+                    return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
                         // calculate percentage difference from correct answer
                         var errorPercentage = Math.abs(submittedAnswer - answer.correct) / answer.correct * 100;
 
@@ -248,6 +254,12 @@ angular
                             points = 0;
                         }
 
+                        // if hints are allowed and have been used, subtract the points
+                        if (hintsUsed > 0) {
+                            points -= (hintsUsed * hintCost);
+                        }
+
+                        // bonus points for last question
                         if (info !== undefined && info.bonus !== undefined && info.bonus === true) {
                             points *= lastQuestionBonus;
                         }

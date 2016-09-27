@@ -24,6 +24,7 @@ $burnt_orange: #d35400;
 $jaffa: #f27935;
 $gallery: #eeeeee;
 $edward: #abb7b7;
+
 $lynch: #6c7a89;
 
 $jelly_bean: #2574a9;
@@ -74,6 +75,11 @@ input[type=text], input[type=password], input[type=email] {
 .info {
   margin-top: 0.6em;
   font-size: 0.8em;
+}
+
+.disabled, .inactive {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 /* ------------ Messages ------------ */

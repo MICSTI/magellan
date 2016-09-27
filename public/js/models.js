@@ -229,12 +229,7 @@ var Question = function(options) {
         answered = true;
 
         // checkAnswer method should return the status results
-        points = checkAnswer(answer, submittedAnswer, info);
-
-        // if hints are allowed and have been used, subtract the points
-        if (hints.allowed && hintsUsed > 0) {
-            points -= (hintsUsed * hints.cost);
-        }
+        points = checkAnswer(answer, submittedAnswer, hintsUsed, hints.cost, info);
 
         // ensure that no negative points are awarded
         return Math.max(0, points);

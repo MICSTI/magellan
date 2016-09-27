@@ -65,13 +65,18 @@ describe('Question model (general)', function () {
                 correct: "Wien",
                 altSpellings: ["Wein"]
             },
-            checkAnswer: function(answer, submittedAnswer, info) {
+            checkAnswer: function(answer, submittedAnswer, hintsUsed, hintCost, info) {
                 var points = 0;
 
                 switch (info.type) {
                     case "text":
                         var correct = submittedAnswer === answer.correct || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
                         points = correct ? fullPoints : zeroPoints;
+
+                        // if hints are allowed and have been used, subtract the points
+                        if (hintsUsed > 0) {
+                            points -= (hintsUsed * hintCost);
+                        }
 
                         break;
                 }
@@ -170,13 +175,18 @@ describe('Question model (hints)', function() {
                     return answer.correct.substr(0, hintsUsed);
                 }
             },
-            checkAnswer: function(answer, submittedAnswer, info) {
+            checkAnswer: function(answer, submittedAnswer, hintsUsed, hintCost, info) {
                 var points = 0;
 
                 switch (info.type) {
                     case "text":
                         var correct = submittedAnswer === answer.correct || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
                         points = correct ? fullPoints : zeroPoints;
+
+                        // if hints are allowed and have been used, subtract the points
+                        if (hintsUsed > 0) {
+                            points -= (hintsUsed * hintCost);
+                        }
 
                         break;
                 }
@@ -321,13 +331,18 @@ describe('Quiz model', function() {
                     return answer.correct.substr(0, hintsUsed);
                 }
             },
-            checkAnswer: function(answer, submittedAnswer, info) {
+            checkAnswer: function(answer, submittedAnswer, hintsUsed, hintCost, info) {
                 var points = 0;
 
                 switch (info.type) {
                     case "text":
                         var correct = submittedAnswer === answer.correct || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
                         points = correct ? fullPoints : zeroPoints;
+
+                        // if hints are allowed and have been used, subtract the points
+                        if (hintsUsed > 0) {
+                            points -= (hintsUsed * hintCost);
+                        }
 
                         break;
                 }
@@ -345,13 +360,18 @@ describe('Quiz model', function() {
             answer: {
                 correct: "Rom"
             },
-            checkAnswer: function(answer, submittedAnswer, info) {
+            checkAnswer: function(answer, submittedAnswer, hintsUsed, hintCost, info) {
                 var points = 0;
 
                 switch (info.type) {
                     case "text":
                         var correct = submittedAnswer === answer.correct || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
                         points = correct ? fullPoints : zeroPoints;
+
+                        // if hints are allowed and have been used, subtract the points
+                        if (hintsUsed > 0) {
+                            points -= (hintsUsed * hintCost);
+                        }
 
                         break;
                 }
