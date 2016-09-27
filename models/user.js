@@ -25,7 +25,8 @@ var User = db.model('User', {
         type: Boolean,
         default: true,
         select: false
-    }
+    },
+    scores: []
 });
 
 module.exports = User;
