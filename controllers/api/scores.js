@@ -9,15 +9,34 @@ var User = require('../../models/user');
  * Returns the high score list for the quiz.
  * Contains the overall score considering all users.
  */
-router.get('/', protectRoute, function(req, res, next) {
-    res.status(501).send();
+router.get('/all', protectRoute, function(req, res, next) {
+    getOverallHighscoreList()
+        .then(function(list) {
+            return res.status(200).json(list);
+        })
+        .catch(function(err) {
+            return next(err);
+        });
 });
 
 /**
- * Returns the high score list for a specific user.
+ * Returns the overall high score for the quiz.
  */
-router.get('/:userId', protectRoute, function(req, res, next) {
-    res.status(501).send();
+router.get('/high', protectRoute, function(req, res, next) {
+    getOverallHighscore()
+        .then(function(highscore) {
+            return res.status(200).json(highscore);
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+});
+
+/**
+ * Returns the high score for a specific user.
+ */
+router.get('/user', protectRoute, function(req, res, next) {
+    return res.status(200).json(_.extend({ id: req.user._id, username: req.user.username }, findPersonalBest(req.user)));
 });
 
 /**
@@ -40,6 +59,9 @@ router.put('/', protectRoute, function(req, res, next) {
     // e.g. 'new_personal_best', 'new_daily_best', 'new_overall_best'
     var events = [];
 
+    // flag to indicate whether the entry should be saved
+    var saveEntry = false;
+
     var date = new Date();
 
     var scoreEntry = {
@@ -52,6 +74,8 @@ router.put('/', protectRoute, function(req, res, next) {
         req.user.scores = [];
     }
 
+    // TODO add events for personal best, overall best
+
     // check if the last entry of the array is the current date
     var scoresLength = req.user.scores.length;
 
@@ -59,27 +83,57 @@ router.put('/', protectRoute, function(req, res, next) {
         var lastEntry = req.user.scores[scoresLength - 1];
 
         if (datesEqual(scoreEntry.date, lastEntry.date)) {
-            // remove the last entry from the array
-            req.user.scores.splice(scoresLength - 1, 1);
+            // check if score achieved now is higher than the saved one
+            if (scoreEntry.score > lastEntry.score) {
+                // remove the last entry from the array
+                req.user.scores.splice(scoresLength - 1, 1);
+
+                // append the score entry to the array
+                req.user.scores.push(scoreEntry);
+
+                // add to event array
+                events.push('new_daily_best');
+
+                // set save entry flag
+                saveEntry = true;
+            }
+        } else {
+            // append the score entry to the array
+            req.user.scores.push(scoreEntry);
 
             // add to event array
-            events.push('new_daily_best');
+            events.push('new_entry');
+
+            // set save entry flag
+            saveEntry = true;
         }
+    } else {
+        // there are no en  tries yet, so we can just append it to the array
+        req.user.scores.push(scoreEntry);
+
+        // add to event array
+        events.push('first_entry');
+
+        // set save entry flag
+        saveEntry = true;
     }
 
-    // append the score entry to the array
-    req.user.scores.push(scoreEntry);
+    if (saveEntry) {
+        // save the user object
+        req.user.save(function(err) {
+            if (err) {
+                return next(err);
+            }
 
-    // save the user object
-    req.user.save(function(err) {
-        if (err) {
-            return next(err);
-        }
-
-        res.status(200).json({
-            events: events
+            return res.status(200).json({
+                events: events
+            });
         });
-    });
+    } else {
+        return res.status(200).json({
+           events: events
+        });
+    }
 });
 
 /**
@@ -90,6 +144,76 @@ var datesEqual = function(date1, date2) {
     return  date1.getDate() === date2.getDate() &&
             date1.getMonth() === date2.getMonth() &&
             date1.getYear() === date2.getYear();
+};
+
+var findPersonalBest = function(user) {
+    var bestIndex = -1;
+
+    var bestValue = -1;
+
+    // if there are no scores, we return an empty object.
+    if (!user.scores) {
+        return {};
+    }
+
+    user.scores.forEach(function(entry, idx) {
+        if (entry.score >= bestValue) {
+            bestValue = entry.score;
+            bestIndex = idx;
+        }
+    });
+
+    return user.scores[bestIndex];
+};
+
+var getOverallHighscore = function() {
+    return new Promise(function(resolve, reject) {
+        User.find({ active: true })
+            .exec(function(err, users) {
+                if (err) {
+                    reject(err);
+                }
+
+                var overallBest = null;
+
+                users.forEach(function(user) {
+                    var userBest = findPersonalBest(user);
+
+                    if (!userBest) {
+                        return;
+                    }
+
+                    userBest = _.extend({ id: user._id, username: user.username }, userBest);
+
+                    if (!overallBest || userBest.score > overallBest.score) {
+                        overallBest = userBest;
+                    }
+                });
+
+                resolve(overallBest);
+            });
+    });
+};
+
+var getOverallHighscoreList = function() {
+    return new Promise(function(resolve, reject) {
+        User.find({ active: true })
+            .exec(function(err, users) {
+                if (err) {
+                    reject(err);
+                }
+
+                var list = users.map(function(user) {
+                    return _.extend({ id: user._id, username: user.username }, findPersonalBest(user));
+                }).filter(function(user) {
+                    return user.score !== undefined;
+                }).sort(function(a, b) {
+                    return b.score > a.score;
+                });
+
+                resolve(list);
+            });
+    });
 };
 
 module.exports = router;
