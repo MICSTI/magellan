@@ -11,11 +11,37 @@ angular
 
         $scope.answerInput = {};
 
+        // add options for multiplier selection
+        $scope.multiplierOptions = [
+            { value: 1, label: '' },
+            { value: 1000, label: 'Tsd.'},
+            { value: 1000000, label: 'Mio.'}
+        ];
+
         var question = null;
 
         var updateUi = function() {
             // get current question from quiz service
             question = QuizSrv.getCurrentQuestion();
+
+            // multipliers for questions containing numbers
+            if (question.getInfo().input && question.getInfo().input.indexOf('number') === 0) {
+                switch (question.getInfo().input) {
+                    case 'number.high':
+                        $scope.answerInput.multiplier = { value: 1000000, label: 'Mio.'};
+                        break;
+
+                    case 'number.medium':
+                        $scope.answerInput.multiplier = { value: 1000, label: 'Tsd.'};
+                        break;
+
+                    default:
+                        $scope.answerInput.multiplier = { value: 1, label: '' };
+                        break;
+                }
+            } else {
+                $scope.answerInput.multiplier = null;
+            }
 
             // update progress bar
             updateProgressBar();
@@ -49,6 +75,12 @@ angular
 
         var submitAnswer = function() {
             if ($scope.answerInput.answer) {
+                // if a multiplier is available, calculate answer
+                if ($scope.answerInput.multiplier) {
+                    $scope.answerInput.answer *= $scope.answerInput.multiplier.value;
+                }
+
+                LogSrv.info('submitting answer', $scope.answerInput.answer);
                 console.log(question.answer($scope.answerInput.answer));
 
                 // set focus to next question button

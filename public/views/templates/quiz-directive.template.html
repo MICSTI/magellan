@@ -22,19 +22,16 @@
 
         <div ng-switch-when="number.medium">
             <input type="text" class="answerInput" ng-model="answerInput.answer" placeholder="Answer" ng-keypress="handleKeyPress($event)" />
-            <select>
-                <option selected="selected">Tsd.</option>
-                <option>Mio.</option>
-            </select>
+
+            <select ng-model="answerInput.multiplier" ng-options="opt.label for opt in multiplierOptions track by opt.value"></select>
+
             <span class="question-unit"> {{getQuestion().getInfo().unit}}</span>
         </div>
 
         <div ng-switch-when="number.high">
             <input type="text" class="answerInput" ng-model="answerInput.answer" placeholder="Answer" ng-keypress="handleKeyPress($event)" />
-            <select>
-                <option>Tsd.</option>
-                <option selected="selected">Mio.</option>
-            </select>
+
+            <select ng-model="answerInput.multiplier" ng-options="opt.label for opt in multiplierOptions track by opt.value"></select>
         </div>
 
         <div ng-switch-default>
