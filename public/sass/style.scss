@@ -653,36 +653,19 @@ quiz {
   }
 }
 
-@media screen and (min-width: 1100px) {
+@media screen and (min-width: 100px) {
   .highscore-container {
-    width: 50%;
-    margin-left: 25%;
-  }
-}
-
-@media screen and (min-width: 920px) {
-  .highscore-container {
-    width: 60%;
-    margin-left: 20%;
-  }
-}
-
-@media screen and (min-width: 790px) {
-  .highscore-container {
-    width: 70%;
-    margin-left: 15%;
-  }
-}
-
-@media screen and (min-width: 640px) {
-  .highscore-container {
-    width: 80%;
-    margin-left: 10%;
+    width: 100%;
+    margin-left: 0;
 
     .score-list {
       tr {
         td:nth-child(2) {
-          width: 40%;
+          width: 20%;
+        }
+
+        td:nth-child(3) {
+          width: 30%;
         }
       }
     }
@@ -708,22 +691,39 @@ quiz {
   }
 }
 
-@media screen and (min-width: 100px) {
+@media screen and (min-width: 640px) {
   .highscore-container {
-    width: 100%;
-    margin-left: 0;
+    width: 80%;
+    margin-left: 10%;
 
     .score-list {
       tr {
         td:nth-child(2) {
-          width: 20%;
-        }
-
-        td:nth-child(3) {
-          width: 30%;
+          width: 40%;
         }
       }
     }
+  }
+}
+
+@media screen and (min-width: 790px) {
+  .highscore-container {
+    width: 70%;
+    margin-left: 15%;
+  }
+}
+
+@media screen and (min-width: 920px) {
+  .highscore-container {
+    width: 60%;
+    margin-left: 20%;
+  }
+}
+
+@media screen and (min-width: 1100px) {
+  .highscore-container {
+    width: 50%;
+    margin-left: 25%;
   }
 }
 /* ---------------------------------- */
