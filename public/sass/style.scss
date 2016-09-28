@@ -94,6 +94,10 @@ input[type=text], input[type=password], input[type=email] {
   color: #fff;
 }
 
+.divider-top {
+  border-top: 1px solid $san_marino;
+}
+
 /* ------------ Messages ------------ */
 .ui-message {
   padding: 1em;
@@ -606,6 +610,11 @@ quiz {
   .ui-message {
     margin: 0.3em 0;
   }
+}
+
+.further-actions-container {
+  margin: 2em 0 1em 0;
+  padding-top: 2em;
 }
 /* ---------------------------------- */
 
