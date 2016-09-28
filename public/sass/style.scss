@@ -98,6 +98,14 @@ input[type=text], input[type=password], input[type=email] {
   border-top: 1px solid $san_marino;
 }
 
+.align-right {
+  text-align: right;
+}
+
+.font-large {
+  font-size: 1.2em !important;
+}
+
 /* ------------ Messages ------------ */
 .ui-message {
   padding: 1em;
@@ -580,8 +588,8 @@ quiz {
   }
 
   .flag-icon {
-    width: 9em;
-    line-height: 8em;
+    width: 10em;
+    line-height: 9em;
   }
 }
 
@@ -589,6 +597,37 @@ quiz {
   padding: 1.2em 0;
   text-align: center;
   font-size: 1.5em;
+}
+
+.question-media-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding-bottom: 1em;
+}
+
+.input-container {
+  padding: 0.6em 0;
+}
+
+.hint-container {
+  padding: 1em 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .ui-button {
+    margin-left: 0;
+  }
+}
+
+.submit-container {
+  padding: 0.5em 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .question-highlight {
@@ -615,6 +654,18 @@ quiz {
 .further-actions-container {
   margin: 2em 0 1em 0;
   padding-top: 2em;
+}
+
+.quiz-input-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  input[type=text] {
+    padding: 0.4em 0.5em;
+    width: 100%;
+    font-size: 1.3em;
+  }
 }
 /* ---------------------------------- */
 
