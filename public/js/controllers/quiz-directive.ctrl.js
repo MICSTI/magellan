@@ -155,40 +155,67 @@ angular
             return getCurrentQuestionNumber() >= getNumberOfQuizQuestions();
         };
 
-        var parseEvents = function(events) {
+        var parseEvents = function(events, personalBest, overallBest) {
             var achievements = [];
+
+            var showBests = true;
 
             if (events.indexOf('overall_best') >= 0) {
                 achievements.push({
                     text: 'Du hast einen neuen absoluten Rekord geschafft!'
                 });
+
+                showBests = false;
             }
 
             if (events.indexOf('overall_best_equalised') >= 0) {
                 achievements.push({
                     text: 'Du hast den aktuellen absoluten Rekord eingestellt!'
                 });
+
+                showBests = false;
             }
 
-            if (events.indexOf('personal_best') >= 0) {
+            if (events.indexOf('personal_best') >= 0 && events.indexOf('overall_best') < 0) {
                 achievements.push({
                     text: 'Du hast einen neuen persönlichen Rekord geschafft!'
                 });
+
+                showBests = false;
             }
 
-            if (events.indexOf('personal_best_equalised') >= 0) {
+            if (events.indexOf('personal_best_equalised') >= 0 && events.indexOf('overall_best_equalised') < 0) {
                 achievements.push({
                     text: 'Du hast gleich viele Punkte geschafft wie bei deinem persönlichen Rekord!'
                 });
+
+                showBests = false;
             }
 
-            if (events.indexOf('new_daily_best') >= 0) {
+            if (events.indexOf('new_daily_best') >= 0 && achievements.length === 0) {
                 achievements.push({
                     text: 'Du hast einen neuen persönlichen Tagesrekord geschafft!'
                 });
             }
 
             $scope.achievements = achievements;
+
+            if (showBests && personalBest && personalBest.id && personalBest.date && personalBest.score && overallBest && overallBest.id && overallBest.date && overallBest.score) {
+                var bests = [];
+
+                overallBest.type = 'overall';
+                bests.push(overallBest);
+
+                if (personalBest.id !== overallBest.id) {
+                    personalBest.type = 'personal';
+
+                    bests.push(personalBest);
+                }
+
+                $scope.bests = bests;
+            } else {
+                $scope.bests = null;
+            }
         };
 
         var continueFinished = function() {
@@ -199,11 +226,43 @@ angular
             // conclude the quiz and write result to database
             QuizSrv.conclude()
                 .then(function(data) {
-                    parseEvents(data.events || []);
+                    parseEvents(data.events || [], data.personalBest, data.overallBest);
                 })
                 .catch(function(err) {
                     LogSrv.error(err);
                 });
+        };
+
+        var getBestText = function(best) {
+            var text;
+
+            if (best.type === 'personal') {
+                // personal best
+                text = "Dein persönlicher Rekord liegt bei <span class='bold'>{POINTS} Punkten</span>, aufgestellt am {DATE}.";
+            } else {
+                // overall best
+                var fromMyself = best.id === $scope.user._id;
+
+                if (fromMyself) {
+                    text = "Du hältst den absoluten Rekord mit <span class='bold'>{POINTS} Punkten</span>, aufgestellt am {DATE}.";
+                } else {
+                    text = "<span class='highlight'>{USERNAME}</span> hält den absoluten Rekord mit <span class='bold'>{POINTS} Punkten</span>, aufgestellt am {DATE}.";
+                }
+            }
+
+            return text.replace('{POINTS}', best.score)
+                .replace('{DATE}', getFormattedDate(best.date))
+                .replace('{USERNAME}', best.username);
+        };
+
+        var getFormattedDate = function(date) {
+            date = new Date(date);
+
+            return pad(date.getDate(), '00') + '.' + pad(date.getMonth() + 1, '00') + '.' + (date.getYear() + 1900);
+        };
+
+        var pad = function(str, padValue) {
+            return String(padValue + str).slice(-padValue.length);
         };
 
         // initially update UI
@@ -220,4 +279,5 @@ angular
         $scope.requestHint = requestHint;
         $scope.wasLastQuestion = wasLastQuestion;
         $scope.continueFinished = continueFinished;
+        $scope.getBestText = getBestText;
     });

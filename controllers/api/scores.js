@@ -75,7 +75,7 @@ router.put('/', protectRoute, function(req, res, next) {
     }
 
     // find out the user's personal best score
-    var personalBest = findPersonalBest(req.user);
+    var personalBest = _.extend({ id: req.user._id, username: req.user.username }, findPersonalBest(req.user));
 
     // find out the overall best score at the moment
     getOverallHighscore()
@@ -146,6 +146,13 @@ router.put('/', protectRoute, function(req, res, next) {
                 events.push('overall_best');
             }
 
+            var returnObject = {
+                events: events,
+                result: scoreEntry,
+                personalBest: personalBest,
+                overallBest: overallBest
+            };
+
             if (saveEntry) {
                 // save the user object
                 req.user.save(function(err) {
@@ -153,16 +160,10 @@ router.put('/', protectRoute, function(req, res, next) {
                         return next(err);
                     }
 
-                    return res.status(200).json({
-                        events: events,
-                        result: scoreEntry
-                    });
+                    return res.status(200).json(returnObject);
                 });
             } else {
-                return res.status(200).json({
-                    events: events,
-                    result: scoreEntry
-                });
+                return res.status(200).json(returnObject);
             }
         })
         .catch(function(err) {

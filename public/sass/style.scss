@@ -31,6 +31,9 @@ $jelly_bean: #2574a9;
 $madison: #2c3e50;
 $carrara: #f2f1ef;
 
+$curious_blue: #3498db;
+$spray: #81cfe0;
+
 $grass: #3ac569;
 $snow: #ffffff;
 $alge: #79a8a9;
@@ -83,8 +86,12 @@ input[type=text], input[type=password], input[type=email] {
 }
 
 .highlight {
-  color: $honey_flower;
+  color: $jelly_bean;
   font-weight: bold;
+}
+
+.white {
+  color: #fff;
 }
 
 /* ------------ Messages ------------ */
@@ -110,6 +117,9 @@ input[type=text], input[type=password], input[type=email] {
   background-color: $soft_red;
 }
 
+.ui-message-info {
+  background-color: $spray;
+}
 /* ------------- Colors ------------- */
 .bg-soft_red {
   background-color: $soft_red;
@@ -583,5 +593,17 @@ quiz {
 
 .quiz-result {
   font-size: 1.25em;
+
+  margin-bottom: 1.25em;
+  background-color: $curious_blue;
+  padding: 1em;
+}
+
+.achievement-container, .bests-container {
+  margin-bottom: 0.5em;
+
+  .ui-message {
+    margin: 0.3em 0;
+  }
 }
 /* ---------------------------------- */

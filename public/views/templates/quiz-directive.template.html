@@ -66,12 +66,16 @@
 </section>
 
 <section class="after-quiz" ng-if="isResultsPageVisible">
-    <div class="quiz-result">Das Quiz ist beendet. Du hast <span class="highlight">{{getTotalPoints()}} Punkte</span> erreicht.</div>
+    <div class="quiz-result">Das Quiz ist beendet. Du hast <span class="white">{{getTotalPoints()}} Punkte</span> erreicht.</div>
 
     <div class="achievement-container" ng-if="achievements && achievements.length > 0">
-        <div ng-repeat="achievement in achievements">
+        <div ng-repeat="achievement in achievements" class="ui-message ui-message-success">
             {{achievement.text}}
         </div>
+    </div>
+
+    <div class="bests-container" ng-if="bests && bests.length > 0">
+        <div ng-repeat="best in bests" class="ui-message ui-message-info" ng-bind-html="getBestText(best) | renderHtml"></div>
     </div>
 
     <div class="further-actions-container">
