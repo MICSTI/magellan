@@ -74,66 +74,98 @@ router.put('/', protectRoute, function(req, res, next) {
         req.user.scores = [];
     }
 
-    // TODO add events for personal best, overall best
+    // find out the user's personal best score
+    var personalBest = findPersonalBest(req.user);
 
-    // check if the last entry of the array is the current date
-    var scoresLength = req.user.scores.length;
+    // find out the overall best score at the moment
+    getOverallHighscore()
+        .then(function(overallBest) {
+            // check if the last entry of the array is the current date
+            var scoresLength = req.user.scores.length;
 
-    if (scoresLength > 0) {
-        var lastEntry = req.user.scores[scoresLength - 1];
+            if (scoresLength > 0) {
+                var lastEntry = req.user.scores[scoresLength - 1];
 
-        if (datesEqual(scoreEntry.date, lastEntry.date)) {
-            // check if score achieved now is higher than the saved one
-            if (scoreEntry.score > lastEntry.score) {
-                // remove the last entry from the array
-                req.user.scores.splice(scoresLength - 1, 1);
+                if (datesEqual(scoreEntry.date, lastEntry.date)) {
+                    // check if score achieved now is higher than the saved one
+                    if (scoreEntry.score > lastEntry.score) {
+                        // remove the last entry from the array
+                        req.user.scores.splice(scoresLength - 1, 1);
 
-                // append the score entry to the array
+                        // append the score entry to the array
+                        req.user.scores.push(scoreEntry);
+
+                        // add to event array
+                        events.push('new_daily_best');
+
+                        // set save entry flag
+                        saveEntry = true;
+                    }
+                } else {
+                    // append the score entry to the array
+                    req.user.scores.push(scoreEntry);
+
+                    // add to event array
+                    events.push('new_daily_entry');
+
+                    // set save entry flag
+                    saveEntry = true;
+                }
+            } else {
+                // there are no entries yet, so we can just append it to the array
                 req.user.scores.push(scoreEntry);
 
                 // add to event array
-                events.push('new_daily_best');
+                events.push('first_entry');
 
                 // set save entry flag
                 saveEntry = true;
             }
-        } else {
-            // append the score entry to the array
-            req.user.scores.push(scoreEntry);
 
-            // add to event array
-            events.push('new_entry');
-
-            // set save entry flag
-            saveEntry = true;
-        }
-    } else {
-        // there are no en  tries yet, so we can just append it to the array
-        req.user.scores.push(scoreEntry);
-
-        // add to event array
-        events.push('first_entry');
-
-        // set save entry flag
-        saveEntry = true;
-    }
-
-    if (saveEntry) {
-        // save the user object
-        req.user.save(function(err) {
-            if (err) {
-                return next(err);
+            // check if it was a personal best
+            if (personalBest.score) {
+                if (scoreEntry.score > personalBest.score) {
+                    events.push('personal_best');
+                } else if (scoreEntry.score === personalBest.score) {
+                    events.push('personal_best_equalised');
+                }
+            } else {
+                // since there are no entries yet, it automatically is a personal best
+                events.push('personal_best');
             }
 
-            return res.status(200).json({
-                events: events
-            });
+            // check if it was an overall best
+            if (overallBest.score) {
+                if (scoreEntry.score > overallBest.score) {
+                    events.push('overall_best');
+                } else if (scoreEntry.score === overallBest.score) {
+                    events.push('overall_best_equalised');
+                }
+            } else {
+                // since there are no entries yet, it automatically is an overall best
+                events.push('overall_best');
+            }
+
+            if (saveEntry) {
+                // save the user object
+                req.user.save(function(err) {
+                    if (err) {
+                        return next(err);
+                    }
+
+                    return res.status(200).json({
+                        events: events
+                    });
+                });
+            } else {
+                return res.status(200).json({
+                    events: events
+                });
+            }
+        })
+        .catch(function(err) {
+            return next(err);
         });
-    } else {
-        return res.status(200).json({
-           events: events
-        });
-    }
 });
 
 /**
@@ -189,6 +221,10 @@ var getOverallHighscore = function() {
                         overallBest = userBest;
                     }
                 });
+
+                if (!overallBest) {
+                    overallBest = {};
+                }
 
                 resolve(overallBest);
             });
