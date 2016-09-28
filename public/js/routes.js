@@ -44,5 +44,9 @@ angular.module('magellan')
             .state('about', {
                 url: '/about',
                 templateUrl: '/build/views/partials/about.partial.html'
+            })
+            .state('highscore', {
+                url: '/highscore',
+                templateUrl: '/build/views/partials/highscore.partial.html'
             });
     });
