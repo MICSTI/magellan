@@ -236,6 +236,9 @@ var Question = function(options) {
         // ensure that no negative points are awarded
         points = Math.max(0, points);
 
+        // ensure that only integer values are saved
+        points = Math.floor(points);
+
         return points;
     };
 
