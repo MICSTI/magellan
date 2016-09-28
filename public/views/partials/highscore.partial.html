@@ -1,7 +1,7 @@
 <section class="highscore-container" ng-controller="HighscoreCtrl">
     <table class="score-list" ng-if="scoreList.length > 0">
         <tr ng-repeat="entry in scoreList" ng-class="{ 'bold': isMyself(entry.id) }">
-            <td>1.</td>
+            <td>{{entry.rank}}</td>
             <td>{{entry.username}}</td>
             <td>{{entry.score}} <span class="hide-small">Punkte</span></td>
         </tr>
