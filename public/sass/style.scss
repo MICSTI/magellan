@@ -82,6 +82,11 @@ input[type=text], input[type=password], input[type=email] {
   opacity: 0.5;
 }
 
+.highlight {
+  color: $honey_flower;
+  font-weight: bold;
+}
+
 /* ------------ Messages ------------ */
 .ui-message {
   padding: 1em;
@@ -574,5 +579,9 @@ quiz {
 
 .question-highlight {
   color: $jelly_bean;
+}
+
+.quiz-result {
+  font-size: 1.25em;
 }
 /* ---------------------------------- */

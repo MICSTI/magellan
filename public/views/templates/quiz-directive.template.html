@@ -1,4 +1,4 @@
-<section class="quiz-container">
+<section class="quiz-container" ng-if="!isResultsPageVisible">
     <!-- Level of difficulty -->
 
     <!-- Number of current question -->
@@ -62,5 +62,19 @@
     <!-- Continue to finished page -->
     <div class="finishedContinueContainer" ng-if="questionAnswered() && wasLastQuestion()">
         <div role="button" class="ui-button ui-button-primary" ng-click="continueFinished()" tabindex="11">Fertig</div>
+    </div>
+</section>
+
+<section class="after-quiz" ng-if="isResultsPageVisible">
+    <div class="quiz-result">Das Quiz ist beendet. Du hast <span class="highlight">{{getTotalPoints()}} Punkte</span> erreicht.</div>
+
+    <div class="achievement-container" ng-if="achievements && achievements.length > 0">
+        <div ng-repeat="achievement in achievements">
+            {{achievement.text}}
+        </div>
+    </div>
+
+    <div class="further-actions-container">
+
     </div>
 </section>

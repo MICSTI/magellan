@@ -9,6 +9,9 @@ angular
         $scope.progressbar.setAbsolute();
         $scope.progressbar.setColor("#336e7b");
 
+        $scope.isResultsPageVisible = false;
+        $scope.achievements = [];
+
         $scope.answerInput = {};
         $scope.hint = null;
 
@@ -82,6 +85,10 @@ angular
             return question.getInfo().media;
         };
 
+        var showResultsPage = function() {
+            $scope.isResultsPageVisible = true;
+        };
+
         var submitAnswer = function() {
             if ($scope.answerInput.answer) {
                 var answer = $scope.answerInput.answer;
@@ -148,13 +155,51 @@ angular
             return getCurrentQuestionNumber() >= getNumberOfQuizQuestions();
         };
 
+        var parseEvents = function(events) {
+            var achievements = [];
+
+            if (events.indexOf('overall_best') >= 0) {
+                achievements.push({
+                    text: 'Du hast einen neuen absoluten Rekord geschafft!'
+                });
+            }
+
+            if (events.indexOf('overall_best_equalised') >= 0) {
+                achievements.push({
+                    text: 'Du hast den aktuellen absoluten Rekord eingestellt!'
+                });
+            }
+
+            if (events.indexOf('personal_best') >= 0) {
+                achievements.push({
+                    text: 'Du hast einen neuen persönlichen Rekord geschafft!'
+                });
+            }
+
+            if (events.indexOf('personal_best_equalised') >= 0) {
+                achievements.push({
+                    text: 'Du hast gleich viele Punkte geschafft wie bei deinem persönlichen Rekord!'
+                });
+            }
+
+            if (events.indexOf('new_daily_best') >= 0) {
+                achievements.push({
+                    text: 'Du hast einen neuen persönlichen Tagesrekord geschafft!'
+                });
+            }
+
+            $scope.achievements = achievements;
+        };
+
         var continueFinished = function() {
+            showResultsPage();
+
             nextQuestion();
 
             // conclude the quiz and write result to database
             QuizSrv.conclude()
                 .then(function(data) {
-                    LogSrv.info(data);
+                    parseEvents(data.events || []);
                 })
                 .catch(function(err) {
                     LogSrv.error(err);

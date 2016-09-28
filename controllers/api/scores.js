@@ -123,7 +123,7 @@ router.put('/', protectRoute, function(req, res, next) {
             }
 
             // check if it was a personal best
-            if (personalBest.score) {
+            if (personalBest && personalBest.score) {
                 if (scoreEntry.score > personalBest.score) {
                     events.push('personal_best');
                 } else if (scoreEntry.score === personalBest.score) {
@@ -135,7 +135,7 @@ router.put('/', protectRoute, function(req, res, next) {
             }
 
             // check if it was an overall best
-            if (overallBest.score) {
+            if (overallBest && overallBest.score) {
                 if (scoreEntry.score > overallBest.score) {
                     events.push('overall_best');
                 } else if (scoreEntry.score === overallBest.score) {

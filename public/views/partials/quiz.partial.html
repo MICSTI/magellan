@@ -5,12 +5,7 @@
         <div role="button" class="ui-button ui-button-primary" ng-click="startQuiz()">Start</div>
     </section>
 
-    <section class="play-quiz" ng-if="isQuizRunning()">
+    <section class="play-quiz" ng-if="hasQuizStarted()">
         <quiz></quiz>
-    </section>
-
-    <section class="after-quiz" ng-if="hasQuizEnded()">
-        <div>Das Quiz ist beendet.</div>
-        <div>Gratuliere! Du hast {{getTotalPoints()}} Punkte erreicht.</div>
     </section>
 </section>
