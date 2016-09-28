@@ -31,6 +31,8 @@ var Quiz = function() {
         return this.hasStarted() && currentQuestionIdx >= questions.length;
     };
 
+    this.submitted = false;
+
     /**
      * Adds a new question to the quiz.
      * The parameter must be an question object.

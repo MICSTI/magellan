@@ -60,7 +60,7 @@ angular
          */
         var putHighscore = function(score) {
             return new Promise(function(resolve, reject) {
-                $http.put('/api/scores')
+                $http.put('/api/scores', { score: score })
                     .success(function(data) {
                         resolve(data);
                     })

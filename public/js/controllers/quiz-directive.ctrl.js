@@ -151,7 +151,14 @@ angular
         var continueFinished = function() {
             nextQuestion();
 
-            // TODO write result to DB
+            // conclude the quiz and write result to database
+            QuizSrv.conclude()
+                .then(function(data) {
+                    LogSrv.info(data);
+                })
+                .catch(function(err) {
+                    LogSrv.error(err);
+                });
         };
 
         // initially update UI

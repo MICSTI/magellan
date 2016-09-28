@@ -46,7 +46,7 @@ router.get('/user', protectRoute, function(req, res, next) {
 router.put('/', protectRoute, function(req, res, next) {
     var score = req.body.score;
 
-    if (!score) {
+    if (score === undefined) {
         var error = new Error();
 
         error.status = 400;
@@ -154,12 +154,14 @@ router.put('/', protectRoute, function(req, res, next) {
                     }
 
                     return res.status(200).json({
-                        events: events
+                        events: events,
+                        result: scoreEntry
                     });
                 });
             } else {
                 return res.status(200).json({
-                    events: events
+                    events: events,
+                    result: scoreEntry
                 });
             }
         })

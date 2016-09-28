@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .factory('QuizSrv', function(AppConfig, CountrySrv, LogSrv) {
+    .factory('QuizSrv', function(AppConfig, CountrySrv, ScoreSrv, LogSrv) {
         var countries = null;
         var countriesByAlpha3 = null;
 
@@ -346,6 +346,32 @@ angular
             }
 
             return quiz.getTotalPoints();
+        }
+
+        /**
+         * Concludes the quiz and puts the score to the API endpoint.
+         * Returns a promise.
+         */
+        var conclude = function() {
+            return new Promise(function(resolve, reject) {
+                if (quiz !== null && quiz.hasEnded()) {
+                    if (quiz.submitted === true) {
+                        reject('Quiz has already been submitted');
+                    }
+
+                    quiz.submitted = true;
+
+                    ScoreSrv.putHighscore(quiz.getTotalPoints())
+                        .then(function(data) {
+                            resolve(data);
+                        })
+                        .catch(function(err) {
+                            reject(err);
+                        });
+                } else {
+                    reject('No quiz is currently running');
+                }
+            });
         };
 
         return {
@@ -358,6 +384,7 @@ angular
             getNumberOfQuizQuestions: getNumberOfQuizQuestions,
             getCurrentQuestion: getCurrentQuestion,
             nextQuestion: nextQuestion,
-            getTotalPoints: getTotalPoints
+            getTotalPoints: getTotalPoints,
+            conclude: conclude
         };
     });
