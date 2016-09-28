@@ -4,9 +4,12 @@
  */
 var protectRoute = function(req, res, next) {
     if (!req.user) {
-        return res.status(403).json({
-            message: "Not authenticated"
-        });
+        var error = new Error();
+
+        error.status = 403;
+        error.message = 'Not authenticated';
+
+        return next(error);
     }
 
     next();
