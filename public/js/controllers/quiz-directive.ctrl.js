@@ -3,26 +3,30 @@
 angular
     .module('magellan')
     .controller('QuizDirectiveController', function($scope, QuizSrv, LogSrv, FocusSrv, ngProgressFactory) {
-        // Progress bar initialization
-        $scope.progressbar = ngProgressFactory.createInstance();
-        $scope.progressbar.setParent(document.getElementById('quiz-progress'));
-        $scope.progressbar.setAbsolute();
-        $scope.progressbar.setColor("#336e7b");
+        var question;
 
-        $scope.isResultsPageVisible = false;
-        $scope.achievements = [];
+        var initCtrl = function() {
+            // Progress bar initialization
+            $scope.progressbar = ngProgressFactory.createInstance();
+            $scope.progressbar.setParent(document.getElementById('quiz-progress'));
+            $scope.progressbar.setAbsolute();
+            $scope.progressbar.setColor("#336e7b");
 
-        $scope.answerInput = {};
-        $scope.hint = null;
+            $scope.isResultsPageVisible = false;
+            $scope.achievements = [];
 
-        // add options for multiplier selection
-        $scope.multiplierOptions = [
-            { value: 1, label: '' },
-            { value: 1000, label: 'Tsd.'},
-            { value: 1000000, label: 'Mio.'}
-        ];
+            $scope.answerInput = {};
+            $scope.hint = null;
 
-        var question = null;
+            // add options for multiplier selection
+            $scope.multiplierOptions = [
+                { value: 1, label: '' },
+                { value: 1000, label: 'Tsd.'},
+                { value: 1000000, label: 'Mio.'}
+            ];
+
+            question = null;
+        };
 
         var updateUi = function() {
             // get current question from quiz service
@@ -87,6 +91,16 @@ angular
 
         var showResultsPage = function() {
             $scope.isResultsPageVisible = true;
+        };
+
+        var hideResultsPage = function() {
+            if ($scope.$$phase) {
+                $scope.isResultsPageVisible = false;
+            } else {
+                $scope.$apply(function() {
+                    $scope.isResultsPageVisible = false;
+                });
+            }
         };
 
         var submitAnswer = function() {
@@ -265,6 +279,23 @@ angular
             return String(padValue + str).slice(-padValue.length);
         };
 
+        var restartQuiz = function() {
+            quiz = null;
+
+            $scope.$emit('quiz.restart');
+
+            initCtrl();
+
+            updateUi();
+        };
+
+        $scope.$on('quiz.start', function(event, data) {
+            hideResultsPage();
+        });
+
+        // init controller
+        initCtrl();
+
         // initially update UI
         updateUi();
 
@@ -280,4 +311,5 @@ angular
         $scope.wasLastQuestion = wasLastQuestion;
         $scope.continueFinished = continueFinished;
         $scope.getBestText = getBestText;
+        $scope.restartQuiz = restartQuiz;
     });

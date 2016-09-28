@@ -28,6 +28,10 @@ angular
             });
         };
 
+        var dispose = function() {
+            quiz = null;
+        };
+
         var isQuizRunning = function() {
             if (quiz === null)
                 return false;
@@ -385,6 +389,7 @@ angular
             getCurrentQuestion: getCurrentQuestion,
             nextQuestion: nextQuestion,
             getTotalPoints: getTotalPoints,
-            conclude: conclude
+            conclude: conclude,
+            dispose: dispose
         };
     });

@@ -4,9 +4,13 @@ angular
     .module('magellan')
     .controller('QuizCtrl', function($scope, QuizSrv, LogSrv) {
 
-        var startQuiz = function() {
+        var startQuiz = function(cb) {
             QuizSrv.init()
                 .then(function() {
+                    if (cb && typeof cb === 'function') {
+                        cb();
+                    }
+
                     LogSrv.info("Quiz started");
                 })
                 .catch(function(err) {
@@ -28,7 +32,17 @@ angular
 
         var getTotalPoints = function() {
             return QuizSrv.getTotalPoints();
-        }
+        };
+
+        $scope.$on('quiz.restart', function(event, data) {
+            LogSrv.info('quiz restart');
+
+            QuizSrv.dispose();
+
+            startQuiz(function() {
+                $scope.$broadcast('quiz.start');
+            });
+        });
 
         $scope.startQuiz = startQuiz;
         $scope.isQuizRunning = isQuizRunning;
