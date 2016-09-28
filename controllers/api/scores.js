@@ -185,6 +185,7 @@ var findPersonalBest = function(user) {
     var bestIndex = -1;
 
     var bestValue = -1;
+    var bestDate = null;
 
     // if there are no scores, we return an empty object.
     if (!user.scores) {
@@ -192,8 +193,9 @@ var findPersonalBest = function(user) {
     }
 
     user.scores.forEach(function(entry, idx) {
-        if (entry.score >= bestValue) {
+        if (entry.score > bestValue || entry.date < bestDate) {
             bestValue = entry.score;
+            bestDate = entry.date;
             bestIndex = idx;
         }
     });
@@ -220,7 +222,7 @@ var getOverallHighscore = function() {
 
                     userBest = _.extend({ id: user._id, username: user.username }, userBest);
 
-                    if (!overallBest || userBest.score > overallBest.score) {
+                    if (!overallBest || userBest.score > overallBest.score || ((userBest.score == overallBest.score) && (userBest.date < overallBest.date))) {
                         overallBest = userBest;
                     }
                 });
@@ -247,7 +249,13 @@ var getOverallHighscoreList = function() {
                 }).filter(function(user) {
                     return user.score !== undefined;
                 }).sort(function(a, b) {
-                    return b.score > a.score;
+                    if (b.score > a.score) {
+                        return 1;
+                    } else if (b.score === a.score) {
+                        return b.date < a.date;
+                    } else {
+                        return -1;
+                    }
                 });
 
                 resolve(list);
