@@ -232,6 +232,10 @@ angular
             return countriesByAlpha3[alpha3];
         };
 
+        var getCountries = function() {
+            return countries;
+        };
+
         var getCountriesByLetter = function() {
             if (countriesByLetter === null) {
                 return null;
@@ -246,6 +250,7 @@ angular
 
         return {
             init: init,
+            getCountries: getCountries,
             getCountryByAlpha3: getCountryByAlpha3,
             getCountriesByLetter: getCountriesByLetter,
             areCountriesLoaded: areCountriesLoaded

@@ -875,3 +875,19 @@ input[type=number]:-ms-input-placeholder {
   }
 }
 /* ---------------------------------- */
+
+/* ------------ Difficulty ---------- */
+.country-table {
+  margin: 0 auto;
+
+  tr {
+    td:nth-child(1) {
+      text-align: left;
+    }
+
+    td:nth-child(2) {
+      text-align: right;
+    }
+  }
+}
+/* ---------------------------------- */
