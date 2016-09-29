@@ -103,6 +103,18 @@ angular
             }
         };
 
+        var hintsAvailable = function() {
+            if (question === null) {
+                return false;
+            }
+
+            if (question.hintsRemaining() === null) {
+                return false;
+            }
+
+            return question.hintsRemaining() > 0;
+        };
+
         var submitAnswer = function() {
             if ($scope.answerInput.answer) {
                 var answer = String($scope.answerInput.answer);
@@ -312,4 +324,5 @@ angular
         $scope.continueFinished = continueFinished;
         $scope.getBestText = getBestText;
         $scope.restartQuiz = restartQuiz;
+        $scope.hintsAvailable = hintsAvailable;
     });

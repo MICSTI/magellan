@@ -41,7 +41,7 @@
 
     <!-- Hint -->
     <div class="hint-container" ng-if="getQuestion().hintsAllowed()">
-        <div role="button" class="ui-button ui-button-lower" id="btnRequestHint" ng-click="requestHint()" ng-class="{ 'disabled': questionAnswered() }">Hinweis</div>
+        <div role="button" class="ui-button ui-button-lower" id="btnRequestHint" ng-click="requestHint()" ng-class="{ 'disabled': questionAnswered() || !hintsAvailable() }">Hinweis</div>
 
         <div class="hint-display" ng-bind="hint"></div>
     </div>
