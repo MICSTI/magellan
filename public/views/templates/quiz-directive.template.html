@@ -21,7 +21,7 @@
         </div>
 
         <div ng-switch-when="number.medium" class="quiz-input-number">
-            <input type="text" class="answerInput" ng-model="answerInput.answer" placeholder="Antwort" ng-keypress="handleKeyPress($event)" />
+            <input type="number" class="answerInput" ng-model="answerInput.answer" placeholder="Antwort" ng-keypress="handleKeyPress($event)" />
 
             <select ng-model="answerInput.multiplier" ng-options="opt.label for opt in multiplierOptions track by opt.value"></select>
 
@@ -29,7 +29,7 @@
         </div>
 
         <div ng-switch-when="number.high" class="quiz-input-number">
-            <input type="text" class="answerInput" ng-model="answerInput.answer" placeholder="Antwort" ng-keypress="handleKeyPress($event)" />
+            <input type="number" class="answerInput" ng-model="answerInput.answer" placeholder="Antwort" ng-keypress="handleKeyPress($event)" />
 
             <select ng-model="answerInput.multiplier" ng-options="opt.label for opt in multiplierOptions track by opt.value"></select>
         </div>

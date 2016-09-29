@@ -105,7 +105,7 @@ angular
 
         var submitAnswer = function() {
             if ($scope.answerInput.answer) {
-                var answer = $scope.answerInput.answer;
+                var answer = String($scope.answerInput.answer);
 
                 // if it is a number input, replace ',' with '.'
                 if (question.getInfo().input && question.getInfo().input.indexOf('number') === 0) {
