@@ -90,6 +90,16 @@ input[type=text], input[type=password], input[type=email] {
   font-weight: bold;
 }
 
+.highlight-green {
+  color: $grass;
+  font-weight: bold;
+}
+
+.highlight-red {
+  color: $thunderbird;
+  font-weight: bold;
+}
+
 .white {
   color: #fff;
 }
@@ -577,6 +587,13 @@ quiz {
   margin-left: 12.5%;
 }
 
+@media screen and (max-width: 500px) {
+  quiz {
+    width: 90%;
+    margin-left: 5%;
+  }
+}
+
 .quiz-container {
   text-align: left;
   display: flex;
@@ -623,6 +640,28 @@ quiz {
 }
 
 .submit-container {
+  padding: 0.5em 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.solution-container {
+  padding: 0.7em 0;
+
+  text-align: center;
+
+  .answer-correct {
+    font-size: 1.2em;
+  }
+
+  .answer-points {
+    margin-top: 0.5em;
+  }
+}
+
+.next-question-container {
   padding: 0.5em 0;
 
   display: flex;
@@ -685,11 +724,14 @@ quiz {
   .question-unit {
     flex: 1 0 auto;
     margin-left: 0.4em;
+
+    font-size: 1.3em;
   }
 
   input[type=number], select {
     padding: 0.4em 0.5em;
     font-size: 1.3em;
+    text-align: right;
   }
 }
 

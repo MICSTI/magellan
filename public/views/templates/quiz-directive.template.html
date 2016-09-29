@@ -39,26 +39,29 @@
         </div>
     </div>
 
+    <!-- Solution -->
+    <div class="solution-container" ng-if="questionAnswered()">
+        <div class="answer-correct">
+            Die richtige Antwort lautet: <span class="highlight-green" ng-class="{ 'highlight-green': answerInput.points > 0, 'highlight-red': answerInput.points <= 0 }" ng-bind="getQuestion().solution().correct | textOrNumber"></span>
+        </div>
+
+        <div class="answer-points">{{answerInput.points}} Punkte</div>
+    </div>
+
     <!-- Hint -->
-    <div class="hint-container" ng-if="getQuestion().hintsAllowed()">
+    <div class="hint-container" ng-if="getQuestion().hintsAllowed()" ng-show="!questionAnswered()">
         <div role="button" class="ui-button ui-button-lower" id="btnRequestHint" ng-click="requestHint()" ng-class="{ 'disabled': questionAnswered() || !hintsAvailable() }">Hinweis</div>
 
         <div class="hint-display" ng-bind="hint"></div>
     </div>
 
     <!-- Submit button -->
-    <div class="submit-container">
+    <div class="submit-container" ng-show="!questionAnswered()">
         <div class="ui-button ui-button-primary font-large" role="button" ng-click="submitAnswer()" ng-class="{ 'disabled': questionAnswered() }">Ok</div>
     </div>
 
-    <!-- Solution -->
-    <div class="solutionContainer" ng-if="questionAnswered()">
-        <div class="answer-correct">{{getQuestion().solution().correct}}</div>
-        <div class="answer-points">{{answerInput.points}} Punkte</div>
-    </div>
-
     <!-- Next question -->
-    <div class="nextQuestionContainer" ng-if="questionAnswered() && !wasLastQuestion()">
+    <div class="next-question-container" ng-if="questionAnswered() && !wasLastQuestion()">
         <div role="button" class="ui-button ui-button-higher" id="btnNextQuestion" ng-click="nextQuestion()" tabindex="10">Nächste Frage</div>
     </div>
 

@@ -117,7 +117,7 @@ angular
         };
 
         var submitAnswer = function() {
-            if ($scope.answerInput.answer) {
+            if ($scope.answerInput.answer && !question.answered()) {
                 var answer = String($scope.answerInput.answer);
 
                 // if it is a number input, replace ',' with '.'
