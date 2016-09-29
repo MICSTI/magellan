@@ -133,8 +133,12 @@ angular
                 LogSrv.info('submitting answer', answer);
                 $scope.answerInput.points = question.answer(answer);
 
-                // set focus to next question button
-                FocusSrv('#btnNextQuestion');
+                // set focus
+                if (!wasLastQuestion()) {
+                    FocusSrv('#btnNextQuestion');
+                } else {
+                    FocusSrv('#btnContinueFinished');
+                }
             }
         };
 
@@ -302,6 +306,23 @@ angular
             updateUi();
         };
 
+        var enterListener = function(keyPress, func) {
+            if (keyPress.which == 13) {
+                switch (func) {
+                    case 'next_question':
+                        nextQuestion();
+                        break;
+
+                    case 'continue_finished':
+                        continueFinished();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        };
+
         $scope.$on('quiz.start', function(event, data) {
             hideResultsPage();
         });
@@ -331,4 +352,5 @@ angular
         $scope.getBestText = getBestText;
         $scope.restartQuiz = restartQuiz;
         $scope.hintsAvailable = hintsAvailable;
+        $scope.enterListener = enterListener;
     });

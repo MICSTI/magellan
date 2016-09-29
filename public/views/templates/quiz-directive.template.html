@@ -62,12 +62,12 @@
 
     <!-- Next question -->
     <div class="next-question-container" ng-if="questionAnswered() && !wasLastQuestion()">
-        <div role="button" class="ui-button ui-button-higher" id="btnNextQuestion" ng-click="nextQuestion()" tabindex="10">Nächste Frage</div>
+        <div role="button" class="ui-button ui-button-higher" id="btnNextQuestion" ng-click="nextQuestion()" tabindex="10" ng-keypress="enterListener($event, 'next_question')">Nächste Frage</div>
     </div>
 
     <!-- Continue to finished page -->
     <div class="finished-continue-container" ng-if="questionAnswered() && wasLastQuestion()">
-        <div role="button" class="ui-button ui-button-primary font-large" ng-click="continueFinished()" tabindex="11">Fertig</div>
+        <div role="button" class="ui-button ui-button-primary font-large" ng-click="continueFinished()" id="btnContinueFinished" tabindex="11" ng-keypress="enterListener($event, 'continue_finished')">Fertig</div>
     </div>
 </section>
 
