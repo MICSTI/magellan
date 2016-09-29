@@ -741,11 +741,22 @@ quiz {
     font-size: 1.3em;
     text-align: right;
   }
+}
 
-  input[type=number]::placeholder, input[type=number]::-webkit-input-placeholder, input[type=number]::-moz-placeholder, input[type=number]:-ms-input-placeholder, input[type=number]:-moz-placeholder {
-    text-align: left;
-    color: pink;
-  }
+input[type=number]:-moz-placeholder {
+  text-align: left;
+}
+
+input[type=number]::-webkit-input-placeholder {
+  text-align: left;
+}
+
+input[type=number]::-moz-placeholder {
+  text-align: left;
+}
+
+input[type=number]:-ms-input-placeholder {
+  text-align: left;
 }
 
 @media screen and (max-width: 500px) {

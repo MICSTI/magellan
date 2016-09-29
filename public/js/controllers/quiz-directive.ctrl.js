@@ -137,7 +137,7 @@ angular
                 if (!wasLastQuestion()) {
                     FocusSrv('#btnNextQuestion');
                 } else {
-                    FocusSrv('#btnContinueFinished');
+                    FocusSrv('#btnContinueFinished  ');
                 }
             }
         };
