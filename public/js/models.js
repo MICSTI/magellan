@@ -206,7 +206,7 @@ var Question = function(options) {
      * If no hints are allowed, or the maximum number of hints have been used, null is returned.
      */
     this.hint = function() {
-        if (!hints.allowed || hintsUsed >= hints.maximum) {
+        if (!hints.allowed) {
             return null;
         }
 
@@ -214,7 +214,9 @@ var Question = function(options) {
             throw new Error("Hints allowed but no give method passed");
         }
 
-        hintsUsed++;
+        if (hintsUsed < hints.maximum) {
+            hintsUsed++;
+        }
 
         return hints.give(hintsUsed, answer);
     };
