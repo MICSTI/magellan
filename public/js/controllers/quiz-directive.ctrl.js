@@ -14,6 +14,7 @@ angular
 
             $scope.isResultsPageVisible = false;
             $scope.achievements = [];
+            $scope.bests = [];
 
             $scope.answerInput = {};
             $scope.hint = null;

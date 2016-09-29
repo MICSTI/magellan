@@ -667,6 +667,37 @@ quiz {
     font-size: 1.3em;
   }
 }
+
+.quiz-input-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .answerInput {
+    flex: 1 1 auto;
+    margin: 0 1em;
+  }
+
+  .multiplierSelection {
+    flex: 1 0 auto;
+  }
+
+  .question-unit {
+    flex: 1 0 auto;
+    margin-left: 0.4em;
+  }
+
+  input[type=number], select {
+    padding: 0.4em 0.5em;
+    font-size: 1.3em;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .answerInput {
+    width: 50%;
+  }
+}
 /* ---------------------------------- */
 
 /* ------------ Highscore ----------- */
