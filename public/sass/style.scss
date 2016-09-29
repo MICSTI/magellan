@@ -669,6 +669,14 @@ quiz {
   align-items: center;
 }
 
+.finished-continue-container {
+  padding: 1em 0 0.5em 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .question-highlight {
   color: $jelly_bean;
 }
