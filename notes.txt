@@ -7,12 +7,12 @@ Einwohner von Land
 Fläche von Land
 4 Länder reihen nach Einwohner 
 4 Länder reihen nach Fläche
-Grenzstaaten zu Land (4 in Auswahl, 1-4 richtig)
 
 VERSION 1.1
 
-1 (Land in Weltkarte auswählen)
-1 (Namen von in Weltkarte markiertem Land eingeben)
+Land in Weltkarte auswählen
+Namen von in Weltkarte markiertem Land eingeben
+Grenzstaaten zu Land (4 in Auswahl, 1-4 richtig)
 
 3 Schwierigkeitsstufen für Fragen (leicht, mittel, schwer)
 
@@ -22,23 +22,25 @@ pro Frage 100 Punkte --> 1750 Punkte maximal
 
 LÄNDER
 
-leicht:		Europe
-			Australia and New Zealand
-			South America > 1M
-			Northern America
-			Central America > 100M
-			Africa > 100M
-			Asia > 500M
+leicht:		Europe (46)
+(64)		Australia and New Zealand (2)
+			South America > 1M (10)
+			Northern America (2)
+			Central America > 100M (1)
+			Africa > 100M (1)
+			Asia > 500M (2)
 			
-mittel:		Oceania [- Australia and New Zealand] > 1M
-			Africa > 25M
-			Asia > 25M
-			Central America > 1M
+mittel:		Africa > 25M (13)
+(43)		Asia > 25M (19)
+			Central America > 1M (6)
+			Caribbean > 1M (5)
 
-schwer:		South America < 1M
-			Africa < 25M
-			Asia < 25M
-			Central America < 1M
+schwer:		Oceania [- Australia and New Zealand] (12)
+(90)        South America < 1M (2)
+			Africa < 25M (40)
+			Asia < 25M (27)
+			Central America < 1M (1)
+			Caribbean < 1M (8)
 			
 ZAHLENEINGABEN
 
