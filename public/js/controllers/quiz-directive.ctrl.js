@@ -306,6 +306,11 @@ angular
             hideResultsPage();
         });
 
+        $scope.$on('$destroy', function(event, data) {
+            // controller is being destroyed (i.e. user leaves the page, so we tell the quiz service to dispose of the quiz object
+            QuizSrv.dispose();
+        });
+
         // init controller
         initCtrl();
 
