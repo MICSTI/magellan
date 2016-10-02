@@ -24,26 +24,8 @@ pro Frage 100 Punkte --> 1750 Punkte maximal
 
 LÄNDER
 
-leicht:		Europe (46)
-(64)		Australia and New Zealand (2)
-			South America > 1M (10)
-			Northern America (2)
-			Central America > 100M (1)
-			Africa > 100M (1)
-			Asia > 500M (2)
-			
-mittel:		Africa > 25M (13)
-(43)		Asia > 25M (19)
-			Central America > 1M (6)
-			Caribbean > 1M (5)
+Einteilung ersichtlich unter /countries-difficulty
 
-schwer:		Oceania [- Australia and New Zealand] (12)
-(90)        South America < 1M (2)
-			Africa < 25M (40)
-			Asia < 25M (27)
-			Central America < 1M (1)
-			Caribbean < 1M (8)
-			
 ZAHLENEINGABEN
 
 100			+/-  3%
