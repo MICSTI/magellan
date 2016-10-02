@@ -10,8 +10,6 @@ angular
                     if (cb && typeof cb === 'function') {
                         cb();
                     }
-
-                    LogSrv.info("Quiz started");
                 })
                 .catch(function(err) {
                     LogSrv.error(err);
@@ -35,8 +33,6 @@ angular
         };
 
         $scope.$on('quiz.restart', function(event, data) {
-            LogSrv.info('quiz restart');
-
             QuizSrv.dispose();
 
             startQuiz(function() {

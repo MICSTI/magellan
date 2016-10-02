@@ -131,7 +131,6 @@ angular
                     answer *= $scope.answerInput.multiplier.value;
                 }
 
-                LogSrv.info('submitting answer', answer);
                 $scope.answerInput.points = question.answer(answer);
 
                 // set focus
