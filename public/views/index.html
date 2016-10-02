@@ -28,7 +28,7 @@
     <nav>
         <div class="container">
             <ul class="navbar">
-                <li ui-sref-active="active"><a href="/home" ui-sref="home">Home</a></li>
+                <li ui-sref-active="active"><a href="/home" ui-sref="home">Start</a></li>
                 <li ui-sref-active="active" ng-if="user"><a href="/countries" ui-sref="countries">Länder</a></li>
                 <li ui-sref-active="active" ng-if="user"><a href="/quiz" ui-sref="quiz">Quiz</a></li>
                 <li ui-sref-active="active" ng-if="user"><a href="/highscore" ui-sref="highscore">Bestenliste</a></li>
@@ -46,7 +46,7 @@
 
                 <ul class="menu-dropdown" ng-if="isDropdownVisible()">
                     <li><a href="/settings" ng-click="hideDropdown()">Einstellungen</a></li>
-                    <li><a href="/logout" ng-click="hideDropdown()">Logout</a></li>
+                    <li><a href="/logout" ng-click="hideDropdown()">Ausloggen</a></li>
                 </ul>
             </ul>
         </div>

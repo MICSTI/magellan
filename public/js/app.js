@@ -49,7 +49,7 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, Qui
     $scope.app = {
         config: {
             title: "Magellan",
-            subtitle: "Test your knowledge about the countries of our world",
+            subtitle: "Teste dein Wissen über die Länder unserer Erde",
             author: "Michael Stifter"
         }
     };
