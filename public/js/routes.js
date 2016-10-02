@@ -49,6 +49,10 @@ angular.module('magellan')
                 url: '/highscore',
                 templateUrl: '/build/views/partials/highscore.partial.html'
             })
+            .state('faq', {
+                url: '/faq',
+                templateUrl: '/build/views/partials/faq.partial.html'
+            })
             .state('countries-difficulty', {
                 url: '/countries-difficulty',
                 templateUrl: '/build/views/partials/country-difficulty.partial.html'

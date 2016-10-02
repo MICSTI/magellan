@@ -893,3 +893,30 @@ input[type=number]:-ms-input-placeholder {
   }
 }
 /* ---------------------------------- */
+
+/* -------------- FAQs -------------- */
+.faq-container {
+  width: 60%;
+  margin-left: 20%;
+
+  .faq-item {
+    text-align: left;
+  }
+
+  .faq-item-question {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+  }
+
+  .faq-item-answer {
+    margin-bottom: 2em;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .faq-container {
+    width: 90%;
+    margin-left: 5%;
+  }
+}
+/* ---------------------------------- */
