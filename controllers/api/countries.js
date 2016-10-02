@@ -2,12 +2,16 @@ var router = require('express').Router();
 var config = require('../../config/server');
 var protectRoute = require('../protect');
 var fs = require('fs');
+var classifyCountries = require('../country-difficulty').classifiyCountries;
 
 // read the countries.json file
 var countries = null;
 
 try {
     countries = JSON.parse(fs.readFileSync(config.countriesFile.path, 'utf8'));
+
+    // classify countries by their difficulty
+    countries = classifyCountries(countries);
 } catch (ex) {
 
 }
