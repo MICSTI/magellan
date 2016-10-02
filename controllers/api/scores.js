@@ -36,7 +36,7 @@ router.get('/high', protectRoute, function(req, res, next) {
  * Returns the high score for a specific user.
  */
 router.get('/user', protectRoute, function(req, res, next) {
-    return res.status(200).json(_.extend({ id: req.user._id, username: req.user.username }, findPersonalBest(req.user)));
+    return res.status(200).json(_.extend({ id: req.user._id, username: req.user.username, color: req.user.color }, findPersonalBest(req.user)));
 });
 
 /**
@@ -75,7 +75,7 @@ router.put('/', protectRoute, function(req, res, next) {
     }
 
     // find out the user's personal best score
-    var personalBest = _.extend({ id: req.user._id, username: req.user.username }, findPersonalBest(req.user));
+    var personalBest = _.extend({ id: req.user._id, username: req.user.username, color: req.user.color }, findPersonalBest(req.user));
 
     // find out the overall best score at the moment
     getOverallHighscore()
@@ -220,7 +220,7 @@ var getOverallHighscore = function() {
                         return;
                     }
 
-                    userBest = _.extend({ id: user._id, username: user.username }, userBest);
+                    userBest = _.extend({ id: user._id, username: user.username, color: user.color }, userBest);
 
                     if (!overallBest || userBest.score > overallBest.score || ((userBest.score == overallBest.score) && (userBest.date < overallBest.date))) {
                         overallBest = userBest;
@@ -245,7 +245,7 @@ var getOverallHighscoreList = function() {
                 }
 
                 var list = users.map(function(user) {
-                    return _.extend({ id: user._id, username: user.username }, findPersonalBest(user));
+                    return _.extend({ id: user._id, username: user.username, color: user.color }, findPersonalBest(user));
                 }).filter(function(user) {
                     return user.score !== undefined;
                 }).sort(function(a, b) {
