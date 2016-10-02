@@ -5,14 +5,16 @@ Land zu Hauptstadt
 Land zu Flagge
 Einwohner von Land
 Fläche von Land
-4 Länder reihen nach Einwohner 
-4 Länder reihen nach Fläche
 
 VERSION 1.1
 
+4 Länder reihen nach Einwohner
+4 Länder reihen nach Fläche
+Grenzstaaten zu Land (4 in Auswahl, 1-4 richtig)
+
+VERSION 1.2
 Land in Weltkarte auswählen
 Namen von in Weltkarte markiertem Land eingeben
-Grenzstaaten zu Land (4 in Auswahl, 1-4 richtig)
 
 3 Schwierigkeitsstufen für Fragen (leicht, mittel, schwer)
 
