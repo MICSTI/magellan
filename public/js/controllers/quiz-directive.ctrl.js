@@ -1,8 +1,9 @@
+
 'use strict';
 
 angular
     .module('magellan')
-    .controller('QuizDirectiveController', function($scope, QuizSrv, LogSrv, FocusSrv, ngProgressFactory) {
+    .controller('QuizDirectiveController', function($scope, QuizSrv, LogSrv, FocusSrv, ngProgressFactory, $filter) {
         var question;
 
         var initCtrl = function() {
@@ -281,7 +282,7 @@ angular
                 }
             }
 
-            return text.replace('{POINTS}', best.score)
+            return text.replace('{POINTS}', $filter('number')(best.score))
                 .replace('{DATE}', getFormattedDate(best.date))
                 .replace('{USERNAME}', best.username);
         };

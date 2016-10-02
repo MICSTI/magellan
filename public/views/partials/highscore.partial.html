@@ -3,7 +3,7 @@
         <tr ng-repeat="entry in scoreList" ng-class="{ 'bold': isMyself(entry.id) }">
             <td>{{entry.rank}}</td>
             <td>{{entry.username}}</td>
-            <td>{{entry.score}} <span class="hide-small">Punkte</span></td>
+            <td>{{entry.score | number}} <span class="hide-small">Punkte</span></td>
         </tr>
     </table>
 
