@@ -562,10 +562,6 @@ nav {
       &:not(.selected):hover {
         border: 1px solid $jelly_bean;
       }
-
-      &:last-child {
-        margin-right: 0;
-      }
     }
   }
 }
