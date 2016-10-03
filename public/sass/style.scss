@@ -906,10 +906,22 @@ input[type=number]:-ms-input-placeholder {
   .faq-item-question {
     font-weight: bold;
     margin-bottom: 0.5em;
+    font-size: 1.1em;
   }
 
   .faq-item-answer {
     margin-bottom: 2em;
+  }
+}
+
+.point-list {
+  th {
+    padding: 0.5em;
+  }
+
+  td {
+    text-align: right;
+    padding: 0.3em 1em 0.3em 0.5em;
   }
 }
 
