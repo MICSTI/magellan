@@ -320,6 +320,10 @@ header {
     margin-bottom: 0;
     display: inline-block;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -457,8 +461,18 @@ nav {
 }
 /* ---------------------------------- */
 
-/* ------------ Start quiz ---------- */
+/* --------------- Home ------------- */
+.welcome {
+  font-size: 1.2em;
+}
 
+.to-faq {
+  margin-top: 2.5em;
+}
+
+.to-login, .to-register {
+  margin: 2em 0;
+}
 /* ---------------------------------- */
 
 /* ------------ Countries ----------- */

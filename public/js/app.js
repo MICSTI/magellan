@@ -79,6 +79,12 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, Qui
         return $state.is('quiz');
     };
 
+    var goToHome = function() {
+        $state.go('home');
+    };
+
+    $scope.goToHome = goToHome;
+
     // ----------- Event handling ------------
     $scope.$on('app.login', function(event, data) {
         // store user object in scope

@@ -1,6 +1,10 @@
 <section ng-controller="HomeCtrl">
     <section class="section-element welcome">
-        Willkommen bei Magellan!
+        Willkommen bei Magellan<span ng-if="user">, <span class="highlight">{{user.username}}</span></span>!
+    </section>
+
+    <section class="section-element to-faq" ng-if="user">
+        Falls du Fragen zu dieser Seite hast, gibt es <a href="/faq">hier</a> eine kurze Übersicht zu häufig gestellten Fragen.
     </section>
 
     <section class="section-element to-login" ng-if="!user">
