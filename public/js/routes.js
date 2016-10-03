@@ -5,6 +5,16 @@ angular.module('magellan')
 
         $urlRouterProvider.otherwise('/home');
 
+        var authorize = function(AuthSrv, LogSrv, $q) {
+            return AuthSrv.getUser()
+                .then(function(user) {
+                    return user;
+                })
+                .catch(function(err) {
+                    return $q.reject('Not authorized');
+                });
+        };
+
         $stateProvider
             .state('home', {
                 url: '/home',
@@ -15,15 +25,24 @@ angular.module('magellan')
             })
             .state('quiz', {
                 url: '/quiz',
-                templateUrl: '/build/views/partials/quiz.partial.html'
+                templateUrl: '/build/views/partials/quiz.partial.html',
+                resolve: {
+                    auth: authorize
+                }
             })
             .state('countries', {
                 url: '/countries',
-                templateUrl: '/build/views/partials/countries.partial.html'
+                templateUrl: '/build/views/partials/countries.partial.html',
+                resolve: {
+                    auth: authorize
+                }
             })
             .state('countries.detail', {
                 url: '/:alpha3Code',
-                templateUrl: '/build/views/partials/countries-detail.partial.html'
+                templateUrl: '/build/views/partials/countries-detail.partial.html',
+                resolve: {
+                    auth: authorize
+                }
             })
             .state('login', {
                 url: '/login',
@@ -39,7 +58,10 @@ angular.module('magellan')
             })
             .state('settings', {
                 url: '/settings',
-                templateUrl: '/build/views/partials/settings.partial.html'
+                templateUrl: '/build/views/partials/settings.partial.html',
+                resolve: {
+                    auth: authorize
+                }
             })
             .state('about', {
                 url: '/about',
@@ -47,14 +69,23 @@ angular.module('magellan')
             })
             .state('highscore', {
                 url: '/highscore',
-                templateUrl: '/build/views/partials/highscore.partial.html'
+                templateUrl: '/build/views/partials/highscore.partial.html',
+                resolve: {
+                    auth: authorize
+                }
             })
             .state('faq', {
                 url: '/faq',
-                templateUrl: '/build/views/partials/faq.partial.html'
+                templateUrl: '/build/views/partials/faq.partial.html',
+                resolve: {
+                    auth: authorize
+                }
             })
             .state('countries-difficulty', {
                 url: '/countries-difficulty',
-                templateUrl: '/build/views/partials/country-difficulty.partial.html'
+                templateUrl: '/build/views/partials/country-difficulty.partial.html',
+                resolve: {
+                    auth: authorize
+                }
             })
     });

@@ -44,7 +44,7 @@ magellan.constant("AppConfig", {
     ]
 });
 
-magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, QuizSrv) {
+magellan.controller("AppCtrl", function($rootScope, $scope, $state, AuthSrv, UserSrv, CountrySrv, QuizSrv) {
     // ----------- App config ------------
     $scope.app = {
         config: {
@@ -55,7 +55,7 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, Qui
     };
 
     // ----------- App initialization ------------
-    UserSrv.getUserFromStorage()
+    AuthSrv.getUser()
         .then(function(user) {
             // store user object in scope
             $scope.user = user;
@@ -72,7 +72,7 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, Qui
                 });
         })
         .catch(function(err) {
-            // the only error that can occur is that there is no token in storage, we do not need to react to that
+            $scope.user = null;
         });
 
     $scope.isProgressBarVisible = function() {
@@ -86,9 +86,19 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, Qui
     $scope.goToHome = goToHome;
 
     // ----------- Event handling ------------
+    $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+        if (error === 'Not authorized') {
+            // go to home page
+            $state.go('home');
+        }
+    });
+
     $scope.$on('app.login', function(event, data) {
         // store user object in scope
         $scope.user = data;
+
+        // additionally save it in auth service
+        AuthSrv.setUser(data);
 
         // init country service
         CountrySrv.init()
@@ -106,6 +116,9 @@ magellan.controller("AppCtrl", function($scope, $state, UserSrv, CountrySrv, Qui
     $scope.$on('app.logout', function(event, data) {
         // remove user object from scope
         $scope.user = null;
+
+        // additionally, remove it from auth service
+        AuthSrv.clearUser();
 
         // go to home page
         $state.go('home');
