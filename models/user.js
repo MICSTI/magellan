@@ -26,7 +26,13 @@ var User = db.model('User', {
         default: true,
         select: false
     },
-    scores: []
+    scores: [],
+    resetToken: {
+        type: String
+    },
+    resetTokenValid: {
+        type: Date
+    }
 });
 
 module.exports = User;
