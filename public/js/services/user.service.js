@@ -90,12 +90,25 @@ angular
             });
         };
 
+        var updatePassword = function(pass) {
+            return new Promise(function(resolve, reject) {
+                $http.put('/api/user/password', pass)
+                    .success(function(data) {
+                        resolve(data);
+                    })
+                    .error(function(err) {
+                        reject(err);
+                    });
+            });
+        };
+
         return {
             getUser: getUser,
             getUserFromStorage: getUserFromStorage,
             login: login,
             logout: logout,
             register: register,
-            updateBasic: updateBasic
+            updateBasic: updateBasic,
+            updatePassword: updatePassword
         };
     });
