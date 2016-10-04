@@ -1,6 +1,7 @@
 var router = require('express').Router();
 var mailer = require('../../controllers/mailer');
 var util = require('../util');
+var passwordUtil = require('../password');
 
 var User = require('../../models/user');
 
@@ -67,5 +68,98 @@ router.post('/forgot', function(req, res, next) {
         });
     });
 });
+
+router.get('/reset/:token', function(req, res, next) {
+    var token = req.params.token;
+
+    checkTokenValidity(token)
+        .then(function(user) {
+            res.status(200).json({
+                message: "Token valid"
+            });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+});
+
+router.post('/reset', function(req, res, next) {
+    var error;
+
+    var token = req.body.token;
+    var password = req.body.password;
+
+    if (!token) {
+        error = new Error();
+        error.status = 400;
+        error.message = "Missing token";
+
+        return next(error);
+    }
+
+    if (!password) {
+        error = new Error();
+        error.status = 400;
+        error.message = "Missing password";
+
+        return next(error);
+    }
+
+    checkTokenValidity(token)
+        .then(function(user) {
+            passwordUtil.savePassword(user, password)
+                .then(function() {
+                    return res.status(200).json({
+                        message: 'Password saved successfully'
+                    });
+                })
+                .catch(function(err) {
+                    return next(err);
+                });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+});
+
+/**
+ * Checks if a password reset token exists and is valid.
+ * @param token     (String) Password reset token
+ * @returns {Promise}
+ */
+var checkTokenValidity = function(token) {
+    return new Promise(function(resolve, reject) {
+        var error;
+
+        User.findOne({ resetToken: token }, function(err, user) {
+            if (err) {
+                return reject(err);
+            }
+
+            if (!user) {
+                error = new Error();
+
+                error.status = 400;
+                error.message = "Invalid token";
+
+                return reject(error);
+            }
+
+            // check if token is valid
+            var now = Date.now();
+
+            if (now > user.resetTokenValid) {
+                error = new Error();
+
+                error.status = 400;
+                error.message = "Reset token has expired";
+
+                return reject(error);
+            }
+
+            return resolve(user);
+        });
+    });
+};
 
 module.exports = router;
