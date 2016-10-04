@@ -30,6 +30,7 @@
     "lodash": "^4.13.1",
     "method-override": "^2.3.5",
     "mongoose": "^4.4.15",
+    "nodemailer": "^2.6.4",
     "os": "^0.1.1"
   },
   "devDependencies": {
