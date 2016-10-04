@@ -107,6 +107,10 @@ router.post('/reset', function(req, res, next) {
 
     checkTokenValidity(token)
         .then(function(user) {
+            // invalidate reset token to prevent further use
+            user.resetToken = undefined;
+            user.resetTokenValid = undefined;
+
             passwordUtil.savePassword(user, password)
                 .then(function() {
                     return res.status(200).json({
