@@ -1,8 +1,8 @@
 var jwt = require('jwt-simple');
-var bcrypt = require('bcryptjs');
 var config = require('../../config/server');
 var _ = require('lodash');
 var protectRoute = require('../protect');
+var passwordUtil = require('../password');
 
 var router = require('express').Router();
 var User = require('../../models/user');
@@ -27,18 +27,19 @@ router.post('/session', function(req, res, next) {
                 return res.status(401).send("Username or password not valid");
             }
 
-            bcrypt.compare(password, user.password, function(err, valid) {
-                if (err) {
-                    return next(err);
-                }
+            passwordUtil.comparePassword(password, user.password)
+                .then(function() {
+                    var token = jwt.encode({ user: user._id }, config.secretKey);
+                    return res.status(200).json(token);
+                })
+                .catch(function(errorMessage) {
+                    var error = new Error();
 
-                if (!valid) {
-                    return res.status(401).send("Username or password wrong");
-                }
+                    error.status = 401;
+                    error.message = errorMessage;
 
-                var token = jwt.encode({ user: user._id }, config.secretKey);
-                res.status(200).json(token);
-            });
+                    return next(error);
+                });
         });
 });
 
@@ -64,26 +65,14 @@ router.post('/user', function(req, res, next) {
             color: req.body.color
         });
 
-        // generate salt and hash for password
-        bcrypt.hash(req.body.password, 10, function(err, hash) {
-            user.password = hash;
-            user.save(function(err, user) {
-                if (err) {
-                    return res.status(400).json({
-                        message: 'Failed to create user',
-                        error: err
-                    });
-                }
-
-                if (!user) {
-                    return res.status(400).json({
-                        message: 'User could not be created'
-                    });
-                }
-
-                res.status(201).send();
+        // generate salt and hash for password and save it to the user object
+        passwordUtil.savePassword(user, req.body.password)
+            .then(function() {
+                return res.status(201).send();
+            })
+            .catch(function(err) {
+                return next(err);
             });
-        });
     });
 });
 
@@ -137,6 +126,30 @@ router.put('/user/basic', protectRoute, function(req, res, next) {
             });
         });
     });
+});
+
+/**
+ * Route handler for updating a user's password.
+ */
+router.put('/user/password', protectRoute, function(req, res, next) {
+    var password = req.body.password;
+
+    if (!password) {
+        var error = new Error();
+
+        error.status = 400;
+        error.message = 'Missing parameter password';
+
+        return next(error);
+    }
+
+    passwordUtil.savePassword(req.user, password)
+        .then(function() {
+            return res.status(200).send();
+        })
+        .catch(function(err) {
+            return next(err);
+        });
 });
 
 router.get('/user', protectRoute, function(req, res) {

@@ -30,4 +30,27 @@ var savePassword = function(user, password) {
     });
 };
 
+/**
+ * Compares the hashes of two passwords.
+ * @param password1
+ * @param password2
+ * @returns {Promise}
+ */
+var comparePassword = function(password1, password2) {
+    return new Promise(function(resolve, reject) {
+        bcrypt.compare(password1, password2, function(err, valid) {
+            if (err) {
+                return reject(err);
+            }
+
+            if (!valid) {
+                return reject('Username or password wrong');
+            }
+
+            return resolve();
+        });
+    });
+};
+
 module.exports.savePassword = savePassword;
+module.exports.comparePassword = comparePassword;
