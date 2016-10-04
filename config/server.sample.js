@@ -5,5 +5,15 @@ module.exports = {
         version: 0,
         path: '/path/to/countries/file'
     },
+    mail: {
+        from: 'sender info',
+        options: {
+            service: 'Gmail',
+            auth: {
+                user: 'username',
+                pass: 'password'
+            }
+        }
+    },
     useAppCache: false
 };
