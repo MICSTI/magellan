@@ -51,12 +51,18 @@ router.post('/forgot', function(req, res, next) {
 
             var resetLink = protocol + '://' + baseUrl + apiUrl;
 
+            var mailContent = '<div style="font-family: Arial, sans-serif">' +
+                                '<div style="font-weight: bold; font-size: 1.25em">Magellan - Passwort zurücksetzen</div>' +
+                                '<div style="margin-top: 2em"><a href="{LINK_URL}">Passwort zurücksetzen</a></div>' +
+                                '<div style="margin-top: 2em">Dieser Link ist 24 Stunden lang gültig.</div>' +
+                              '</div>';
+
             // send e-mail
             mailer.sendMail({
                 to: user.email,
                 subject: '[Magellan] Passwort vergessen',
-                type: 'html',
-                content: '<a href="' + resetLink + '">Passwort zurücksetzen</a>'
+                mode: 'html',
+                content: mailContent.replace('{LINK_URL}', resetLink)
             }).then(function(data) {
                 return res.status(201).json({
                     message: "Mail sent",
