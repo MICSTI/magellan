@@ -7,31 +7,51 @@ angular
         $scope.message = {};
 
         var updatePassword = function() {
-            LogSrv.info('update password');
-
-            if ($scope.passObj.new !== $scope.passObj.confirmation) {
-                $scope.message = {
-                    type: 'error',
-                    text: 'Die Passwörter stimmen nicht überein'
-                };
+            if (!$scope.passObj.old || !$scope.passObj.new || !$scope.passObj.confirmation) {
+                setMessage('error', 'Alle Felder müssen ausgefüllt sein');
 
                 return;
             }
 
-            // TODO confirm old password is correct
+            if ($scope.passObj.new !== $scope.passObj.confirmation) {
+                setMessage('error', 'Die Passwörter stimmen nicht überein');
+
+                return;
+            }
 
             UserSrv.updatePassword({
+                old: $scope.passObj.old,
                 password: $scope.passObj.new
             }).then(function(data) {
-                LogSrv.info('successfully updated password', data);
+                setMessage('success', 'Das neue Passwort wurde erfolgreich gespeichert');
             }).catch(function(err) {
-                LogSrv.error('failed to update password'. err);
+                if (err.message === "Old password incorrect") {
+                    setMessage('error', 'Das alte Passwort ist nicht korrekt');
+                } else {
+                    setMessage('error', 'Das neue Passwort konnte nicht gespeichert werden');
+                }
             });
         };
 
         var delegateSubmit = function() {
             updatePassword();
         };
+
+        var setMessage = function(type, text) {
+            if ($scope.$$phase) {
+                $scope.message = {
+                    type: type,
+                    text: text
+                };
+            } else {
+                $scope.$apply(function() {
+                    $scope.message = {
+                        type: type,
+                        text: text
+                    };
+                });
+            }
+        }
 
         FocusSrv('#password-current');
 

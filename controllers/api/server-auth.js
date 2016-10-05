@@ -132,10 +132,22 @@ router.put('/user/basic', protectRoute, function(req, res, next) {
  * Route handler for updating a user's password.
  */
 router.put('/user/password', protectRoute, function(req, res, next) {
+    var old = req.body.old;
     var password = req.body.password;
 
+    var error;
+
+    if (!old) {
+        error = new Error();
+
+        error.status = 400;
+        error.message = 'Missing parameter old';
+
+        return next(error);
+    }
+
     if (!password) {
-        var error = new Error();
+        error = new Error();
 
         error.status = 400;
         error.message = 'Missing parameter password';
@@ -143,12 +155,42 @@ router.put('/user/password', protectRoute, function(req, res, next) {
         return next(error);
     }
 
-    passwordUtil.savePassword(req.user, password)
-        .then(function() {
-            return res.status(200).send();
-        })
-        .catch(function(err) {
-            return next(err);
+    User.findOne( { _id: req.user._id, active: true } )
+        .select('password')
+        .exec(function(err, user) {
+            if (err) {
+                return next(err);
+            }
+
+            if (!user) {
+                error = new Error();
+
+                error.status = 401;
+                error.message = "Username or password not valid";
+
+                return next(error);
+            }
+
+            // check if the old password is correct
+            passwordUtil.comparePassword(old, user.password)
+                .then(function() {
+                    // save the new password
+                    passwordUtil.savePassword(req.user, password)
+                        .then(function() {
+                            return res.status(200).send();
+                        })
+                        .catch(function(err) {
+                            return next(err);
+                        });
+                })
+                .catch(function(errorMessage) {
+                    error = new Error();
+
+                    error.status = 401;
+                    error.message = "Old password incorrect";
+
+                    return next(error);
+                });
         });
 });
 
