@@ -1,5 +1,8 @@
 <section class="quiz-container" ng-if="!isResultsPageVisible">
     <!-- Level of difficulty -->
+    <div class="difficulty-indicator">
+        <span class="question-difficulty difficulty-{{getQuestion().getInfo().difficulty}}"></span>
+    </div>
 
     <!-- Number of current question -->
     <div class="current-question-number">Frage {{getCurrentQuestionNumber()}}</div>

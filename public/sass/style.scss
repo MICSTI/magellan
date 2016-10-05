@@ -616,9 +616,28 @@ quiz {
   display: flex;
   flex-direction: column;
 
+  .question-difficulty {
+    display: inline-block;
+    height: 4px;
+    width: 150px;
+  }
+
+  .difficulty-easy {
+    background-color: $gossip;
+  }
+
+  .difficulty-medium {
+    background-color: $confetti;
+  }
+
+  .difficulty-hard {
+    background-color: $thunderbird;
+  }
+
   .current-question-number {
     font-weight: bold;
     font-size: 1.4em;
+    margin-top: 0.5em;
   }
 
   .flag-icon {
