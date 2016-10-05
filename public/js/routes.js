@@ -65,10 +65,14 @@ angular.module('magellan')
             })
             .state('password', {
                 url: '/password',
-                templateUrl: '/build/views/partials/password.partial.html',
+                templateUrl: '/build/views/partials/password-change.partial.html',
                 resolve: {
                     auth: authorize
                 }
+            })
+            .state('reset', {
+                url: '/password/reset/:token',
+                templateUrl: '/build/views/partials/password-reset.partial.html'
             })
             .state('about', {
                 url: '/about',

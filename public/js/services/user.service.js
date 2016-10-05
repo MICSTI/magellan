@@ -102,6 +102,18 @@ angular
             });
         };
 
+        var resetPassword = function(body) {
+            return new Promise(function(resolve, reject) {
+                $http.post('/api/password/reset', body)
+                    .success(function(data) {
+                        resolve(data);
+                    })
+                    .error(function(err) {
+                        reject(err);
+                    });
+            });
+        };
+
         return {
             getUser: getUser,
             getUserFromStorage: getUserFromStorage,
@@ -109,6 +121,7 @@ angular
             logout: logout,
             register: register,
             updateBasic: updateBasic,
-            updatePassword: updatePassword
+            updatePassword: updatePassword,
+            resetPassword: resetPassword
         };
     });
