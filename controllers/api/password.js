@@ -66,7 +66,7 @@ router.post('/forgot', function(req, res, next) {
             }).then(function(data) {
                 return res.status(201).json({
                     message: "Mail sent",
-                    valid: "24h"
+                    valid: "24"
                 });
             }).catch(function(err) {
                 return next(err);

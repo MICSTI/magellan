@@ -74,6 +74,10 @@ angular.module('magellan')
                 url: '/password/reset/:token',
                 templateUrl: '/build/views/partials/password-reset.partial.html'
             })
+            .state('forgot', {
+                url: '/password/forgot',
+                templateUrl: '/build/views/partials/password-forgot.partial.html'
+            })
             .state('about', {
                 url: '/about',
                 templateUrl: '/build/views/partials/about.partial.html'
