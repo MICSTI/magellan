@@ -17,7 +17,7 @@ angular
             }).then(function(data) {
                 var validity = data.valid;
 
-                var validText = validity !== undefined ? " Der Link ist " + validity + " lang Stunden gültig." : "";
+                var validText = validity !== undefined ? " Der Link ist " + validity + " Stunden lang gültig." : "";
 
                 setMessage('success', 'Das E-Mail wurde erfolgreich versandt.' + validText);
             }).catch(function(err) {
