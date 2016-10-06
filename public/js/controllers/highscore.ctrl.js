@@ -5,6 +5,8 @@ angular
     .controller('HighscoreCtrl', function($scope, ScoreSrv, LogSrv) {
         $scope.scoreList = [];
 
+        $scope.isDataLoading = true;
+
         ScoreSrv.getHighscoreList()
             .then(function(list) {
                 if ($scope.$$phase) {
@@ -14,10 +16,24 @@ angular
                         $scope.scoreList = createRanking(list);
                     });
                 }
+
+                setLoadingState(false);
             })
             .catch(function(err) {
                 LogSrv.error(err);
+
+                setLoadingState(false);
             });
+
+        var setLoadingState = function(state) {
+            if ($scope.$$phase) {
+                $scope.isDataLoading = state;
+            } else {
+                $scope.$apply(function() {
+                    $scope.isDataLoading = state;
+                });
+            }
+        };
 
         var isMyself = function(id) {
             return $scope.user._id === id;
