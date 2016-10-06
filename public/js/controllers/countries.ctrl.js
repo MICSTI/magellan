@@ -8,7 +8,7 @@ angular
 
         var init = function() {
             countriesByLetter = CountrySrv.getCountriesByLetter();
-            countryKeys = Object.keys(countriesByLetter);
+            countryKeys = Object.keys(countriesByLetter).sort();
 
             if (!$scope.$$phase) {
                 $scope.$apply(function() {
