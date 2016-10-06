@@ -202,7 +202,10 @@ describe('Question model (hints)', function() {
         expect(question.hint()).to.equal('W');
         expect(question.hint()).to.equal('Wi');
         expect(question.hint()).to.equal('Wie');
-        expect(question.hint()).to.be.null;
+
+        // subsequent calls just return the last result
+        expect(question.hint()).to.equal('Wie');
+        expect(question.hint()).to.equal('Wie');
     });
 
     it('correctly tells us if hints are allowed', function() {
