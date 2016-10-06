@@ -25,7 +25,7 @@ gulp.task("jshint", function() {
 // minify new images
 gulp.task("imagemin", function() {
     var imgSrc = "./public/img/**/*";
-    var imgDst = "./public/build/images";
+    var imgDst = "./build/images";
 
     gulp.src(imgSrc)
         .pipe(changed(imgDst))
