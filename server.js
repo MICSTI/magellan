@@ -5,6 +5,7 @@ var bodyParser = require("body-parser");
 var authentication = require('./controllers/authentication');
 var appcache = require('./controllers/appcache');
 var errorHandler = require('./controllers/error-handler');
+var favicon = require('serve-favicon');
 
 // config files ====================================
 var SERVER = require("./config/server");
@@ -23,6 +24,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // parse JWT token
 app.use(authentication);
+
+// favicon
+app.use(favicon(__dirname + '/assets/favicon.ico'));
 
 // manifest file
 app.use('/magellan.appcache', appcache);
