@@ -110,7 +110,7 @@ magellan.controller("AppCtrl", function($rootScope, $scope, $state, AuthSrv, Use
             });
 
         // go to quiz page
-        $state.go('quiz');
+        $state.go('home');
     });
 
     $scope.$on('app.logout', function(event, data) {
