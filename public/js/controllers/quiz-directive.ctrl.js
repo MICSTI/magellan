@@ -229,7 +229,13 @@ angular
                 });
             }
 
-            $scope.achievements = achievements;
+            if ($scope.$$phase) {
+                $scope.achievements = achievements;
+            } else {
+                $scope.$apply(function() {
+                    $scope.achievements = achievements;
+                });
+            }
 
             if (showBests && personalBest && personalBest.id && personalBest.date && personalBest.score && overallBest && overallBest.id && overallBest.date && overallBest.score) {
                 var bests = [];
@@ -243,9 +249,21 @@ angular
                     bests.push(personalBest);
                 }
 
-                $scope.bests = bests;
+                if ($scope.$$phase) {
+                    $scope.bests = bests;
+                } else {
+                    $scope.$apply(function() {
+                        $scope.bests = bests;
+                    });
+                }
             } else {
-                $scope.bests = null;
+                if ($scope.$$phase) {
+                    $scope.bests = null;
+                } else {
+                    $scope.$apply(function() {
+                        $scope.bests = null;
+                    });
+                }
             }
         };
 
