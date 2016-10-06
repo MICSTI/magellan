@@ -40,7 +40,11 @@ angular
 
                         switch (err.message) {
                             case 'Username already exists':
-                                messageText = 'Der Benutzername existiert bereits';
+                                messageText = 'Der Benutzername ist bereits in Verwendung';
+                                break;
+
+                            case 'Email address already exists':
+                                messageText = 'Die E-Mail-Adresse ist bereits in Verwendung';
                                 break;
 
                             default:

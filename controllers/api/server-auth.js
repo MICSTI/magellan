@@ -44,35 +44,91 @@ router.post('/session', function(req, res, next) {
 });
 
 router.post('/user', function(req, res, next) {
+    var error;
+
+    var username = req.body.username;
+    var email = req.body.email;
+    var color = req.body.color;
+    var password = req.body.password;
+
+    if (!username) {
+        error = new Error();
+        error.status = 400;
+        error.message = 'Missing parameter username';
+        return next(error);
+    }
+
+    if (!email) {
+        error = new Error();
+        error.status = 400;
+        error.message = 'Missing parameter email';
+        return next(error);
+    }
+
+    if (!color) {
+        error = new Error();
+        error.status = 400;
+        error.message = 'Missing parameter color';
+        return next(error);
+    }
+
+    if (!password) {
+        error = new Error();
+        error.status = 400;
+        error.message = 'Missing parameter password';
+        return next(error);
+    }
+
     // ensure username is not already in use
     User.findOne({
-        username: req.body.username
+        username: username
     }, function(err, existingUser) {
         if (err) {
             return next(err);
         }
 
         if (existingUser) {
-            return res.status(400).send({
-                message: "Username already exists"
-            });
+            error = new Error();
+
+            error.status = 400;
+            error.message = "Username already exists";
+
+            return next(error);
         }
 
-        // create new user
-        var user = new User({
-            username: req.body.username,
-            email: req.body.email,
-            color: req.body.color
-        });
-
-        // generate salt and hash for password and save it to the user object
-        passwordUtil.savePassword(user, req.body.password)
-            .then(function() {
-                return res.status(201).send();
-            })
-            .catch(function(err) {
+        // also check if e-mail does not already exist
+        User.findOne({
+            email: email
+        }, function(err, existing) {
+            if (err) {
                 return next(err);
+            }
+
+            if (existing) {
+                error = new Error();
+
+                error.status = 400;
+                error.message = "Email address already exists";
+
+                return next(error);
+            }
+
+            // create new user
+            var user = new User({
+                username: username,
+                email: email,
+                color: color
             });
+
+            // generate salt and hash for password and save it to the user object
+            passwordUtil.savePassword(user, password)
+                .then(function() {
+                    return res.status(201).send();
+                })
+                .catch(function(err) {
+                    return next(err);
+                });
+        });
     });
 });
 
