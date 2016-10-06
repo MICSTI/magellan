@@ -134,10 +134,10 @@ angular
                     questionTypeArray.push(4);
                 } else if (j < 15) {
                     questionTypeArray.push(5);
+                } else {
+                    // add one random question for the last one
+                    questionTypeArray.push(getRandomInt(1, questionTypesLength));
                 }
-
-                // add one random question
-                questionTypeArray.push(getRandomInt(1, questionTypesLength));
             }
 
             var shuffledQuestionTypeArray = shuffle(questionTypeArray);
