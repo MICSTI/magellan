@@ -1,6 +1,9 @@
 # magellan
 Test your knowledge about the countries of our world
 
+# What is it?
+Magellan is an online quiz game. You have to answer questions about countries, for instance what the name of the capital city of a certain country is or which country a national flag belongs to.
+
 # Commands that should be run before starting development
 - gulp
 - nodemon boot.js
@@ -11,6 +14,3 @@ Test your knowledge about the countries of our world
 
 # Database
 The application must have access to a MongoDB instance.
-
-# Country data
-The country data used is imported from [REST Countries](https://restcountries.eu/).
