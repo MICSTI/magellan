@@ -22,7 +22,7 @@ var getDifficultyForCountry = function(country) {
         (country.subregion.indexOf('Central America') >= 0 && country.population >= 100000000) ||
         (country.subregion.indexOf('Africa') >= 0 && country.population >= 100000000) ||
         (country.subregion.indexOf('Asia') >= 0 && country.population >= 500000000) ||
-        country.name === 'Türkei') {
+        ['Israel', 'Türkei'].indexOf(country.name) >= 0) {
         // easy
         return 'easy';
     } else if ((country.subregion.indexOf('Africa') >= 0 && country.population >= 15000000) ||
