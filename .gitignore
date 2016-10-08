@@ -36,6 +36,6 @@ node_modules
 .idea
 
 # Config files
-config/db.js
+config/db.local.js
 config/db.production.js
 config/server.js

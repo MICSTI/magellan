@@ -8,7 +8,7 @@ if (process.env === 'production') {
     DB = require('./config/db.production');
 } else {
     // use local environment file
-    DB = require("./config/db");
+    DB = require("./config/db.local");
 }
 
 // to solve deprecation problem of mongoose's mpromise library
