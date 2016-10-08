@@ -1,7 +1,15 @@
 var mongoose = require('mongoose');
 
 // config files ====================================
-var DB = require("./config/db");
+var DB;
+
+if (process.env === 'production') {
+    // use production environment file
+    DB = require('./config/db.production');
+} else {
+    // use local environment file
+    DB = require("./config/db");
+}
 
 // to solve deprecation problem of mongoose's mpromise library
 // see: https://github.com/Automattic/mongoose/issues/4291
