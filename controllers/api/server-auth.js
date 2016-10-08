@@ -136,16 +136,43 @@ router.post('/user', function(req, res, next) {
  * Route for basic user update (username, email and color).
  */
 router.put('/user/basic', protectRoute, function(req, res, next) {
+    var error;
+
+    var username = req.body.username;
+    var email = req.body.email;
+    var color = req.body.color;
+
+    if (!username) {
+        error = new Error();
+        error.status = 400;
+        error.message = 'Missing parameter username';
+        return next(error);
+    }
+
+    if (!email) {
+        error = new Error();
+        error.status = 400;
+        error.message = 'Missing parameter email';
+        return next(error);
+    }
+
+    if (!color) {
+        error = new Error();
+        error.status = 400;
+        error.message = 'Missing parameter color';
+        return next(error);
+    }
+
     // ensure username is not already in use
     User.findOne({
-        username: req.body.username
+        username: username
     }, function(err, existingUser) {
         if (err) {
             return next(err);
         }
 
         if (existingUser && !existingUser._id.equals(req.user._id)) {
-            var error = new Error();
+            error = new Error();
 
             error.status = 400;
             error.message = "Username already exists";
@@ -162,23 +189,43 @@ router.put('/user/basic', protectRoute, function(req, res, next) {
             }
 
             if (!user) {
-                var error = new Error();
+                error = new Error();
 
+                error.status = 400;
                 error.message = 'No user with this id found';
 
                 return next(error);
             }
 
-            user.username = req.body.username;
-            user.email = req.body.email;
-            user.color = req.body.color;
-
-            user.save(function(err) {
+            // check if email address already exists somewhere else
+            // also check if e-mail does not already exist
+            User.findOne({
+                email: email
+            }, function(err, existing) {
                 if (err) {
                     return next(err);
                 }
 
-                res.status(200).json(user);
+                if (existing && !existing._id.equals(user._id)) {
+                    error = new Error();
+
+                    error.status = 400;
+                    error.message = "Email address already exists";
+
+                    return next(error);
+                }
+
+                user.username = username;
+                user.email = email;
+                user.color = color;
+
+                user.save(function(err) {
+                    if (err) {
+                        return next(err);
+                    }
+
+                    res.status(200).json(user);
+                });
             });
         });
     });

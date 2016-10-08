@@ -45,6 +45,10 @@ angular
                             messageText = 'Der Benutzername ist bereits vergeben';
                             break;
 
+                        case 'Email address already exists':
+                            messageText = 'Die E-Mail-Adresse ist bereits vergeben';
+                            break;
+
                         default:
                             messageText = 'Die Einstellungen konnten nicht gespeichert werden';
                             break;
