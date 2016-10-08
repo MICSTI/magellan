@@ -1,4 +1,8 @@
-<section class="faq-container">
+<section class="faq-container" ng-controller="FaqCtrl">
+    <section class="section-element ui-message-container" ng-if="message">
+        <div class="ui-message ui-message-center ui-message-{{message.type}}">{{message.text}}</div>
+    </section>
+
     <div class="section-element section-title">FAQs</div>
 
     <div class="section-element faq-item">

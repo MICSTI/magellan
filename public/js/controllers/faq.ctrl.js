@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .controller('HomeCtrl', function($scope, LogSrv, $stateParams) {
+    .controller('FaqCtrl', function($scope, LogSrv, $stateParams) {
         $scope.message = null;
 
         // check state params

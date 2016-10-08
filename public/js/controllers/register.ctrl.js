@@ -23,7 +23,7 @@ angular
                             $scope.$emit('app.login', response.data);
 
                             // redirect to home page
-                            $state.go('home', {
+                            $state.go('faq', {
                                 action: 'register.successful'
                             });
                         } else {

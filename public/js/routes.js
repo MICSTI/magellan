@@ -18,10 +18,7 @@ angular.module('magellan')
         $stateProvider
             .state('home', {
                 url: '/home',
-                templateUrl: '/build/views/partials/home.partial.html',
-                params: {
-                    action: null
-                }
+                templateUrl: '/build/views/partials/home.partial.html'
             })
             .state('quiz', {
                 url: '/quiz',
@@ -91,7 +88,10 @@ angular.module('magellan')
             })
             .state('faq', {
                 url: '/faq',
-                templateUrl: '/build/views/partials/faq.partial.html'
+                templateUrl: '/build/views/partials/faq.partial.html',
+                params: {
+                    action: null
+                }
             })
             .state('countries-difficulty', {
                 url: '/countries-difficulty',
