@@ -91,10 +91,7 @@ angular.module('magellan')
             })
             .state('faq', {
                 url: '/faq',
-                templateUrl: '/build/views/partials/faq.partial.html',
-                resolve: {
-                    auth: authorize
-                }
+                templateUrl: '/build/views/partials/faq.partial.html'
             })
             .state('countries-difficulty', {
                 url: '/countries-difficulty',
