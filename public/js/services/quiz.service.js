@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .factory('QuizSrv', function(AppConfig, CountrySrv, ScoreSrv, LogSrv) {
+    .factory('QuizSrv', function(AppConfig, CountrySrv, ScoreSrv, EventSrv) {
         var countries = null;
         var countriesByAlpha3 = null;
 
@@ -23,6 +23,9 @@ angular
                 }
 
                 quiz = createQuiz('country');
+
+                // add quiz start event
+                EventSrv.add('quiz.start');
 
                 resolve(quiz.start());
             });
@@ -420,6 +423,9 @@ angular
 
                     ScoreSrv.putHighscore(quiz.getTotalPoints())
                         .then(function(data) {
+                            // add quiz finish event
+                            EventSrv.add('quiz.finish');
+
                             resolve(data);
                         })
                         .catch(function(err) {
