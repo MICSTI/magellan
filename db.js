@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 // config files ====================================
 var DB;
 
-if (process.env === 'production') {
+if (process.env.NODE_ENV === 'production') {
     // use production environment file
     DB = require('./config/db.production');
 } else {
