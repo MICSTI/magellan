@@ -1,6 +1,5 @@
 var router = require('express').Router();
 var protectRoute = require('../protect');
-var _ = require('lodash');
 
 var Event = require('../../models/event');
 
