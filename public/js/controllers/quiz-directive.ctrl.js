@@ -62,9 +62,6 @@ angular
 
                 // focus answer input
                 FocusSrv('.answerInput');
-            } else {
-                // quiz has ended, set progress bar to 0
-                $scope.progressbar.set(0);
             }
         };
 
@@ -268,6 +265,9 @@ angular
         };
 
         var continueFinished = function() {
+            // quiz has ended, set progress bar to 0
+            $scope.progressbar.set(0);
+
             showResultsPage();
 
             nextQuestion();
