@@ -39,6 +39,7 @@ app.use('/api', require('./controllers/api/server-auth.js'));
 app.use('/api/countries', require('./controllers/api/countries.js'));
 app.use('/api/scores', require('./controllers/api/scores.js'));
 app.use('/api/password', require('./controllers/api/password.js'));
+app.use('/api/event', require('./controllers/api/events.js'));
 
 require("./app/routes")(app);
 
