@@ -75,7 +75,7 @@
 </section>
 
 <section class="after-quiz" ng-if="isResultsPageVisible">
-    <div class="quiz-result">Das Quiz ist beendet. Du hast <span class="white">{{getTotalPoints()}} Punkte</span> erreicht.</div>
+    <div class="quiz-result">Das Quiz ist beendet. Du hast <span class="white">{{getTotalPoints() | number}} Punkte</span> erreicht.</div>
 
     <div class="achievement-container" ng-if="achievements && achievements.length > 0">
         <div ng-repeat="achievement in achievements" class="ui-message ui-message-success">
