@@ -1,5 +1,16 @@
 // own classes and functions
 
+// ---------- MAP ----------
+var createMap = function() {
+    var map = new Datamap({
+        element: document.getElementById('map-container'),
+        geographyConfig: {
+            highlightOnHover: true,
+            popupOnHover: false
+        }
+    });
+};
+
 // ---------- QUIZ ----------
 var Quiz = function() {
     // index of current question

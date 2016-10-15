@@ -690,6 +690,64 @@ quiz {
   padding-bottom: 1em;
 }
 
+.map-container {
+  position: relative;
+  width: 600px;
+  height: 300px;
+}
+
+@media screen and (max-width: 630px) {
+  .map-container {
+    width: 500px;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .map-container {
+    width: 450px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .map-container {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .map-container {
+    width: 350px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .map-container {
+    width: 300px;
+    height: 200px;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .map-container {
+    width: 250px;
+    height: 200px;
+  }
+}
+
+@media screen and (max-width: 280px) {
+  .map-container {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media screen and (max-width: 180px) {
+  .map-container {
+    width: 100px;
+    height: 100px;
+  }
+}
+
 .input-container {
   padding: 0.6em 0;
 }
