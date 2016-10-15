@@ -127,6 +127,10 @@ angular
             var questionTypeArray = [];
 
             for (var j = 0; j < numberOfQuestions; j++) {
+                questionTypeArray.push(6);
+            }
+
+            /*for (var j = 0; j < numberOfQuestions; j++) {
                 if (j < 3) {
                     questionTypeArray.push(1);
                 } else if (j < 6) {
@@ -141,7 +145,7 @@ angular
                     // add one random question for the last one
                     questionTypeArray.push(getRandomInt(1, questionTypesLength));
                 }
-            }
+            }*/
 
             var shuffledQuestionTypeArray = shuffle(questionTypeArray);
 
@@ -176,6 +180,12 @@ angular
                     info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
                 }
 
+                // add info for location of country
+                if (questionType === 'LOCATION_OF_COUNTRY') {
+                    info.media = 'map';
+                    info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
+                }
+
                 countryQuiz.addQuestion(new Question({
                     text: text,
                     info: info,
@@ -204,6 +214,9 @@ angular
 
                 case 'FLAG_OF_COUNTRY':
                     return "Welches Land hat diese Flagge";
+
+                case 'LOCATION_OF_COUNTRY':
+                    return "Wo befindet sich [" + country.name + "]";
 
                 default:
                     return "?"
@@ -239,6 +252,11 @@ angular
                         correct: country.area
                     };
 
+                case 'LOCATION_OF_COUNTRY':
+                    return {
+                        correct: country.alpha2Code
+                    };
+
                 default:
                     return "?"
             }
@@ -251,6 +269,9 @@ angular
 
                 case 'AREA_OF_COUNTRY':
                     return 'number.medium';
+
+                case 'LOCATION_OF_COUNTRY':
+                    return 'map.point';
 
                 case 'CAPITAL_OF_COUNTRY':
                 case 'COUNTRY_OF_CAPITAL':
@@ -278,6 +299,7 @@ angular
                 case 'CAPITAL_OF_COUNTRY':
                 case 'COUNTRY_OF_CAPITAL':
                 case 'FLAG_OF_COUNTRY':
+                case 'LOCATION_OF_COUNTRY':
                     return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
                         var correct = submittedAnswer === answer.correct || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
 

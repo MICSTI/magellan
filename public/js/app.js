@@ -11,13 +11,14 @@ magellan.constant("AppConfig", {
     "log.info": true,
     "log.error": true,
 
-    "quiz.country.questions": 16,
+    "quiz.country.questions": 3,
     "quiz.country.types": {
         1: "CAPITAL_OF_COUNTRY",
         2: "COUNTRY_OF_CAPITAL",
         3: "POPULATION_OF_COUNTRY",
         4: "AREA_OF_COUNTRY",
-        5: "FLAG_OF_COUNTRY"
+        5: "FLAG_OF_COUNTRY",
+        6: "LOCATION_OF_COUNTRY"
     },
 
     "settings.user.colors": [

@@ -37,6 +37,10 @@
             <select class="multiplierSelection" ng-model="answerInput.multiplier" ng-options="opt.label for opt in multiplierOptions track by opt.value"></select>
         </div>
 
+        <div ng-switch-when="map.point" class="quiz-input-map">
+
+        </div>
+
         <div ng-switch-default>
             {{getQuestion().getInfo().input}}
         </div>
