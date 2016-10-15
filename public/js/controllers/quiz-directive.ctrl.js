@@ -116,7 +116,8 @@ angular
 
         var submitAnswer = function() {
             if ($scope.answerInput.answer && !question.answered()) {
-                var answer = String($scope.answerInput.answer);
+                // transform submitted answer to String and trim any whitespaces at the begin or end of the answer
+                var answer = String($scope.answerInput.answer).trim();
 
                 // if it is a number input, replace ',' with '.'
                 if (question.getInfo().input && question.getInfo().input.indexOf('number') === 0) {
