@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node boot.js",
+    "start:dev": "nodemon boot.js",
     "test": "mocha test/mocha"
   },
   "repository": {
