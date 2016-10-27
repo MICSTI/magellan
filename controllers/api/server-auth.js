@@ -3,30 +3,28 @@ var config = require('../../config/server');
 var _ = require('lodash');
 var protectRoute = require('../protect');
 var passwordUtil = require('../password');
+var userUtil = require('../user');
 
 var router = require('express').Router();
 var User = require('../../models/user');
 
 router.post('/session', function(req, res, next) {
+    var error;
+
     // ensure username and password were sent
     if (!req.body.username || !req.body.password) {
-        return res.status(401).send();
+        error = new Error();
+        error.status = 401;
+        error.message = "Parameters 'username' and 'password' are mandatory";
+
+        return next(error);
     }
 
     var username = req.body.username;
     var password = req.body.password;
 
-    User.findOne( { username: username, active: true } )
-        .select('password')
-        .exec(function(err, user) {
-            if (err) {
-                return next(err);
-            }
-
-            if (!user) {
-                return res.status(401).send("Username or password not valid");
-            }
-
+    userUtil.findUserByUsernameOrMail(username)
+        .then(function(user) {
             passwordUtil.comparePassword(password, user.password)
                 .then(function() {
                     var token = jwt.encode({ user: user._id }, config.secretKey);
@@ -40,6 +38,14 @@ router.post('/session', function(req, res, next) {
 
                     return next(error);
                 });
+        })
+        .catch(function(err) {
+            error = new Error();
+
+            error.status = 401;
+            error.message = err;
+
+            return next(error);
         });
 });
 
