@@ -32,7 +32,7 @@
                 <td class="bold">Grenzstaaten</td>
                 <td>
                     <ul ng-if="country.borders.length > 0">
-                        <li ng-repeat="border in country.borders">
+                        <li ng-repeat="border in country.borders | orderBy:getCountryFromService(border).name">
                             <a ng-href="/countries/{{getCountryFromService(border).alpha3Code}}">{{getCountryFromService(border).name}}</a>
                         </li>
                     </ul>
