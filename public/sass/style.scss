@@ -436,6 +436,22 @@ nav {
 .form-control {
   padding: 0.3em;
   width: 50%;
+
+  & + .info {
+    margin: .6em auto;
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .form-control {
+    width: 85%;
+
+    & + .info {
+      margin: .6em auto;
+      width: 85%;
+    }
+  }
 }
 /* ---------------------------------- */
 
