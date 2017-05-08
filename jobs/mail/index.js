@@ -95,12 +95,12 @@ fs.readFile('config.json', 'utf-8', function(err, data) {
         return console.error('Could not parse config.json', e);
     }
 
-    // check for safemode
-    var safemode = false;
+    // check for dryrun
+    var dryrun = false;
 
-    if (checkNested(config, 'params', 'safemode') && config.params.safemode === true) {
-        safemode = true;
-        console.log('Job is running in safemode (no e-mails will be sent)');
+    if (checkNested(config, 'params', 'dryrun') && config.params.dryrun === true) {
+        dryrun = true;
+        console.log('Job is running in dryrun (no e-mails will be sent)');
     }
 
     // get mail subject
@@ -119,6 +119,11 @@ fs.readFile('config.json', 'utf-8', function(err, data) {
         if (err) {
             return console.error('failed to fetch users', err);
         }
+		
+		// use static recipients if they are set
+		if (checkNested(config, 'params', 'mail', 'useRecipients') && typeof config.params.mail.useRecipients === 'object') {
+			users = config.params.mail.useRecipients;
+		}
 
         if (!users || users.length === 0) {
             console.log('No users found - no e-mails can be sent');
@@ -141,7 +146,7 @@ fs.readFile('config.json', 'utf-8', function(err, data) {
                     userArray.forEach(function(u) {
                         var finalContent = replaceStrings(config, content, u);
 
-                        if (safemode === true) {
+                        if (dryrun === true) {
                             console.log('\n=======================================');
                             console.log('would now sent the following mail:', '\n');
 
@@ -160,18 +165,21 @@ fs.readFile('config.json', 'utf-8', function(err, data) {
                         }
                     });
 
-                    if (safemode === false) {
+                    if (dryrun === false) {
                         Promise.all(promises)
                             .then(function(result) {
                                 console.log('All mails sent', result);
+
+                                // we're finished now, exit program
+                                process.exit();
                             })
                             .catch(function(err) {
                                 console.error('Failed to send all mails', err);
+
+                                // we're finished now, exit program
+                                process.exit();
                             });
                     }
-
-                    // we're finished now, exit program
-                    process.exit();
                 })
                 .catch(function(err) {
                     console.error('failed to get mail content', err);

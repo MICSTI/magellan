@@ -3,16 +3,17 @@
   "description": "Sends an e-mail to a all members of an array of e-mail addresses",
   "entry": "index.js",
   "params": {
-    "safemode": true,
+    "dryrun": true,
     "mail": {
-      "subject": "Test Subject",
+      "subject": "[Magellan] Info",
       "useText": null,
       "useFile": "mails/test.html",
       "replace": {
         "{BRAND_COLOR}": "#81cfe0",
         "{USERNAME}": "{{context:username}}",
         "{USER_COLOR}": "{{context:color}}"
-      }
+      },
+	  "useRecipients": "undefined"
     }
   }
 }
