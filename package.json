@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node boot.js",
-    "test": "mocha test/mocha"
+    "test": "mocha test/mocha",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -33,7 +35,8 @@
     "mongoose": "^4.4.15",
     "nodemailer": "^2.6.4",
     "os": "^0.1.1",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "snyk": "^1.30.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -55,5 +58,6 @@
     "jshint": "^2.9.2",
     "nodemon": "^1.9.2",
     "protractor": "^3.3.0"
-  }
+  },
+  "snyk": true
 }
