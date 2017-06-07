@@ -66,11 +66,21 @@ describe('Question model (general)', function () {
                 altSpellings: ["Wein"]
             },
             checkAnswer: function(answer, submittedAnswer, hintsUsed, hintCost, info) {
+                var allowedSpellings;
+
+                if (answer.altSpellings && answer.altSpellings.length > 0) {
+                    allowedSpellings = answer.altSpellings.map(function(spelling) {
+                        return spelling.toLocaleLowerCase();
+                    });
+                } else {
+                    allowedSpellings = [];
+                }
+
                 var points = 0;
 
                 switch (info.type) {
                     case "text":
-                        var correct = submittedAnswer === answer.correct || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
+                        var correct = submittedAnswer.toLocaleLowerCase() === answer.correct.toLocaleLowerCase() || (allowedSpellings && allowedSpellings.indexOf(submittedAnswer.toLocaleLowerCase()) >= 0);
                         points = correct ? fullPoints : zeroPoints;
 
                         // if hints are allowed and have been used, subtract the points
@@ -88,31 +98,25 @@ describe('Question model (general)', function () {
         done();
     });
 
-    it('configures the object correctly', function (done) {
+    it('configures the object correctly', function () {
         expect(question.question()).to.equal('Hauptstadt von Österreich?');
         expect(question.getInfo()).to.be.an('object');
         expect(question.info('type')).to.not.be.null;
         expect(question.info('type')).to.equal('text');
         expect(question.answered()).to.be.false;
-
-        done();
     });
 
-    it('does not return the correct answer before the question has been answered', function(done) {
+    it('does not return the correct answer before the question has been answered', function() {
         expect(question.solution()).to.be.null;
 
         question.answer("Wien");
 
         expect(question.solution()).to.not.be.null;
-
-        done();
     });
 
-    it('returns a number with the achieved points after answering a question', function(done) {
+    it('returns a number with the achieved points after answering a question', function() {
         expect(question.answer("Wien")).to.be.a('number');
         expect(question.points()).to.be.a('number');
-
-        done();
     });
 
     it('correctly returns its answered status', function() {
@@ -121,38 +125,38 @@ describe('Question model (general)', function () {
         question.answer('Wien');
 
         expect(question.answered()).to.be.true;
-    })
+    });
 
-    it('does not give a hint if no hints are allowed', function(done) {
+    it('does not give a hint if no hints are allowed', function() {
         expect(question.hint()).to.be.null;
-
-        done();
     });
 
-    it('awards full points for submitting the correct answer', function(done) {
+    it('awards full points for submitting the correct answer', function() {
         expect(question.answer("Wien")).to.equal(fullPoints);
-
-        done();
     });
 
-    it('awards no points for submitting an incorrect answer', function(done) {
+    it('awards full points for a correct answer in different casing', function() {
+        expect(question.answer("wien")).to.equal(fullPoints);
+    });
+
+    it('awards full points for a correct alternate-spelled answer in different casing', function() {
+        expect(question.answer("wein")).to.equal(fullPoints);
+    });
+
+    it('awards no points for submitting an incorrect answer', function() {
         expect(question.answer("Wie")).to.equal(zeroPoints);
-
-        done();
     });
 
-    it('accepts an alternate spelling of the solution as a correct answer', function(done) {
+    it('accepts an alternate spelling of the solution as a correct answer', function() {
         question.answer("Wein");
 
         expect(question.points()).to.equal(fullPoints);
-
-        done();
     });
 });
 
 // check hint logc of question model
 describe('Question model (hints)', function() {
-    beforeEach(function(done) {
+    beforeEach(function() {
         fullPoints = 100;
         zeroPoints = 0;
         hintsPossible = 3;
@@ -176,11 +180,21 @@ describe('Question model (hints)', function() {
                 }
             },
             checkAnswer: function(answer, submittedAnswer, hintsUsed, hintCost, info) {
+                var allowedSpellings;
+
+                if (answer.altSpellings && answer.altSpellings.length > 0) {
+                    allowedSpellings = answer.altSpellings.map(function(spelling) {
+                        return spelling.toLocaleLowerCase();
+                    });
+                } else {
+                    allowedSpellings = [];
+                }
+
                 var points = 0;
 
                 switch (info.type) {
                     case "text":
-                        var correct = submittedAnswer === answer.correct || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
+                        var correct = submittedAnswer.toLocaleLowerCase() === answer.correct.toLocaleLowerCase() || (allowedSpellings && allowedSpellings.indexOf(submittedAnswer.toLocaleLowerCase()) >= 0);
                         points = correct ? fullPoints : zeroPoints;
 
                         // if hints are allowed and have been used, subtract the points
@@ -194,8 +208,6 @@ describe('Question model (hints)', function() {
                 return points;
             }
         });
-
-        done();
     });
 
     it('gives hints as long as it is allowed', function() {
@@ -335,11 +347,21 @@ describe('Quiz model', function() {
                 }
             },
             checkAnswer: function(answer, submittedAnswer, hintsUsed, hintCost, info) {
+                var allowedSpellings;
+
+                if (answer.altSpellings && answer.altSpellings.length > 0) {
+                    allowedSpellings = answer.altSpellings.map(function(spelling) {
+                        return spelling.toLocaleLowerCase();
+                    });
+                } else {
+                    allowedSpellings = [];
+                }
+
                 var points = 0;
 
                 switch (info.type) {
                     case "text":
-                        var correct = submittedAnswer === answer.correct || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
+                        var correct = submittedAnswer.toLocaleLowerCase() === answer.correct.toLocaleLowerCase() || (allowedSpellings && allowedSpellings.indexOf(submittedAnswer.toLocaleLowerCase()) >= 0);
                         points = correct ? fullPoints : zeroPoints;
 
                         // if hints are allowed and have been used, subtract the points
@@ -364,11 +386,21 @@ describe('Quiz model', function() {
                 correct: "Rom"
             },
             checkAnswer: function(answer, submittedAnswer, hintsUsed, hintCost, info) {
+                var allowedSpellings;
+
+                if (answer.altSpellings && answer.altSpellings.length > 0) {
+                    allowedSpellings = answer.altSpellings.map(function(spelling) {
+                        return spelling.toLocaleLowerCase();
+                    });
+                } else {
+                    allowedSpellings = [];
+                }
+
                 var points = 0;
 
                 switch (info.type) {
                     case "text":
-                        var correct = submittedAnswer === answer.correct || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
+                        var correct = submittedAnswer.toLocaleLowerCase() === answer.correct.toLocaleLowerCase() || (allowedSpellings && allowedSpellings.indexOf(submittedAnswer.toLocaleLowerCase()) >= 0);
                         points = correct ? fullPoints : zeroPoints;
 
                         // if hints are allowed and have been used, subtract the points
@@ -390,7 +422,7 @@ describe('Quiz model', function() {
         // we take two hints for the first question (so we should get 50 points for this answer)
         firstQuestion.hint();
         firstQuestion.hint();
-        firstQuestion.answer("Wien");
+        firstQuestion.answer("wien");
 
         expect(firstQuestion.points()).to.equal(fullPoints - (2 * hintCost));
 

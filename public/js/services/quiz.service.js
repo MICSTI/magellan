@@ -279,7 +279,17 @@ angular
                 case 'COUNTRY_OF_CAPITAL':
                 case 'FLAG_OF_COUNTRY':
                     return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
-                        var correct = submittedAnswer.toLocaleLowerCase() === answer.correct.toLocaleLowerCase() || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
+                        var allowedSpellings;
+
+                        if (answer.altSpellings && answer.altSpellings.length > 0) {
+                            allowedSpellings = answer.altSpellings.map(function(spelling) {
+                                return spelling.toLocaleLowerCase();
+                            });
+                        } else {
+                            allowedSpellings = [];
+                        }
+
+                        var correct = submittedAnswer.toLocaleLowerCase() === answer.correct.toLocaleLowerCase() || (allowedSpellings && allowedSpellings.indexOf(submittedAnswer) >= 0);
 
                         var points = correct ? fullPoints : 0;
 
