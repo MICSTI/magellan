@@ -279,7 +279,7 @@ angular
                 case 'COUNTRY_OF_CAPITAL':
                 case 'FLAG_OF_COUNTRY':
                     return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
-                        var correct = submittedAnswer === answer.correct || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
+                        var correct = submittedAnswer.toLocaleLowerCase() === answer.correct.toLocaleLowerCase() || (answer.altSpellings && answer.altSpellings.indexOf(submittedAnswer) >= 0);
 
                         var points = correct ? fullPoints : 0;
 
