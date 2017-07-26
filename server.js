@@ -55,6 +55,9 @@ require("./app/routes")(app);
 // error handler ====================================
 app.use(errorHandler);
 
+// disable X-Powered-By header ===================
+app.disable('x-powered-by');
+
 // start app ====================================
 app.listen(port);
 
