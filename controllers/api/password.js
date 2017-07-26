@@ -45,7 +45,7 @@ router.post('/forgot', function(req, res, next) {
                 return next(err);
             }
 
-            var protocol = req.secure ? 'https' : 'http';
+            var protocol = req.protocol;
             var baseUrl = req.headers.host;
             var apiUrl = '/password/reset/' + user.resetToken;
 
