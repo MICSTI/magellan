@@ -6,6 +6,7 @@ var authentication = require('./controllers/authentication');
 var appcache = require('./controllers/appcache');
 var errorHandler = require('./controllers/error-handler');
 var favicon = require('serve-favicon');
+var compression = require('compression');
 
 // config files ====================================
 var SERVER = require("./config/server");
@@ -30,6 +31,14 @@ app.use(favicon(__dirname + '/assets/favicon.ico'));
 
 // manifest file
 app.use('/magellan.appcache', appcache);
+
+// compression (should be placed before express.static)
+app.use(compression({
+    filter: function (req, res) {
+        return (/json|text|javascript|css|font|svg/).test(res.getHeader('Content-Type'));
+    },
+    level: 6
+}));
 
 // set the static files location (/public/img will be /img for users)
 app.use(express.static(__dirname + "/public"));
