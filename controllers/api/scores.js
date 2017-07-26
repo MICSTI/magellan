@@ -74,6 +74,17 @@ router.put('/', protectRoute, function(req, res, next) {
         req.user.scores = [];
     }
 
+    // clean-up the scores array (keep track if something was actually removed
+    var lengthBeforeCleanup = req.user.scores.length;
+
+    req.user.scores = cleanUpScoresArray(req.user.scores);
+
+    var lengthAfterCleanup = req.user.scores.length;
+
+    if (lengthAfterCleanup !== lengthBeforeCleanup) {
+        saveEntry = true;
+    }
+
     // find out the user's personal best score
     var personalBest = _.extend({ id: req.user._id, username: req.user.username, color: req.user.color }, findPersonalBest(req.user));
 
@@ -261,6 +272,43 @@ var getOverallHighscoreList = function() {
                 resolve(list);
             });
     });
+};
+
+/**
+ * Removes all scores entries which are not from today or the personal best.
+ * Returns the cleaned-up array with a maximum of two entries.
+ */
+var cleanUpScoresArray = function(scores) {
+    if (typeof scores === 'undefined') {
+        return [];
+    }
+
+    // check if scores array has less than two entries, then we just return the array as-is
+    if (scores.length < 2) {
+        return scores;
+    }
+
+    // determine the personal best
+    var personalBest = findPersonalBest({ scores: scores });
+
+    // check if the personal best is from today
+    var today = new Date();
+
+    if (datesEqual(today, personalBest.date)) {
+        // if the dates are equal, we can just return a new array containing the personal best
+        return [personalBest];
+    } else {
+        // check if there even is an entry from today (it would have to be the last one)
+        var lastEntry = scores[scores.length - 1];
+
+        if (datesEqual(today, lastEntry.date)) {
+            // in this case, we return a new array containing the personal best and today's entry
+            return [personalBest, lastEntry];
+        } else {
+            // if there is no entry from today, return a new array containing just the personal best
+            return [personalBest];
+        }
+    }
 };
 
 module.exports = router;
