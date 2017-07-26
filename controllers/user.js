@@ -20,8 +20,6 @@ var findUserByUsernameOrMail = function(usernameOrMail) {
                     return reject(err);
                 }
 
-                console.log('USER BY USERNAME', userByUsername);
-
                 if (userByUsername !== null) {
                     return resolve(userByUsername);
                 } else {
@@ -32,8 +30,6 @@ var findUserByUsernameOrMail = function(usernameOrMail) {
                             if (err) {
                                 return reject(err);
                             }
-
-                            console.log('USER BY MAIL', userByMail);
 
                             if (userByMail !== null) {
                                 return resolve(userByMail);
