@@ -15,6 +15,7 @@ var countries = require('../../build/assets/countries.json');
 var models = require('../../public/js/models');
 var Question = models.Question;
 var Quiz = models.Quiz;
+var PasswordRequirementsValidator = models.PasswordRequirementsValidator;
 
 // check countries file
 describe('Countries file', function() {
@@ -436,5 +437,33 @@ describe('Quiz model', function() {
         expect(quiz.hasEnded()).to.be.true;
 
         expect(quiz.getTotalPoints()).to.equal(2 * fullPoints - (2 * hintCost));
+    });
+});
+
+// password requirements
+describe('Password requirements', function() {
+    beforeEach(function() {
+        validator = new PasswordRequirementsValidator();
+    });
+
+    it('is an object', function() {
+        expect(validator).to.be.an('object');
+    });
+
+    it('has a fucntion \"check\"', function() {
+        expect(validator.check).to.be.a('function');
+    });
+
+    it('does not accept no input', function() {
+        expect(validator.check.bind(validator)).to.throw(Error);
+    });
+
+    it('only accepts string inputs', function() {
+        expect(validator.check.bind(validator, 42)).to.throw(Error);
+    });
+
+    it('does something', function() {
+        var result = validator.check('');
+        console.log('RESULT', result);
     });
 });
