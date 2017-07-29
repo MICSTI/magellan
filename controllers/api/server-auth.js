@@ -132,7 +132,12 @@ router.post('/user', function(req, res, next) {
                     return res.status(201).send();
                 })
                 .catch(function(err) {
-                    return next(err);
+                    error = new Error();
+
+                    error.status = 400;
+                    error.message = err.message || "Password could not be saved";
+
+                    return next(error);
                 });
         });
     });

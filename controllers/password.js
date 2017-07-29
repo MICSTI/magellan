@@ -1,5 +1,12 @@
 var bcrypt = require('bcryptjs');
 
+var config = require('../config/server');
+var PasswordRequirementsValidator = require('../public/js/models').PasswordRequirementsValidator;
+
+// configure the password requirements validator
+var validator = new PasswordRequirementsValidator();
+validator.setConfig(config.passwordRequirements);
+
 /**
  * Sets a new password for the user.
  * @param user  (MongoDB object)
@@ -8,11 +15,21 @@ var bcrypt = require('bcryptjs');
 var savePassword = function(user, password) {
     return new Promise(function(resolve, reject) {
         if (!user || typeof user.save !== 'function') {
-            reject('Parameter user is not a MongoDB object');
+            return reject('Parameter user is not a MongoDB object');
         }
 
         if (!password) {
-            reject('Missing parameter password');
+            return reject('Missing parameter password');
+        }
+
+        // check if password matches the requirements
+        var checkResult = validator.check(password);
+
+        if (checkResult.passwordOk === false) {
+            return reject({
+                message: 'Password does not match requirements',
+                info: checkResult.failedChecks
+            });
         }
 
         // generate salt and hash for password

@@ -47,6 +47,10 @@ angular
                                 messageText = 'Die E-Mail-Adresse ist bereits in Verwendung';
                                 break;
 
+                            case 'Password does not match requirements':
+                                messageText = 'Das Passwort entspricht nicht den Sicherheitsrichtlinien';
+                                break;
+
                             default:
                                 messageText = 'Bei der Anmeldung scheint etwas schief gegangen zu sein';
                         }
