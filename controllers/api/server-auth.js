@@ -294,7 +294,12 @@ router.put('/user/password', protectRoute, function(req, res, next) {
                             return res.status(200).send();
                         })
                         .catch(function(err) {
-                            return next(err);
+                            error = new Error();
+
+                            error.status = 400;
+                            error.message = err.message || "Password could not be saved";
+
+                            return next(error);
                         });
                 })
                 .catch(function(errorMessage) {
