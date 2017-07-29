@@ -15,5 +15,13 @@ module.exports = {
             }
         }
     },
+    passwordRequirements: {
+        minLength: 8,
+        maxLength: undefined,
+        lowercaseChars: 1,
+        uppercaseChars: 1,
+        numericChars: 1,
+        specialChars: 1
+    },
     useAppCache: false
 };
