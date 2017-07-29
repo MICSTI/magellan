@@ -330,7 +330,7 @@ var PasswordRequirementsValidator = function() {
         lowercaseChars: 1,
         uppercaseChars: 1,
         specialChars: 1,
-        numberChars: 1
+        numericChars: 1
     };
 
     // used configuration
@@ -365,8 +365,6 @@ var PasswordRequirementsValidator = function() {
             if (result !== true) {
                 failedChecks.push(configProp);
             }
-
-            console.log('CHECK for', configProp, 'is', result);
         });
 
         // return result
@@ -433,13 +431,13 @@ var PasswordRequirementsValidator = function() {
                 break;
 
             case 'specialChars':
-                var numSpecials = self.input.length - self.input.replace(/[!@§$%&#^*_:;.,+"'`´-]/g, '').length;
+                var numSpecials = self.input.length - self.input.replace(/[!@§$%&#^*_:;.,+"'`´\{\}\(\)\[\]\/\\-]/g, '').length;
 
                 return numSpecials >= propertyValue;
 
                 break;
 
-            case 'numberChars':
+            case 'numericChars':
                 var numNumbers = self.input.length - self.input.replace(/[0-9]/g, '').length;
 
                 return numNumbers >= propertyValue;
@@ -460,7 +458,7 @@ PasswordRequirementsValidator.CONFIG_PROPERTIES = [
     'lowercaseChars',   // number of mandatory lowercase characters
     'uppercaseChars',   // number of mandatory uppercase characters
     'specialChars',     // number of mandatory special characters
-    'numberChars'       // number of mandatory number characters
+    'numericChars'       // number of mandatory number characters
 ];
 
 if (typeof module !== 'undefined' && module.exports) {

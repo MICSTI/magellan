@@ -450,7 +450,7 @@ describe('Password requirements', function() {
         expect(validator).to.be.an('object');
     });
 
-    it('has a fucntion \"check\"', function() {
+    it('has a function \"check\"', function() {
         expect(validator.check).to.be.a('function');
     });
 
@@ -462,8 +462,101 @@ describe('Password requirements', function() {
         expect(validator.check.bind(validator, 42)).to.throw(Error);
     });
 
-    it('does something', function() {
-        var result = validator.check('');
-        console.log('RESULT', result);
+    it('returns an object as result', function() {
+        var resultObj = validator.check('a');
+
+        expect(resultObj).to.be.an('object');
+
+        resultObj.should.have.property('passwordOk');
+        expect(resultObj.passwordOk).to.be.a('boolean');
+
+        resultObj.should.have.property('failedChecks');
+        expect(resultObj.failedChecks).to.be.an('array');
+    });
+
+    it('correctly checks for minimum length', function() {
+        validator.setConfig({
+            minLength: 5
+        });
+
+        expect(validator.check('abcd').passwordOk).to.be.false;
+        expect(validator.check('abcd').failedChecks).to.include('minLength');
+
+        expect(validator.check('abcde').passwordOk).to.be.true;
+    });
+
+    it('correctly checks for maximum length', function() {
+        validator.setConfig({
+            maxLength: 4
+        });
+
+        expect(validator.check('abcd').passwordOk).to.be.true;
+
+        expect(validator.check('abcde').passwordOk).to.be.false;
+        expect(validator.check('abcde').failedChecks).to.include('maxLength');
+    });
+
+    it('correctly checks for lowercase characters', function() {
+        validator.setConfig({
+            lowercaseChars: 2
+        });
+
+        expect(validator.check('1234a').passwordOk).to.be.false;
+        expect(validator.check('1234a').failedChecks).to.include('lowercaseChars');
+
+        expect(validator.check('1234ab').passwordOk).to.be.true;
+    });
+
+    it('correctly checks for uppercase characters', function() {
+        validator.setConfig({
+            uppercaseChars: 2
+        });
+
+        expect(validator.check('1234Ac').passwordOk).to.be.false;
+        expect(validator.check('1234Ac').failedChecks).to.include('uppercaseChars');
+
+        expect(validator.check('1234ABc').passwordOk).to.be.true;
+    });
+
+    it('correctly checks for numeric characters', function() {
+        validator.setConfig({
+            numericChars: 2
+        });
+
+        expect(validator.check('abcd1').passwordOk).to.be.false;
+        expect(validator.check('abcd1').failedChecks).to.include('numericChars');
+
+        expect(validator.check('abcd12').passwordOk).to.be.true;
+    });
+
+    it('correctly checks for special characters', function() {
+        validator.setConfig({
+            specialChars: 2
+        });
+
+        expect(validator.check('eW§').passwordOk).to.be.false;
+        expect(validator.check('ew$').failedChecks).to.include('specialChars');
+
+        expect(validator.check('ew$`').passwordOk).to.be.true;
+    });
+
+    it('correctly checks a complex requirement', function() {
+        validator.setConfig({
+            minLength: 9,
+            maxLength: 16,
+            lowercaseChars: 3,
+            uppercaseChars: 3,
+            numericChars: 3,
+            specialChars: 3
+        });
+
+        expect(validator.check('12345678').passwordOk).to.be.false;
+        expect(validator.check('12345678').failedChecks).to.include('minLength');
+        expect(validator.check('12345678').failedChecks).to.include('lowercaseChars');
+        expect(validator.check('12345678').failedChecks).to.include('uppercaseChars');
+        expect(validator.check('12345678').failedChecks).to.include('specialChars');
+        expect(validator.check('12345678').failedChecks).to.not.include('numericChars');
+
+        expect(validator.check('ABCdef123-/}').passwordOk).to.be.true;
     });
 });
