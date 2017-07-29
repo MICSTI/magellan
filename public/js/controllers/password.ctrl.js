@@ -53,7 +53,7 @@ angular
                     };
                 });
             }
-        }
+        };
 
         FocusSrv('#password-current');
 

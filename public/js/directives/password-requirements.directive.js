@@ -7,7 +7,7 @@ angular
             restrict: 'E',
             templateUrl: 'build/views/templates/password-requirements.template.html',
             controller: 'PasswordRequirementsCtrl',
-            link: function link(scope, element, attrs) {
+            link: function(scope, element, attrs) {
 
             }
         }

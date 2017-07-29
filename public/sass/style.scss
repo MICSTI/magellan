@@ -1082,3 +1082,24 @@ input[type=number]:-ms-input-placeholder {
   margin: 2em;
 }
 /* ---------------------------------- */
+
+/* ----- Password requirements ------ */
+.password-requirements-container {
+  background-color: #fff;
+
+  .status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .status-fulfilled {
+    background-color: green;
+  }
+
+  .status-failed {
+    background-color: red;
+  }
+}
+/* ---------------------------------- */
