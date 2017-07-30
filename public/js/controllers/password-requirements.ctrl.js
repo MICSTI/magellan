@@ -30,5 +30,10 @@ angular
                     fulfilled: result.failedChecks.indexOf(requirement.key) < 0
                 };
             }));
+
+            setScopeProperty('passwordOk', result.passwordOk);
         };
+
+        // initialize passwordOk property
+        setScopeProperty('passwordOk', false);
     });
