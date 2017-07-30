@@ -32,6 +32,8 @@ angular
             }).catch(function(err) {
                 if (err.message === "Invalid token") {
                     setMessage('error', 'Der Zurücksetzen-Link ist leider nicht mehr gültig');
+                } else if (err.message === "Password does not match requirements") {
+                    setMessage('error', 'Das Passwort entspricht nicht den Sicherheitsrichtlinien');
                 } else {
                     setMessage('error', 'Das neue Passwort konnte nicht gespeichert werden');
                 }

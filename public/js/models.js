@@ -319,7 +319,150 @@ var getStringBetween = function(text, firstString, secondString) {
     return null;
 };
 
+// ---------- PASSWORD REQUIREMENTS VALIDATOR ----------
+var PasswordRequirementsValidator = function() {
+    var self = this;
+
+    // default configuration
+    var defaultConfig = {
+        minLength: 8,
+        maxLength: undefined,
+        lowercaseChars: 1,
+        uppercaseChars: 1,
+        specialChars: 1,
+        numericChars: 1
+    };
+
+    // used configuration
+    var configuration = null;
+
+    // password input
+    this.input = null;
+
+    this.check = function(_input) {
+        // check if an input was passed
+        if (typeof _input === 'undefined') {
+            throw new Error('Missing mandatory input parameter');
+        }
+
+        // check if passed input is of type "string"
+        if (typeof _input !== 'string') {
+            throw new Error('First input parameter must be of type \"string\"');
+        }
+
+        // set input variable
+        this.input = _input;
+
+        // array containing all failed checks
+        var failedChecks = [];
+
+        // get all set config properties
+        var configProperties = getConfigProperties();
+
+        configProperties.forEach(function(configProp) {
+            var result = performCheck(configProp);
+
+            if (result !== true) {
+                failedChecks.push(configProp);
+            }
+        });
+
+        // return result
+        return {
+            passwordOk: failedChecks.length === 0,
+            failedChecks: failedChecks
+        };
+    };
+
+    this.setConfig = function(_config) {
+        configuration = _config;
+    };
+
+    this.getConfig = function() {
+        return configuration || defaultConfig;
+    };
+
+    var isConfigPropertySet = function(prop) {
+        return typeof self.getConfig()[prop] !== 'undefined';
+    };
+
+    var getConfigProperties = function() {
+        return Object.keys(self.getConfig());
+    };
+
+    var getConfigProperty = function(prop) {
+        return self.getConfig()[prop];
+    };
+
+    var performCheck = function(prop) {
+        if (typeof self.input !== 'string') {
+            return false;
+        }
+
+        var propertyValue = getConfigProperty(prop);
+
+        if (!propertyValue) {
+            return true;
+        }
+
+        switch (prop) {
+            case 'minLength':
+                return self.input.length >= propertyValue;
+
+                break;
+
+            case 'maxLength':
+                return self.input.length <= propertyValue;
+
+                break;
+
+            case 'lowercaseChars':
+                var numLower = self.input.length - self.input.replace(/[a-z]/g, '').length;
+
+                return numLower >= propertyValue;
+
+                break;
+
+            case 'uppercaseChars':
+                var numUpper = self.input.length - self.input.replace(/[A-Z]/g, '').length;
+
+                return numUpper >= propertyValue;
+
+                break;
+
+            case 'specialChars':
+                var numSpecials = self.input.length - self.input.replace(/[!@§$%&#^*_:;.°,+"'`´\{\}\(\)\[\]\/\\-]/g, '').length;
+
+                return numSpecials >= propertyValue;
+
+                break;
+
+            case 'numericChars':
+                var numNumbers = self.input.length - self.input.replace(/[0-9]/g, '').length;
+
+                return numNumbers >= propertyValue;
+
+                break;
+
+
+            default:
+                return undefined;
+                break;
+        }
+    };
+};
+
+PasswordRequirementsValidator.CONFIG_PROPERTIES = [
+    'minLength',        // minimum length of password
+    'maxLength',        // maximum length of password (undefined for no maximum length)
+    'lowercaseChars',   // number of mandatory lowercase characters
+    'uppercaseChars',   // number of mandatory uppercase characters
+    'specialChars',     // number of mandatory special characters
+    'numericChars'       // number of mandatory number characters
+];
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports.Question = Question;
     module.exports.Quiz = Quiz;
+    module.exports.PasswordRequirementsValidator = PasswordRequirementsValidator;
 }

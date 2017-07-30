@@ -25,6 +25,10 @@
             </div>
 
             <div class="form-group">
+                <password-requirements attribute-input="{{newUser.password}}"></password-requirements>
+            </div>
+
+            <div class="form-group">
                 <label>Passwort wiederholen</label>
                 <input class="form-control" type="password" placeholder="Passwort wiederholen" ng-model="newUser.password2" required />
             </div>

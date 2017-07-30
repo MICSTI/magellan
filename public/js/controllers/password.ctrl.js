@@ -27,6 +27,8 @@ angular
             }).catch(function(err) {
                 if (err.message === "Old password incorrect") {
                     setMessage('error', 'Das alte Passwort ist nicht korrekt');
+                } else if (err.message === "Password does not match requirements") {
+                    setMessage('error', 'Das Passwort entspricht nicht den Sicherheitsrichtlinien');
                 } else {
                     setMessage('error', 'Das neue Passwort konnte nicht gespeichert werden');
                 }
@@ -51,7 +53,7 @@ angular
                     };
                 });
             }
-        }
+        };
 
         FocusSrv('#password-current');
 
