@@ -1,6 +1,7 @@
 module.exports = {
     port: 8080,
     secretKey: 'i am a super secret key',
+    useHttps: true,
     countriesFile: {
         version: 0,
         path: '/path/to/countries/file'

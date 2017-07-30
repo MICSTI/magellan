@@ -2,6 +2,7 @@ var router = require('express').Router();
 var mailer = require('../../controllers/mailer');
 var util = require('../util');
 var passwordUtil = require('../password');
+var config = require('../../config/server');
 
 var User = require('../../models/user');
 
@@ -45,7 +46,18 @@ router.post('/forgot', function(req, res, next) {
                 return next(err);
             }
 
-            var protocol = req.protocol;
+            var useHttps = typeof config.useHttps === 'boolean' ? config.useHttps : undefined;
+
+            var protocol;
+
+            // if the useHttps property is not set, we fall back to the protocol from the incoming request
+            // this might be problematic if the app is behind a proxy pass.
+            if (useHttps !== undefined) {
+                protocol = useHttps === true ? 'https' : 'http';
+            } else {
+                protocol = req.protocol;
+            }
+
             var baseUrl = req.headers.host;
             var apiUrl = '/password/reset/' + user.resetToken;
 
