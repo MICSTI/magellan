@@ -1085,13 +1085,34 @@ input[type=number]:-ms-input-placeholder {
 
 /* ----- Password requirements ------ */
 .password-requirements-container {
-  background-color: #fff;
+  background-color: darken($primary, 13%);
+  width: 95%;
+  margin-left: 2.5%;
+  text-align: left;
+  padding: .5em .75em;
+  box-sizing: border-box;
+
+  .password-requirements-title {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 0.6em;
+    text-align: center;
+  }
+
+  .password-requirements-list {
+    font-size: 0.9em;
+
+    li {
+      margin-bottom: 0.4em;
+    }
+  }
 
   .status-indicator {
     display: inline-block;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
+    margin-right: 3px;
   }
 
   .status-fulfilled {
@@ -1100,6 +1121,41 @@ input[type=number]:-ms-input-placeholder {
 
   .status-failed {
     background-color: red;
+  }
+}
+
+@media screen and (min-width: 550px) {
+  .password-requirements-container {
+    width: 80%;
+    margin-left: 10%;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .password-requirements-container {
+    width: 60%;
+    margin-left: 20%;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .password-requirements-container {
+    width: 50%;
+    margin-left: 25%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .password-requirements-container {
+    width: 45%;
+    margin-left: 27.5%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .password-requirements-container {
+    width: 40%;
+    margin-left: 30%;
   }
 }
 /* ---------------------------------- */

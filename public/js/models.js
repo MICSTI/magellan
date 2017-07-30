@@ -431,7 +431,7 @@ var PasswordRequirementsValidator = function() {
                 break;
 
             case 'specialChars':
-                var numSpecials = self.input.length - self.input.replace(/[!@§$%&#^*_:;.,+"'`´\{\}\(\)\[\]\/\\-]/g, '').length;
+                var numSpecials = self.input.length - self.input.replace(/[!@§$%&#^*_:;.°,+"'`´\{\}\(\)\[\]\/\\-]/g, '').length;
 
                 return numSpecials >= propertyValue;
 

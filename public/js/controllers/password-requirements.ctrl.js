@@ -13,14 +13,12 @@ angular
 
         var validator = new PasswordRequirementsValidator();
 
+        $scope.$watch('passwordInput', function(newValue, oldValue, scope) {
+            updateRequirements(newValue);
+        });
+
         var setScopeProperty = function(prop, value) {
-            if ($scope.$$phase) {
-                $scope[prop] = value;
-            } else {
-                $scope.$apply(function() {
-                    $scope[prop] = value;
-                });
-            }
+            $scope[prop] = value;
         };
 
         var updateRequirements = function(password) {
@@ -33,8 +31,4 @@ angular
                 };
             }));
         };
-
-        updateRequirements('a');
-
-        $scope.updateRequirements = updateRequirements;
     });

@@ -7,8 +7,8 @@ angular
             restrict: 'E',
             templateUrl: 'build/views/templates/password-requirements.template.html',
             controller: 'PasswordRequirementsCtrl',
-            link: function(scope, element, attrs) {
-
+            scope: {
+                passwordInput: '@attributeInput'
             }
         }
     });
