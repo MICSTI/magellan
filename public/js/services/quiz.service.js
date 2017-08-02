@@ -303,6 +303,9 @@ angular
                     return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
                         var allowedSpellings;
 
+                        // convert submitted answer to locale lowercase
+                        submittedAnswer = submittedAnswer.toLocaleLowerCase();
+
                         if (answer.altSpellings && answer.altSpellings.length > 0) {
                             allowedSpellings = answer.altSpellings.map(function(spelling) {
                                 return spelling.toLocaleLowerCase();
@@ -311,7 +314,7 @@ angular
                             allowedSpellings = [];
                         }
 
-                        var correct = submittedAnswer.toLocaleLowerCase() === answer.correct.toLocaleLowerCase() || (allowedSpellings && allowedSpellings.indexOf(submittedAnswer) >= 0);
+                        var correct = submittedAnswer === answer.correct.toLocaleLowerCase() || (allowedSpellings && allowedSpellings.indexOf(submittedAnswer) >= 0);
 
                         var points = correct ? fullPoints : 0;
 
