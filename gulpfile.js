@@ -81,8 +81,11 @@ gulp.task("countries", function() {
         .pipe(gulp.dest("./build/assets/"));
 });
 
+// build task
+gulp.task('build', ['imagemin', 'htmlpage', 'scripts', 'styles']);
+
 // default task
-gulp.task("default", ["imagemin", "htmlpage", "scripts", "styles"], function() {
+gulp.task('default', ['build'], function() {
     var html = ["htmlpage"];
     var js = ["scripts"];
     var css = ["styles"];
