@@ -5,7 +5,7 @@ angular
     .directive('map', function() {
         return {
             restrict: 'E',
-            templateUrl: 'build/views/templates/map.template.html',
+            templateUrl: 'dist/views/templates/map.template.html',
             controller: 'MapCtrl',
             link: function link(scope, element, attrs) {
                 var map = new Datamap({

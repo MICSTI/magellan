@@ -10,7 +10,8 @@
     "start:dev": "nodemon boot.js",
     "test": "mocha test/mocha",
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "prepublish": "npm run snyk-protect",
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",

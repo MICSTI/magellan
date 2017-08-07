@@ -90,15 +90,14 @@ gulp.task("countries", function() {
 
 // build task
 gulp.task('build', function() {
-        runSequence(
-            'clean',
-            ['imagemin', 'htmlpage', 'scripts', 'styles', 'countries']
-        );
-    }
-);
+    runSequence(
+        'clean',
+        ['imagemin', 'htmlpage', 'scripts', 'styles', 'countries']
+    );
+});
 
-// default task
-gulp.task('default', ['build'], function() {
+// watch task
+gulp.task('watch', function() {
     var html = ["htmlpage"];
     var js = ["scripts"];
     var css = ["styles"];
@@ -111,4 +110,13 @@ gulp.task('default', ['build'], function() {
 
     // watch for SCSS changes
     gulp.watch("./public/sass/**/*.scss", css);
+});
+
+// default task
+gulp.task('default', function() {
+    runSequence(
+        'clean',
+        ['imagemin', 'htmlpage', 'scripts', 'styles', 'countries'],
+        'watch'
+    );
 });
