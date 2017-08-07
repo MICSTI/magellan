@@ -35,6 +35,9 @@ node_modules
 # WebStorm
 .idea
 
+# Dist files
+dist
+
 # Config files
 config/db.local.js
 config/db.production.js

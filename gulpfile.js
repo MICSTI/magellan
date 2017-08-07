@@ -14,6 +14,13 @@ var ngAnnotate = require("gulp-ng-annotate");
 var sourcemaps = require("gulp-sourcemaps");
 var protractor = require("gulp-protractor").protractor;
 var jsonMinify = require("gulp-jsonminify");
+var del = require('del');
+var runSequence = require('run-sequence');
+
+// clean task (deletes dist directory)
+gulp.task('clean', function(){
+    return del('dist/**', { force: true });
+});
 
 // JS hint task
 gulp.task("jshint", function() {
@@ -25,7 +32,7 @@ gulp.task("jshint", function() {
 // minify new images
 gulp.task("imagemin", function() {
     var imgSrc = "./public/img/**/*";
-    var imgDst = "./build/images";
+    var imgDst = "./dist/images";
 
     gulp.src(imgSrc)
         .pipe(changed(imgDst))
@@ -36,7 +43,7 @@ gulp.task("imagemin", function() {
 // minify new or changed HTML pages
 gulp.task("htmlpage", function() {
     var htmlSrc = "./public/views/**/*.html";
-    var htmlDst = "./build/views";
+    var htmlDst = "./dist/views";
 
     gulp.src(htmlSrc)
         .pipe(changed(htmlDst))
@@ -52,7 +59,7 @@ gulp.task("scripts", function() {
             .pipe(ngAnnotate().on('error', gutil.log))
             .pipe(uglify().on('error', gutil.log))
        .pipe(sourcemaps.write())
-       .pipe(gulp.dest("./build/scripts/"));
+       .pipe(gulp.dest("./dist/scripts/"));
 });
 
 // SASS compilation and minify
@@ -61,7 +68,7 @@ gulp.task("styles", function() {
        .pipe(concat('styles.scss'))
        .pipe(sass().on('error', sass.logError))
        .pipe(cleanCss())
-       .pipe(gulp.dest("./build/styles/"));
+       .pipe(gulp.dest("./dist/styles/"));
 });
 
 // Protractor test
@@ -78,11 +85,17 @@ gulp.task("protractor", function() {
 gulp.task("countries", function() {
     gulp.src(["./assets/countries.json"])
         .pipe(jsonMinify().on('error', gutil.log))
-        .pipe(gulp.dest("./build/assets/"));
+        .pipe(gulp.dest("./dist/assets/"));
 });
 
 // build task
-gulp.task('build', ['imagemin', 'htmlpage', 'scripts', 'styles']);
+gulp.task('build', function() {
+        runSequence(
+            'clean',
+            ['imagemin', 'htmlpage', 'scripts', 'styles', 'countries']
+        );
+    }
+);
 
 // default task
 gulp.task('default', ['build'], function() {
