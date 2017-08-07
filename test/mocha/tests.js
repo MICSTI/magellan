@@ -9,7 +9,7 @@ var expect = chai.expect;
 chai.use(chaiHttp);
 
 // countries asset file
-var countries = require('../../build/assets/countries.json');
+var countries = require('../../dist/assets/countries.json');
 
 // model file
 var models = require('../../public/js/models');

@@ -5,7 +5,7 @@ angular
     .directive('passwordRequirements', function() {
         return {
             restrict: 'E',
-            templateUrl: 'build/views/templates/password-requirements.template.html',
+            templateUrl: 'dist/views/templates/password-requirements.template.html',
             controller: 'PasswordRequirementsCtrl',
             scope: {
                 passwordInput: '@attributeInput'

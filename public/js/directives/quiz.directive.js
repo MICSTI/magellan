@@ -4,7 +4,7 @@ angular
     .module('magellan')
     .directive('quiz', function() {
         return {
-            templateUrl: 'build/views/templates/quiz-directive.template.html',
+            templateUrl: 'dist/views/templates/quiz-directive.template.html',
             scope: true,
             controller: 'QuizDirectiveController',
             restrict: 'E',

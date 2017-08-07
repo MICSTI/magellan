@@ -1,1 +1,0 @@
-<section class=countries ng-controller=CountriesCtrl ui-view><ul class=letter-list><li ng-repeat="letter in countryKeys"><div class=group-header>{{letter}}</div><ul class=country-list><li ng-repeat="country in countriesByLetter[letter]"><a ui-sref=".detail({ alpha3Code: country.alpha3Code })">{{country.name}}</a></li></ul></li></ul></section>
