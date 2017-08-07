@@ -4,7 +4,7 @@
   "description": "Test your knowledge about the countries of our world",
   "main": "server.js",
   "scripts": {
-    "preinstall": "gulp build",
+    "postinstall": "gulp build",
     "prestart": "gulp build",
     "start": "node boot.js",
     "start:dev": "nodemon boot.js",
