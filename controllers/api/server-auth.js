@@ -8,6 +8,30 @@ var userUtil = require('../user');
 var router = require('express').Router();
 var User = require('../../models/user');
 
+// ---- Passport configuration ----
+var passport = require('passport');
+var FacebookStrategy = require('passport-facebook');
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+});
+
+passport.use(new FacebookStrategy({
+    clientID: config.oauth.facebook.api_key,
+    clientSecret: config.oauth.facebook.api_secret,
+    callbackURL: config.oauth.facebook.callback_url
+}, function(accessToken, refreshToken, profile, done) {
+    process.nextTick(function() {
+        //Check whether the User exists or not using profile.id
+        //Further DB code.
+        return done(null, profile);
+    })
+}));
+
 router.post('/session', function(req, res, next) {
     var error;
 
@@ -317,5 +341,19 @@ router.get('/user', protectRoute, function(req, res) {
     // since the route is protected, we can just send back the user object
     res.status(200).json(req.user);
 });
+
+/**
+ * Facebook login (OAuth)
+ */
+router.get('/auth/facebook', passport.authenticate('facebook'));
+router.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect: '/',
+            failureRedirect: '/login'
+        },
+        function(req, res) {
+            res.redirect('/');
+        }
+));
 
 module.exports = router;
