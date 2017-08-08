@@ -55,6 +55,7 @@
     "mongoose": "4.4.15",
     "nodemailer": "2.6.4",
     "os": "0.1.1",
+    "passport": "0.3.2",
     "run-sequence": "2.1.0",
     "serve-favicon": "2.3.0",
     "snyk": "1.30.1"
