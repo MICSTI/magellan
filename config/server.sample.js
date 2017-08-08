@@ -24,5 +24,12 @@ module.exports = {
         numericChars: 1,
         specialChars: 1
     },
-    useAppCache: false
+    useAppCache: false,
+    oauth: {
+        facebook: {
+            api_key: 'FACEBOOK_APP_ID',
+            api_secret: 'FACEBOOK_API_SECRET',
+            callback_url: 'FACEBOOK_CALLBACK_URL'
+        }
+    }
 };
