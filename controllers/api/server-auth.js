@@ -23,12 +23,33 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new FacebookStrategy({
     clientID: config.oauth.facebook.api_key,
     clientSecret: config.oauth.facebook.api_secret,
-    callbackURL: config.oauth.facebook.callback_url
+    callbackURL: config.oauth.facebook.callback_url,
+    profileFields: ['id', 'emails', 'name']
 }, function(accessToken, refreshToken, profile, done) {
     process.nextTick(function() {
-        //Check whether the User exists or not using profile.id
-        //Further DB code.
-        return done(null, profile);
+        var provider = profile.provider;
+        var userId = profile.id;
+
+        // see if user is already registered
+        userUtil.findUserByOAuthProviderId(provider, userId)
+            .then(function(user) {
+                if (!user) {
+                    // we have to create this user first
+                    userUtil.saveUserWithOAuthProviderId(profile)
+                        .then(function(newUser) {
+                            return done(null, newUser);
+                        })
+                        .catch(function(err) {
+                            return done(err, null);
+                        });
+                } else {
+                    // user already exists
+                    return done(null, user);
+                }
+            })
+            .catch(function(err) {
+                return done(err, null);
+            });
     })
 }));
 
@@ -345,14 +366,11 @@ router.get('/user', protectRoute, function(req, res) {
 /**
  * Facebook login (OAuth)
  */
-router.get('/auth/facebook', passport.authenticate('facebook'));
+router.get('/auth/facebook', passport.authorize('facebook', { scope: ['email'] }));
 router.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            successRedirect: '/',
+            successRedirect: '/home',
             failureRedirect: '/login'
-        },
-        function(req, res) {
-            res.redirect('/');
         }
 ));
 

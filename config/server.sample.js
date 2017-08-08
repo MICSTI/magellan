@@ -31,5 +31,27 @@ module.exports = {
             api_secret: 'FACEBOOK_API_SECRET',
             callback_url: 'FACEBOOK_CALLBACK_URL'
         }
-    }
+    },
+    colors: [
+        'soft_red',
+        'thunderbird',
+        'old_brick',
+        'new_york_pink',
+        'snuff',
+        'honey_flower',
+        'san_marino',
+        'shakespeare',
+        'ming',
+        'gossip',
+        'eucalyptus',
+        'mountain_meadow',
+        'jade',
+        'confetti',
+        'california',
+        'burnt_orange',
+        'jaffa',
+        'gallery',
+        'edward',
+        'lynch'
+    ]
 };

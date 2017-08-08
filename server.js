@@ -7,6 +7,7 @@ var appcache = require('./controllers/appcache');
 var errorHandler = require('./controllers/error-handler');
 var favicon = require('serve-favicon');
 var compression = require('compression');
+var passport = require('passport');
 
 // config files ====================================
 var SERVER = require("./config/server");
@@ -39,6 +40,10 @@ app.use(compression({
     },
     level: 6
 }));
+
+// initialize passport
+app.use(passport.initialize());
+
 
 // set the static files location (/public/img will be /img for users)
 app.use(express.static(__dirname + "/public"));
