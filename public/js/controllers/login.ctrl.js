@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .controller('LoginCtrl', function($scope, UserSrv, FocusSrv) {
+    .controller('LoginCtrl', function($scope, $window, UserSrv, FocusSrv) {
         $scope.message = null;
 
         $scope.login = function(username, password) {
@@ -29,6 +29,10 @@ angular
                         text: messageText
                     };
                 });
+        };
+
+        $scope.doFacebookLogin = function() {
+            $window.location.assign('/api/auth/facebook');
         };
 
         // focus username field
