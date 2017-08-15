@@ -1,4 +1,4 @@
-<div ng-controller="LoginCtrl">
+<span ng-controller="LoginCtrl">
     <section class="section-element section-title">
         Einloggen
     </section>
@@ -30,8 +30,11 @@
         <a href="/register">Noch nicht registriert?</a>
     </section>
 
-    <section class="section-element">
-        <a href="#" ng-click="doFacebookLogin()">Login via Facebook</a>
+    <section class="section-element oauth-container">
+        <div class="bold">... or use a social media account to log in:</div>
+        <ul class="oauth-options">
+            <li class="pointer" ng-click="doFacebookLogin()"><img src="/dist/images/fb.png" width="40" height="40" title="Log in with Facebook" alt="Facebook"></li>
+        </ul>
     </section>
 
     <section class="section-element ui-message-container" ng-if="message">

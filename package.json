@@ -7,7 +7,7 @@
     "postinstall": "gulp build",
     "prestart": "gulp build",
     "start": "node boot.js",
-    "start:dev": "nodemon boot.js",
+    "start:dev": "gulp build && nodemon boot.js",
     "test": "mocha test/mocha",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect",
