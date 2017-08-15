@@ -62,6 +62,24 @@ gulp.task("scripts", function() {
        .pipe(gulp.dest("./dist/scripts/"));
 });
 
+// all external JS scripts are compiled into one file here (mind the order!)
+gulp.task('external-scripts', function() {
+    gulp.src([
+        './lib/ie-polyfill/promise.min.js',
+        './lib/angular/angular.min.js',
+        './lib/angular/angular-ui-router.min.js',
+        './lib/angular/ngprogress.min.js',
+        './lib/angular/angular-locale_de-at.min.js',
+        './lib/angular-animate/angular-animate.min.js',
+        './lib/jquery/jquery-3.1.1.min.js',
+        './lib/map/d3.min.js',
+        './lib/map/topojson.min.js',
+        './lib/map/datamaps.world.min.js'
+    ])
+        .pipe(concat('external.js'))
+        .pipe(gulp.dest('./dist/scripts/'));
+});
+
 // SASS compilation and minify
 gulp.task("styles", function() {
    gulp.src(["./public/sass/**/*.scss"])
@@ -92,7 +110,7 @@ gulp.task("countries", function() {
 gulp.task('build', function() {
     runSequence(
         'clean',
-        ['imagemin', 'htmlpage', 'scripts', 'styles', 'countries']
+        ['imagemin', 'htmlpage', 'scripts', 'external-scripts', 'styles', 'countries']
     );
 });
 
@@ -116,7 +134,7 @@ gulp.task('watch', function() {
 gulp.task('default', function() {
     runSequence(
         'clean',
-        ['imagemin', 'htmlpage', 'scripts', 'styles', 'countries'],
+        ['imagemin', 'htmlpage', 'scripts', 'external-scripts', 'styles', 'countries'],
         'watch'
     );
 });
