@@ -100,4 +100,12 @@ angular.module('magellan')
                     auth: authorize
                 }
             })
+            .state('oauth-token', {
+                url: '/oauth/:token',
+                controller: 'OAuthCtrl'
+            })
+            .state('error', {
+                url: '/error',
+                templateUrl: '/dist/views/partials/error.partial.html'
+            });
     });

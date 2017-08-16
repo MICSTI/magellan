@@ -19,6 +19,13 @@
         Falls du noch keinen Account hast, keine Sorge! Du kannst dich hier <a href="/register">registrieren</a>.
     </section>
 
+    <section class="section-element oauth-container" ng-if="!user">
+        <div class="bold">Oder melde dich über einen Social Media Account an:</div>
+        <ul class="oauth-options">
+            <li class="pointer" ng-click="doFacebookLogin()"><img src="/dist/images/fb.png" width="40" height="40" title="Log in with Facebook" alt="Facebook"></li>
+        </ul>
+    </section>
+
     <section class="section-element ui-message-container" ng-if="message">
         <div class="ui-message ui-message-center ui-message-{{message.type}}">{{message.text}}</div>
     </section>

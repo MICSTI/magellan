@@ -24,5 +24,34 @@ module.exports = {
         numericChars: 1,
         specialChars: 1
     },
-    useAppCache: false
+    useAppCache: false,
+    oauth: {
+        facebook: {
+            api_key: 'FACEBOOK_APP_ID',
+            api_secret: 'FACEBOOK_API_SECRET',
+            callback_url: 'FACEBOOK_CALLBACK_URL'
+        }
+    },
+    colors: [
+        'soft_red',
+        'thunderbird',
+        'old_brick',
+        'new_york_pink',
+        'snuff',
+        'honey_flower',
+        'san_marino',
+        'shakespeare',
+        'ming',
+        'gossip',
+        'eucalyptus',
+        'mountain_meadow',
+        'jade',
+        'confetti',
+        'california',
+        'burnt_orange',
+        'jaffa',
+        'gallery',
+        'edward',
+        'lynch'
+    ]
 };

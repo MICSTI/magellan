@@ -11,7 +11,6 @@ var User = db.model('User', {
     },
     password: {
         type: String,
-        required: true,
         select: false
     },
     created: {
@@ -32,6 +31,9 @@ var User = db.model('User', {
     },
     resetTokenValid: {
         type: Date
+    },
+    facebook: {
+        type: String
     }
 });
 

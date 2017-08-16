@@ -45,7 +45,7 @@ magellan.constant("AppConfig", {
     ]
 });
 
-magellan.controller("AppCtrl", function($rootScope, $scope, $state, AuthSrv, UserSrv, CountrySrv, QuizSrv) {
+magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, AuthSrv, UserSrv, CountrySrv, QuizSrv) {
     // ----------- App config ------------
     $scope.app = {
         config: {
@@ -78,6 +78,10 @@ magellan.controller("AppCtrl", function($rootScope, $scope, $state, AuthSrv, Use
 
     $scope.isProgressBarVisible = function() {
         return $state.is('quiz');
+    };
+
+    $scope.doFacebookLogin = function() {
+        $window.location.assign('/api/auth/facebook');
     };
 
     var goToHome = function() {

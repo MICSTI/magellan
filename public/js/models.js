@@ -465,4 +465,5 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports.Question = Question;
     module.exports.Quiz = Quiz;
     module.exports.PasswordRequirementsValidator = PasswordRequirementsValidator;
+    module.exports.getRandomInt = getRandomInt;
 }
