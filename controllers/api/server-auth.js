@@ -8,6 +8,11 @@ var userUtil = require('../user');
 var router = require('express').Router();
 var User = require('../../models/user');
 
+// ---- Create JWT ----
+var getJwtForUser = function(user) {
+    return jwt.encode({ user: user._id }, config.secretKey);
+};
+
 // ---- Passport configuration ----
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook');
@@ -72,7 +77,7 @@ router.post('/session', function(req, res, next) {
         .then(function(user) {
             passwordUtil.comparePassword(password, user.password)
                 .then(function() {
-                    var token = jwt.encode({ user: user._id }, config.secretKey);
+                    var token = getJwtForUser(user);
                     return res.status(200).json(token);
                 })
                 .catch(function(errorMessage) {
@@ -369,9 +374,15 @@ router.get('/user', protectRoute, function(req, res) {
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 router.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            successRedirect: '/home',
+            session: false,
             failureRedirect: '/login'
         }
-));
+),
+        function(req, res, next) {
+            var jwt = getJwtForUser(req.user);
+
+            res.redirect('/oauth/' + jwt);
+        }
+);
 
 module.exports = router;
