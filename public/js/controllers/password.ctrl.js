@@ -6,6 +6,39 @@ angular
         $scope.passObj = {};
         $scope.message = {};
 
+        $scope.userHasPassword = null;
+
+        var setScopeProp = function(prop, value) {
+            if ($scope.$$phase) {
+                $scope[prop] = value;
+            } else {
+                $scope.$apply(function() {
+                    $scope[prop] = value;
+                });
+            }
+        };
+
+        var setMessage = function(type, text) {
+            setScopeProp('message', {
+                type: type,
+                text: text
+            });
+        };
+
+        var checkIfUserHasPassword = function() {
+            UserSrv.getUser()
+                .then(function(response) {
+                    var user = response.data;
+
+                    var hasPassword = user && user.hasPassword !== undefined ? user.hasPassword : null;
+
+                    setScopeProp('userHasPassword', hasPassword);
+                })
+                .catch(function(err) {
+                    setMessage('error', 'Ein Fehler ist aufgetreten.');
+                });
+        };
+
         var updatePassword = function() {
             if (!$scope.passObj.old || !$scope.passObj.new || !$scope.passObj.confirmation) {
                 setMessage('error', 'Alle Felder müssen ausgefüllt sein');
@@ -39,24 +72,10 @@ angular
             updatePassword();
         };
 
-        var setMessage = function(type, text) {
-            if ($scope.$$phase) {
-                $scope.message = {
-                    type: type,
-                    text: text
-                };
-            } else {
-                $scope.$apply(function() {
-                    $scope.message = {
-                        type: type,
-                        text: text
-                    };
-                });
-            }
-        };
-
         FocusSrv('#password-current');
 
         $scope.updatePassword = updatePassword;
         $scope.delegateSubmit = delegateSubmit;
+
+        checkIfUserHasPassword();
     });
