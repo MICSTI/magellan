@@ -18,7 +18,6 @@ angular
                     console.error(err);
                 });
         } else {
-            // TODO go to error page?
-            $state.go('home');
+            $state.go('error');
         }
     });
