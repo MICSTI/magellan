@@ -30,10 +30,41 @@ var parseAuthToken = function(req, res, next) {
 
     User.findOne({
         _id: auth.user
+    }).select('+password')
+        .exec(function(err, user) {
+            if (err) {
+                return next();
+            }
+
+            if (user) {
+                var userObj = user.toObject();
+
+                // check if user object has a password property
+                if (userObj.password !== undefined) {
+                    // attach info to user object
+                    userObj.hasPassword = true;
+
+                    // remove the password hash from the return object
+                    delete userObj.password;
+                } else {
+                    userObj.hasPassword = false;
+                }
+
+                // attach user object to request
+                req.user = userObj;
+            }
+
+            next();
+        });
+
+    /*User.findOne({
+        _id: auth.user
     }, function(err, user) {
         if (err) {
             return next();
         }
+
+        console.log('USER', user);
 
         if (user) {
             // attach user object to request
@@ -41,7 +72,7 @@ var parseAuthToken = function(req, res, next) {
         }
 
         next();
-    });
+    });*/
 };
 
 module.exports = parseAuthToken;
