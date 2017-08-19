@@ -577,6 +577,14 @@ footer {
 
 .oauth-options {
   margin-top: 1.5em;
+
+  li {
+    margin-bottom: 0.5em;
+  }
+
+  li:last-child {
+    margin-bottom: 0;
+  }
 }
 /* ---------------------------------- */
 
