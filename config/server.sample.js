@@ -30,6 +30,11 @@ module.exports = {
             api_key: 'FACEBOOK_APP_ID',
             api_secret: 'FACEBOOK_API_SECRET',
             callback_url: 'FACEBOOK_CALLBACK_URL'
+        },
+        google: {
+            api_key: 'GOOGLE_APP_ID',
+            api_secret: 'GOOGLE_API_SECRET',
+            callback_url: 'GOOGLE_CALLBACK_URL'
         }
     },
     colors: [
