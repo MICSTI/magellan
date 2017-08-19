@@ -84,6 +84,10 @@ magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, Aut
         $window.location.assign('/api/auth/facebook');
     };
 
+    $scope.doGoogleLogin = function() {
+        $window.location.assign('/api/auth/google');
+    };
+
     var goToHome = function() {
         $state.go('home');
     };

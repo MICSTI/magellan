@@ -57,6 +57,7 @@
     "os": "0.1.1",
     "passport": "0.3.2",
     "passport-facebook": "2.1.1",
+    "passport-google-oauth": "1.0.0",
     "run-sequence": "2.1.0",
     "serve-favicon": "2.3.0",
     "snyk": "1.30.1"
