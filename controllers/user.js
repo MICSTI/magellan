@@ -121,6 +121,17 @@ var saveUserWithOAuthProviderId = function(userProfile) {
 
                         break;
 
+                    case 'google':
+                        if (userProfile.username !== undefined) {
+                            user.username = userProfile.username;
+                        } else if (userProfile.displayName !== undefined) {
+                            user.username = userProfile.displayName;
+                        } else {
+                            user.username = userProfile.name.givenName + ' ' + userProfile.name.familyName;
+                        }
+
+                        break;
+
                     default:
                         return reject("Unknown provider '" + provider + "'");
 

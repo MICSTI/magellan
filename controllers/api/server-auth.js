@@ -15,22 +15,10 @@ var getJwtForUser = function(user) {
 
 // ---- Passport configuration ----
 var passport = require('passport');
-var FacebookStrategy = require('passport-facebook');
+var FacebookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-passport.serializeUser(function(user, done) {
-    done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-    done(null, obj);
-});
-
-passport.use(new FacebookStrategy({
-    clientID: config.oauth.facebook.api_key,
-    clientSecret: config.oauth.facebook.api_secret,
-    callbackURL: config.oauth.facebook.callback_url,
-    profileFields: ['id', 'emails', 'name']
-}, function(accessToken, refreshToken, profile, done) {
+var standardOAuthVerification = function(accessToken, refreshToken, profile, done) {
     process.nextTick(function() {
         var provider = profile.provider;
         var userId = profile.id;
@@ -55,8 +43,30 @@ passport.use(new FacebookStrategy({
             .catch(function(err) {
                 return done(err, null);
             });
-    })
-}));
+    });
+};
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+});
+
+passport.use(new FacebookStrategy({
+    clientID: config.oauth.facebook.api_key,
+    clientSecret: config.oauth.facebook.api_secret,
+    callbackURL: config.oauth.facebook.callback_url,
+    profileFields: ['id', 'emails', 'name']
+}, standardOAuthVerification));
+
+passport.use(new GoogleStrategy({
+    clientID: config.oauth.google.api_key,
+    clientSecret: config.oauth.google.api_secret,
+    callbackURL: config.oauth.google.callback_url,
+    profileFields: ['id', 'emails', 'name']
+}, standardOAuthVerification));
 
 router.post('/session', function(req, res, next) {
     var error;
@@ -383,6 +393,23 @@ router.get('/auth/facebook/callback',
 
             res.redirect('/oauth/' + jwt);
         }
+);
+
+/**
+ * Google login (OAuth)
+ */
+router.get('/auth/google', passport.authenticate('google', { scope: ['email'] }));
+router.get('/auth/google/callback',
+    passport.authenticate('google', {
+            session: false,
+            failureRedirect: '/login'
+        }
+    ),
+    function(req, res, next) {
+        var jwt = getJwtForUser(req.user);
+
+        res.redirect('/oauth/' + jwt);
+    }
 );
 
 module.exports = router;
