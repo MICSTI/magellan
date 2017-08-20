@@ -1219,3 +1219,33 @@ input[type=number]:-ms-input-placeholder {
   }
 }
 /* ---------------------------------- */
+
+/* -------- Value revealer ---------- */
+value-revealer {
+  display: flex;
+  border: 2px solid lighten($jelly_bean, 10%);
+  box-sizing: border-box;
+  margin-bottom: 0.8em;
+  padding: 0.1em 0.75em;
+  position: relative;
+  width: 100%;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .overlay-text {
+    position: relative;
+    z-index: 101;
+  }
+
+  .value-indicator {
+    background-color: lighten($jelly_bean, 35%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 100;
+  }
+}
+/* ---------------------------------- */
