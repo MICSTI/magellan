@@ -378,21 +378,22 @@ router.get('/user', protectRoute, function(req, res) {
     res.status(200).json(req.user);
 });
 
+var handleOAuthSuccessRedirect = function(req, res, next) {
+    var jwt = getJwtForUser(req.user);
+
+    res.redirect('/oauth/' + jwt);
+};
+
 /**
  * Facebook login (OAuth)
  */
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 router.get('/auth/facebook/callback',
-        passport.authenticate('facebook', {
+    passport.authenticate('facebook', {
             session: false,
             failureRedirect: '/login'
         }
-),
-        function(req, res, next) {
-            var jwt = getJwtForUser(req.user);
-
-            res.redirect('/oauth/' + jwt);
-        }
+    ), handleOAuthSuccessRedirect
 );
 
 /**
@@ -404,12 +405,7 @@ router.get('/auth/google/callback',
             session: false,
             failureRedirect: '/login'
         }
-    ),
-    function(req, res, next) {
-        var jwt = getJwtForUser(req.user);
-
-        res.redirect('/oauth/' + jwt);
-    }
+    ), handleOAuthSuccessRedirect
 );
 
 module.exports = router;
