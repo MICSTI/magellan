@@ -7,8 +7,11 @@ angular
             restrict: 'E',
             templateUrl: 'dist/views/templates/value-revealer.template.html',
             controller: 'ValueRevealerCtrl',
-            link: function link(scope, element, attrs) {
-
+            scope: {
+                countryName: '@countryName',
+                countryAlpha2: '@countryAlpha2',
+                fillValue: '@fillValue',
+                revealValue: '@revealValue'
             }
         }
     });

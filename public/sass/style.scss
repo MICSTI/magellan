@@ -1226,7 +1226,7 @@ value-revealer {
   border: 2px solid lighten($jelly_bean, 10%);
   box-sizing: border-box;
   margin-bottom: 0.8em;
-  padding: 0.1em 0.75em;
+  padding: 0.25em 0.75em;
   position: relative;
   width: 100%;
 
@@ -1235,8 +1235,25 @@ value-revealer {
   }
 
   .overlay-text {
+    display: flex;
     position: relative;
+    width: 100%;
     z-index: 101;
+
+    & > .flag-icon {
+      position: relative;
+      top: -1px;
+    }
+
+    .text {
+      margin-left: 0.5em;
+    }
+
+    .reveal-value {
+      align-self: center;
+      text-align: right;
+      flex-grow: 1;
+    }
   }
 
   .value-indicator {
