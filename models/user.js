@@ -34,6 +34,9 @@ var User = db.model('User', {
     },
     facebook: {
         type: String
+    },
+    google: {
+        type: String
     }
 });
 
