@@ -127,10 +127,6 @@ angular
             var questionTypeArray = [];
 
             for (var j = 0; j < numberOfQuestions; j++) {
-                questionTypeArray.push(6);
-            }
-
-            /*for (var j = 0; j < numberOfQuestions; j++) {
                 if (j < 3) {
                     questionTypeArray.push(1);
                 } else if (j < 6) {
@@ -145,7 +141,7 @@ angular
                     // add one random question for the last one
                     questionTypeArray.push(getRandomInt(1, questionTypesLength));
                 }
-            }*/
+            }
 
             var shuffledQuestionTypeArray = shuffle(questionTypeArray);
 
