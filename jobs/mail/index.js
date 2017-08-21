@@ -114,7 +114,8 @@ fs.readFile('config.json', 'utf-8', function(err, data) {
 
     // find all user elements
     User.find({
-        active: true
+        active: true,
+        emailUpdates: true
     }, function (err, users) {
         if (err) {
             return console.error('failed to fetch users', err);
