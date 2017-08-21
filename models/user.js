@@ -32,6 +32,10 @@ var User = db.model('User', {
     resetTokenValid: {
         type: Date
     },
+    emailUpdates: {
+        type: Boolean,
+        default: true
+    },
     facebook: {
         type: String
     },

@@ -116,6 +116,7 @@ router.post('/user', function(req, res, next) {
     var email = req.body.email;
     var color = req.body.color;
     var password = req.body.password;
+    var emailUpdates = typeof req.body.emailUpdates !== 'undefined' ? req.body.emailUpdates : false;
 
     if (!username) {
         error = new Error();
@@ -183,7 +184,8 @@ router.post('/user', function(req, res, next) {
             var user = new User({
                 username: username,
                 email: email,
-                color: color
+                color: color,
+                emailUpdates: emailUpdates
             });
 
             // generate salt and hash for password and save it to the user object
@@ -212,6 +214,7 @@ router.put('/user/basic', protectRoute, function(req, res, next) {
     var username = req.body.username;
     var email = req.body.email;
     var color = req.body.color;
+    var emailUpdates = req.body.emailUpdates;
 
     if (!username) {
         error = new Error();
@@ -289,6 +292,7 @@ router.put('/user/basic', protectRoute, function(req, res, next) {
                 user.username = username;
                 user.email = email;
                 user.color = color;
+                user.emailUpdates = emailUpdates;
 
                 user.save(function(err) {
                     if (err) {

@@ -4,7 +4,9 @@ angular
     .module('magellan')
     .controller('RegisterCtrl', function($scope, LogSrv, FocusSrv, UserSrv, $state, $window) {
         // new user object
-        $scope.newUser = {};
+        $scope.newUser = {
+            emailUpdates: true
+        };
 
         // message object
         $scope.message = null;
