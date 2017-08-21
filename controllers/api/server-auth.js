@@ -212,6 +212,7 @@ router.put('/user/basic', protectRoute, function(req, res, next) {
     var username = req.body.username;
     var email = req.body.email;
     var color = req.body.color;
+    var emailUpdates = req.body.emailUpdates;
 
     if (!username) {
         error = new Error();
@@ -289,6 +290,7 @@ router.put('/user/basic', protectRoute, function(req, res, next) {
                 user.username = username;
                 user.email = email;
                 user.color = color;
+                user.emailUpdates = emailUpdates;
 
                 user.save(function(err) {
                     if (err) {

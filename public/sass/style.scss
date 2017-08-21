@@ -457,6 +457,29 @@ nav {
     }
   }
 }
+
+.form-group-inline {
+  margin-bottom: 1.5em;
+  padding: 0 25%;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .form-group-inline {
+    padding: 0 7.5%;
+  }
+}
+
+.form-control-inline {
+  padding: 0.3em;
+
+  & + label {
+    display: inline;
+  }
+}
 /* ---------------------------------- */
 
 /* ------------- Content ------------ */

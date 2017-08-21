@@ -13,7 +13,8 @@ angular
             $scope.userObj = {
                 username: $scope.user.username,
                 email: $scope.user.email,
-                color: $scope.user.color
+                color: $scope.user.color,
+                emailUpdates: $scope.user.emailUpdates
             };
 
             $scope.userColors = colors;
@@ -28,6 +29,7 @@ angular
                     $scope.user.username = $scope.userObj.username;
                     $scope.user.email = $scope.userObj.email;
                     $scope.user.color = $scope.userObj.color;
+                    $scope.user.emailUpdates = $scope.userObj.emailUpdates;
 
                     $scope.$apply(function() {
                         $scope.message = {
