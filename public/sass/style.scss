@@ -299,14 +299,14 @@ input[type=text], input[type=password], input[type=email] {
 /* ---------- User profile ---------- */
 .user-profile {
   display: inline-block;
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   border-radius: 50%;
 
   position: relative;
-  top: 0.14em;
+  top: 0.16em;
 
-  margin-right: 0.1em;
+  margin-right: 0.2em;
 }
 /* ---------------------------------- */
 
@@ -391,6 +391,20 @@ nav {
   }
 }
 
+.menu-dropdown-visible {
+  visibility: visible;
+}
+
+.menu-dropdown-invisible {
+  visibility: hidden;
+}
+
+@media screen and (max-width: 550px) {
+  .menu-dropdown-invisible {
+    display: none;
+  }
+}
+
 /* ------------ Dropdown ------------ */
 .navbar-login {
   float: right;
@@ -402,6 +416,7 @@ nav {
   position: relative;
   z-index: 10000;
   background-color: $jade;
+  top: -1px;
 
   li {
     position: relative;
@@ -412,7 +427,7 @@ nav {
   cursor: pointer;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 550px) {
   .navbar-login {
     float: none;
     position: inherit;
