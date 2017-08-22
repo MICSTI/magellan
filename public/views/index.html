@@ -41,7 +41,7 @@
             <ul class="navbar navbar-login" ng-controller="DropdownCtrl" click-outside>
                 <li ui-sref-active="active" ng-if="!user"><a href="/login" ui-sref="login">Login</a></li>
 
-                <li class="menu-user" ng-if="user" ng-click="toggleDropdown()">
+                <li class="menu-user" ng-if="user" ng-click="toggleDropdown()" ng-class="{ 'menu-user-open': isDropdownVisible() }">
                     <a>
                         <span class="user-profile bg-{{user.color}}"></span>
                         <span class="username bold">{{user.username}}</span>

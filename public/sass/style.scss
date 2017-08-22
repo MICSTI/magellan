@@ -429,6 +429,10 @@ nav {
   cursor: pointer;
 }
 
+.menu-user-open {
+  background-color: #03c9a9;
+}
+
 @media screen and (max-width: 550px) {
   .navbar-login {
     float: none;
