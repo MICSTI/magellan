@@ -1,7 +1,8 @@
 var magellan = angular.module("magellan", [
     'ui.router',
     'ngProgress',
-    'ngAnimate'
+    'ngAnimate',
+    'ng-sortable'
 ], function config($httpProvider) {
     $httpProvider.interceptors.push('AuthInterceptor');
 });

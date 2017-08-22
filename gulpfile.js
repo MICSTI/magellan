@@ -74,7 +74,9 @@ gulp.task('external-scripts', function() {
         './lib/jquery/jquery-3.1.1.min.js',
         './lib/map/d3.min.js',
         './lib/map/topojson.min.js',
-        './lib/map/datamaps.world.min.js'
+        './lib/map/datamaps.world.min.js',
+        './lib/sortable/Sortable.min.js',
+        './lib/sortable/angular-legacy-sortable.js'
     ])
         .pipe(concat('external.js'))
         .pipe(gulp.dest('./dist/scripts/'));
