@@ -1263,3 +1263,93 @@ input[type=number]:-ms-input-placeholder {
   }
 }
 /* ---------------------------------- */
+
+/* -------- Value revealer ---------- */
+value-revealer {
+  display: flex;
+  border: 2px solid lighten($jelly_bean, 10%);
+  box-sizing: border-box;
+  margin-bottom: 0.8em;
+  padding: 0.25em 0.75em;
+  position: relative;
+  width: 100%;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .overlay-text {
+    display: flex;
+    position: relative;
+    width: 100%;
+    z-index: 101;
+
+    & > .flag-icon {
+      position: relative;
+      top: -1px;
+    }
+
+    .text {
+      margin-left: 0.5em;
+    }
+
+    .reveal-value {
+      align-self: center;
+      text-align: right;
+      flex-grow: 1;
+    }
+  }
+
+  .value-indicator {
+    background-color: lighten($jelly_bean, 35%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 100;
+  }
+}
+/* ---------------------------------- */
+
+/* ************************************** */
+/* Mandatory CSS required for ng-sortable */
+/* ************************************** */
+.as-sortable-item, .as-sortable-placeholder {
+  display: block;
+}
+
+.as-sortable-item {
+  -ms-touch-action: none;
+  touch-action: none;
+  /* to disable context menu on iOS devices */
+  -webkit-touch-callout: none;
+}
+
+.as-sortable-item-handle {
+  cursor: move;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+}
+
+.as-sortable-placeholder {
+}
+
+.as-sortable-drag {
+  position: absolute;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.as-sortable-hidden {
+  display: none !important;
+}
+
+.as-sortable-un-selectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* ---------------------------------- */

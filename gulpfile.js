@@ -66,15 +66,18 @@ gulp.task("scripts", function() {
 gulp.task('external-scripts', function() {
     gulp.src([
         './lib/ie-polyfill/promise.min.js',
+        './lib/jquery/jquery-3.1.1.min.js',
+        './lib/jquery/jquery.ui.custom.min.js',
+        './lib/jquery/jquery.ui.touch-punch.min.js',
         './lib/angular/angular.min.js',
         './lib/angular/angular-ui-router.min.js',
         './lib/angular/ngprogress.min.js',
         './lib/angular/angular-locale_de-at.min.js',
         './lib/angular-animate/angular-animate.min.js',
-        './lib/jquery/jquery-3.1.1.min.js',
         './lib/map/d3.min.js',
         './lib/map/topojson.min.js',
-        './lib/map/datamaps.world.min.js'
+        './lib/map/datamaps.world.min.js',
+        './lib/sortable/sortable.js'
     ])
         .pipe(concat('external.js'))
         .pipe(gulp.dest('./dist/scripts/'));
