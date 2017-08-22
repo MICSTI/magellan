@@ -1,1 +1,3 @@
-I am a sortable list
+<ul id="sortit" ui-sortable data-ng-model="countries">
+    <value-revealer ng-repeat="country in countries" country-name="{{country.name}}" country-alpha2="{{country.alpha2}}" fill-value="{{country.fillValue}}" reveal-value="{{country.revealValue}}"></value-revealer>
+</ul>
