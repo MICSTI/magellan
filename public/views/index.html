@@ -48,7 +48,7 @@
                     </a>
                 </li>
 
-                <ul class="menu-dropdown" ng-if="isDropdownVisible()">
+                <ul class="menu-dropdown" ng-class="{ 'menu-dropdown-visible': isDropdownVisible(), 'menu-dropdown-invisible': !isDropdownVisible() }">
                     <li><a href="/settings" ng-click="hideDropdown()">Einstellungen</a></li>
                     <li><a href="/password" ng-click="hideDropdown()">Passwort ändern</a></li>
                     <li><a href="/logout" ng-click="hideDropdown()">Ausloggen</a></li>
