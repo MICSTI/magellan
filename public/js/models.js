@@ -461,9 +461,24 @@ PasswordRequirementsValidator.CONFIG_PROPERTIES = [
     'numericChars'       // number of mandatory number characters
 ];
 
+// ---------- TOAST ----------
+var Toast = function(type, content, timeout) {
+    this.id = Math.random().toString(36).substring(3);
+    this.type = type;
+    this.content = content;
+    this.visible = false;
+
+    if (timeout !== undefined) {
+        this.timeout = timeout;
+    } else {
+        // default timeout?
+    }
+};
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports.Question = Question;
     module.exports.Quiz = Quiz;
     module.exports.PasswordRequirementsValidator = PasswordRequirementsValidator;
     module.exports.getRandomInt = getRandomInt;
+    module.exports.Toast = Toast;
 }

@@ -1317,3 +1317,14 @@ value-revealer {
   user-select: none;
 }
 /* ---------------------------------- */
+
+/* -------- Toast container ---------- */
+.toast-container {
+  position: absolute;
+  bottom: 1.5em;
+  left: 0;
+
+  margin-left: 7.5%;
+  width: 85%;
+}
+/* ---------------------------------- */
