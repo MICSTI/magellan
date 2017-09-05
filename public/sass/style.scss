@@ -1319,12 +1319,26 @@ value-revealer {
 /* ---------------------------------- */
 
 /* -------- Toast container ---------- */
-.toast-container {
+.toasts-container {
+  background-color: transparent;
   position: absolute;
   bottom: 1.5em;
   left: 0;
+  z-index: 10000;
 
   margin-left: 7.5%;
   width: 85%;
+}
+
+.toast-success {
+  background-color: $gossip;
+}
+
+.toast-error {
+  background-color: $soft_red;
+}
+
+.toast-info {
+  background-color: $spray;
 }
 /* ---------------------------------- */

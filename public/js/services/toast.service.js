@@ -4,7 +4,7 @@ angular
     .module('magellan')
     .factory('ToastSrv', function() {
         // toasts array
-        var toasts = [];
+        var toasts = [{ type:'success', message: 'Hello!!!' }, {type: 'error', message: 'WTF'}];
 
         var add = function(toast) {
             toasts.push(toast);

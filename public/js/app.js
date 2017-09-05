@@ -46,7 +46,7 @@ magellan.constant("AppConfig", {
     ]
 });
 
-magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, AuthSrv, UserSrv, CountrySrv, QuizSrv) {
+magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, AuthSrv, UserSrv, CountrySrv, QuizSrv, ToastSrv) {
     // ----------- App config ------------
     $scope.app = {
         config: {
@@ -94,6 +94,10 @@ magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, Aut
     };
 
     $scope.goToHome = goToHome;
+
+    $scope.getToasts = function() {
+        return ToastSrv.getToasts();
+    };
 
     // ----------- Event handling ------------
     $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
