@@ -462,10 +462,10 @@ PasswordRequirementsValidator.CONFIG_PROPERTIES = [
 ];
 
 // ---------- TOAST ----------
-var Toast = function(type, content, timeout) {
+var Toast = function(type, message, timeout) {
     this.id = Math.random().toString(36).substring(3);
     this.type = type;
-    this.content = content;
+    this.message = message;
     this.visible = false;
 
     if (timeout !== undefined) {

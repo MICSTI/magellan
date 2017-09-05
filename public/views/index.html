@@ -63,7 +63,7 @@
 
     <div class="toasts-container">
         <ul>
-            <li ng-repeat="toast in getToasts()" class="toast toast-{{toast.type}}">{{toast.message}}</li>
+            <li ng-repeat="toast in getToasts()" class="toast toast-{{toast.type}}" ng-class="{ 'toast-visible': true, 'toast-hidden': false }">{{toast.message}}</li>
         </ul>
     </div>
 

@@ -91,6 +91,8 @@ magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, Aut
 
     var goToHome = function() {
         $state.go('home');
+
+        ToastSrv.add('success', 'It would be so cool if this worked');
     };
 
     $scope.goToHome = goToHome;
