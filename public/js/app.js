@@ -12,6 +12,9 @@ magellan.constant("AppConfig", {
     "log.info": true,
     "log.error": true,
 
+    "toast.short": 2000,
+    "toast.long": 4000,
+
     "quiz.country.questions": 16,
     "quiz.country.types": {
         1: "CAPITAL_OF_COUNTRY",
