@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .factory('ToastSrv', function($timeout) {
+    .factory('ToastSrv', function(AppConfig, $timeout) {
         // toasts array
         var toasts = [];
 
@@ -18,8 +18,12 @@ angular
             return toast;
         };
 
-        var add = function(type, message) {
-            var toast = new Toast(type, message);
+        var add = function(type, message, timeout) {
+            if (typeof timeout === 'undefined') {
+                timeout = AppConfig['toast.default'];
+            }
+
+            var toast = new Toast(type, message, timeout);
 
             toasts.push(toast);
 
@@ -35,6 +39,18 @@ angular
                     }, 500);
                 }, 50 + 350 + toast.timeout);
             }, 50);
+        };
+
+        var short = function(type, message) {
+            add(type, message, AppConfig['toast.short']);
+        };
+
+        var long = function(type, message) {
+            add(type, message, AppConfig['toast.long']);
+        };
+
+        var custom = function(type, message, timeout) {
+            add(type, message, timeout);
         };
 
         var remove = function(id) {
@@ -69,7 +85,9 @@ angular
         };
 
         return {
-            add: add,
+            custom: custom,
+            long: long,
+            short: short,
             remove: remove,
             getToasts: getToasts,
             getToastsLength: getToastsLength
