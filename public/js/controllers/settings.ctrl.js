@@ -2,10 +2,8 @@
 
 angular
     .module('magellan')
-    .controller('SettingsCtrl', function($scope, AppConfig, FocusSrv, LogSrv, UserSrv) {
+    .controller('SettingsCtrl', function($scope, AppConfig, FocusSrv, LogSrv, UserSrv, ToastSrv) {
         var init = function() {
-            $scope.message = null;
-
             // user colours
             var colors = AppConfig['settings.user.colors'];
 
@@ -31,12 +29,7 @@ angular
                     $scope.user.color = $scope.userObj.color;
                     $scope.user.emailUpdates = $scope.userObj.emailUpdates;
 
-                    $scope.$apply(function() {
-                        $scope.message = {
-                            type: 'success',
-                            text: 'Einstellungen wurden erfolgreich gespeichert'
-                        };
-                    });
+                    ToastSrv.long('success', 'Einstellungen wurden erfolgreich gespeichert');
                 }).catch(function(err) {
                     LogSrv.error('Update user', err);
 
@@ -56,12 +49,7 @@ angular
                             break;
                     }
 
-                    $scope.$apply(function() {
-                        $scope.message = {
-                            type: 'error',
-                            text: messageText
-                        };
-                    });
+                    ToastSrv.long('error', messageText);
                 });
             };
 

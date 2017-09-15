@@ -2,40 +2,39 @@
 
 angular
     .module('magellan')
-    .controller('ResetCtrl', function($scope, UserSrv, LogSrv, FocusSrv, $stateParams) {
+    .controller('ResetCtrl', function($scope, UserSrv, LogSrv, FocusSrv, $stateParams, ToastSrv) {
         $scope.passObj = {};
-        $scope.message = {};
 
         var token = $stateParams.token;
 
         var resetPassword = function() {
             if (!$scope.passObj.new || !$scope.passObj.confirmation) {
-                setMessage('error', 'Alle Felder müssen ausgefüllt sein');
+                ToastSrv.long('error', 'Alle Felder müssen ausgefüllt sein');
                 return;
             }
 
             if ($scope.passObj.new !== $scope.passObj.confirmation) {
-                setMessage('error', 'Die Passwörter stimmen nicht überein');
+                ToastSrv.long('error', 'Die Passwörter stimmen nicht überein');
                 return;
             }
 
             if (!token) {
-                setMessage('error', 'Kein gültiger Zurücksetzen-Link');
+                ToastSrv.long('error', 'Kein gültiger Zurücksetzen-Link');
                 return;
             }
 
             UserSrv.resetPassword({
                 token: token,
                 password: $scope.passObj.new
-            }).then(function(data) {
-                setMessage('success', 'Das Passwort wurde erfolgreich gespeichert');
+            }).then(function() {
+                ToastSrv.long('success', 'Das Passwort wurde erfolgreich gespeichert');
             }).catch(function(err) {
                 if (err.message === "Invalid token") {
-                    setMessage('error', 'Der Zurücksetzen-Link ist leider nicht mehr gültig');
+                    ToastSrv.long('error', 'Der Zurücksetzen-Link ist leider nicht mehr gültig');
                 } else if (err.message === "Password does not match requirements") {
-                    setMessage('error', 'Das Passwort entspricht nicht den Sicherheitsrichtlinien');
+                    ToastSrv.long('error', 'Das Passwort entspricht nicht den Sicherheitsrichtlinien');
                 } else {
-                    setMessage('error', 'Das neue Passwort konnte nicht gespeichert werden');
+                    ToastSrv.long('error', 'Das neue Passwort konnte nicht gespeichert werden');
                 }
             });
         };
@@ -43,22 +42,6 @@ angular
         var delegateSubmit = function() {
             resetPassword();
         };
-
-        var setMessage = function(type, text) {
-            if ($scope.$$phase) {
-                $scope.message = {
-                    type: type,
-                    text: text
-                };
-            } else {
-                $scope.$apply(function() {
-                    $scope.message = {
-                        type: type,
-                        text: text
-                    };
-                });
-            }
-        }
 
         FocusSrv('#password-new');
 

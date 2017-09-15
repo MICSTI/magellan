@@ -469,7 +469,6 @@ var Toast = function(type, message, timeout) {
     this.visible = false;
 
     if (typeof timeout !== 'undefined') {
-        console.log('setting timeout', timeout);
         this.timeout = timeout;
     } else {
         // set a default timeout of 3 seconds

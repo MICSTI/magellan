@@ -2,14 +2,11 @@
 
 angular
     .module('magellan')
-    .controller('RegisterCtrl', function($scope, LogSrv, FocusSrv, UserSrv, $state, $window) {
+    .controller('RegisterCtrl', function($scope, LogSrv, FocusSrv, UserSrv, $state, ToastSrv) {
         // new user object
         $scope.newUser = {
             emailUpdates: true
         };
-
-        // message object
-        $scope.message = null;
 
         var register = function (isValid) {
             if (!isValid) {
@@ -29,10 +26,7 @@ angular
                                 action: 'register.successful'
                             });
                         } else {
-                            $scope.message = {
-                                type: 'error',
-                                text: 'Bei der Anmeldung scheint etwas schief gegangen zu sein'
-                            }
+                            ToastSrv.long('error', 'Bei der Anmeldung scheint etwas schief gegangen zu sein');
                         }
                     })
                     .catch(function(err) {
@@ -57,48 +51,30 @@ angular
                                 messageText = 'Bei der Anmeldung scheint etwas schief gegangen zu sein';
                         }
 
-                        if (!$scope.$$phase) {
-                            $scope.$apply(function() {
-                                $scope.message = {
-                                    type: 'error',
-                                    text: messageText
-                                };
-                            });
-                        } else {
-                            $scope.message = {
-                                type: 'error',
-                                text: messageText
-                            };
-                        }
+                        ToastSrv.long('error', messageText);
                     });
             }
         };
 
         var validateBeforeSubmit = function() {
-            $scope.message = null;
+            var ok = true;
 
             // check if the two passwords match
             var password = $scope.newUser.password;
             var password2 = $scope.newUser.password2;
 
             if (!$scope.newUser.username || !$scope.newUser.email || !password || !password2) {
-                $scope.message = {
-                    type: 'error',
-                    text: 'Alle Felder müssen ausgefüllt sein'
-                };
+                ok = false;
+                ToastSrv.long('error', 'Alle Felder müssen ausgefüllt sein');
             } else if (password === "" || password2 === "") {
-                $scope.message = {
-                    type: 'error',
-                    text: 'Die Passwörter können nicht leer sein'
-                };
+                ok = false;
+                ToastSrv.long('error', 'Die Passwörter können nicht leer sein');
             } else if (password !== password2) {
-                $scope.message = {
-                    type: 'error',
-                    text: 'Die Passwörter stimmen nicht überein'
-                };
+                ok = false;
+                ToastSrv.long('error', 'Die Passwörter stimmen nicht überein');
             }
 
-            return !$scope.message ? true : false;
+            return ok;
         };
 
         var delegateSubmit = function() {
