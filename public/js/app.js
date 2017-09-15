@@ -12,6 +12,10 @@ magellan.constant("AppConfig", {
     "log.info": true,
     "log.error": true,
 
+    "toast.short": 2000,
+    "toast.default": 3000,
+    "toast.long": 4000,
+
     "quiz.country.questions": 16,
     "quiz.country.types": {
         1: "CAPITAL_OF_COUNTRY",
@@ -46,7 +50,7 @@ magellan.constant("AppConfig", {
     ]
 });
 
-magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, AuthSrv, UserSrv, CountrySrv, QuizSrv) {
+magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, AuthSrv, UserSrv, CountrySrv, QuizSrv, ToastSrv) {
     // ----------- App config ------------
     $scope.app = {
         config: {
@@ -94,6 +98,10 @@ magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, Aut
     };
 
     $scope.goToHome = goToHome;
+
+    $scope.getToasts = function() {
+        return ToastSrv.getToasts();
+    };
 
     // ----------- Event handling ------------
     $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {

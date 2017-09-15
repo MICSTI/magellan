@@ -2,9 +2,8 @@
 
 angular
     .module('magellan')
-    .controller('PasswordCtrl', function($scope, UserSrv, LogSrv, FocusSrv) {
+    .controller('PasswordCtrl', function($scope, UserSrv, LogSrv, FocusSrv, ToastSrv) {
         $scope.passObj = {};
-        $scope.message = {};
 
         $scope.userHasPassword = null;
 
@@ -18,13 +17,6 @@ angular
             }
         };
 
-        var setMessage = function(type, text) {
-            setScopeProp('message', {
-                type: type,
-                text: text
-            });
-        };
-
         var checkIfUserHasPassword = function() {
             UserSrv.getUser()
                 .then(function(response) {
@@ -35,19 +27,20 @@ angular
                     setScopeProp('userHasPassword', hasPassword);
                 })
                 .catch(function(err) {
-                    setMessage('error', 'Ein Fehler ist aufgetreten.');
+                    console.error(err);
+                    ToastSrv.long('error', 'Ein Fehler ist aufgetreten');
                 });
         };
 
         var updatePassword = function() {
             if (!$scope.passObj.old || !$scope.passObj.new || !$scope.passObj.confirmation) {
-                setMessage('error', 'Alle Felder müssen ausgefüllt sein');
+                ToastSrv.short('error', 'Alle Felder müssen ausgefüllt sein');
 
                 return;
             }
 
             if ($scope.passObj.new !== $scope.passObj.confirmation) {
-                setMessage('error', 'Die Passwörter stimmen nicht überein');
+                ToastSrv.long('error', 'Die Passwörter stimmen nicht überein');
 
                 return;
             }
@@ -55,15 +48,15 @@ angular
             UserSrv.updatePassword({
                 old: $scope.passObj.old,
                 password: $scope.passObj.new
-            }).then(function(data) {
-                setMessage('success', 'Das neue Passwort wurde erfolgreich gespeichert');
+            }).then(function() {
+                ToastSrv.long('success', 'Das neue Passwort wurde erfolgreich gespeichert');
             }).catch(function(err) {
                 if (err.message === "Old password incorrect") {
-                    setMessage('error', 'Das alte Passwort ist nicht korrekt');
+                    ToastSrv.long('error', 'Das alte Passwort ist nicht korrekt');
                 } else if (err.message === "Password does not match requirements") {
-                    setMessage('error', 'Das Passwort entspricht nicht den Sicherheitsrichtlinien');
+                    ToastSrv.long('error', 'Das Passwort entspricht nicht den Sicherheitsrichtlinien');
                 } else {
-                    setMessage('error', 'Das neue Passwort konnte nicht gespeichert werden');
+                    ToastSrv.long('error', 'Das neue Passwort konnte nicht gespeichert werden');
                 }
             });
         };

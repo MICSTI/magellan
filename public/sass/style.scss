@@ -1306,6 +1306,7 @@ value-revealer {
     top: 0;
     left: 0;
     height: 100%;
+
     z-index: 100;
   }
 }
@@ -1315,5 +1316,55 @@ value-revealer {
 .draggable {
   cursor: move;
   user-select: none;
+}
+/* ---------------------------------- */
+
+/* -------- Toast container ---------- */
+.toasts-container {
+  background-color: transparent;
+  position: absolute;
+  bottom: 1em;
+  left: 0;
+  z-index: 10000;
+
+  margin-left: 7.5%;
+  width: 85%;
+}
+
+.toast {
+  border-radius: .14em;
+  margin-bottom: .6em;
+  padding: 0.3em 0.5em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.toast-success {
+  background-color: $gossip;
+  border: 1px solid darken($gossip, 16%);
+}
+
+.toast-error {
+  background-color: $soft_red;
+  border: 1px solid darken($soft_red, 16%);
+}
+
+.toast-info {
+  background-color: $spray;
+  border: 1px solid darken($spray, 16%);
+}
+
+.toast-visible {
+  opacity: 1;
+  transition: opacity .35s linear;
+  visibility: visible;
+}
+
+.toast-hidden {
+  opacity: 0;
+  transition: visibility 0s .6s, opacity .6s linear;
+  visibility: hidden;
 }
 /* ---------------------------------- */

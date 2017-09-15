@@ -61,6 +61,12 @@
 
     <div class="content" ui-view></div>
 
+    <div class="toasts-container">
+        <ul>
+            <li ng-repeat="toast in getToasts()" class="toast toast-{{toast.type}}" ng-class="{ 'toast-visible': toast.visible, 'toast-hidden': !toast.visible }">{{toast.message}}</li>
+        </ul>
+    </div>
+
     <script type="text/javascript" src="/dist/scripts/external.js"></script>
     <script type="text/javascript" src="/dist/scripts/script.js"></script>
 </body>
