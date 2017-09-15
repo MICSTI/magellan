@@ -2,16 +2,39 @@
 
 angular
     .module('magellan')
-    .factory('ToastSrv', function() {
+    .factory('ToastSrv', function($timeout) {
         // toasts array
         var toasts = [];
+
+        var get = function(id) {
+            var toast = null;
+
+            toasts.forEach(function(item) {
+                if (item.id === id) {
+                    toast = item;
+                }
+            });
+
+            return toast;
+        };
 
         var add = function(type, message) {
             var toast = new Toast(type, message);
 
             toasts.push(toast);
 
-            console.log('new toast with id', toast.id);
+            $timeout(function() {
+                toast.visible = true;
+
+                $timeout(function() {
+                    toast.visible = false;
+
+                    $timeout(function() {
+                        // we finally have to delete the toast from the array
+                        remove(toast.id);
+                    }, 500);
+                }, 50 + 350 + toast.timeout);
+            }, 50);
         };
 
         var remove = function(id) {
