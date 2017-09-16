@@ -4,6 +4,7 @@ var app = express();
 var bodyParser = require("body-parser");
 var authentication = require('./controllers/authentication');
 var errorHandler = require('./controllers/error-handler');
+var serviceWorker = require('./controllers/service-worker');
 var favicon = require('serve-favicon');
 var compression = require('compression');
 var passport = require('passport');
@@ -29,6 +30,9 @@ app.use(authentication);
 // favicon
 app.use(favicon(__dirname + '/assets/favicon.ico'));
 
+// service worker
+app.use('/sw.js', serviceWorker);
+
 // compression (should be placed before express.static)
 app.use(compression({
     filter: function (req, res) {
@@ -39,7 +43,6 @@ app.use(compression({
 
 // initialize passport
 app.use(passport.initialize());
-
 
 // set the static files location (/public/img will be /img for users)
 app.use(express.static(__dirname + "/public"));

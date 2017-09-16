@@ -142,3 +142,10 @@ magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, Aut
         $state.go('home');
     });
 });
+
+// register service worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js', {
+        scope: './'
+    });
+}
