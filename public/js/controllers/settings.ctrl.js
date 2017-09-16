@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .controller('SettingsCtrl', function($scope, AppConfig, FocusSrv, LogSrv, UserSrv, ToastSrv) {
+    .controller('SettingsCtrl', function($scope, AppConfig, FocusSrv, LogSrv, UserSrv, ToastSrv, $timeout) {
         var init = function() {
             // user colours
             var colors = AppConfig['settings.user.colors'];
@@ -21,6 +21,16 @@ angular
                 $scope.userObj.color = newColor;
             };
 
+            /**
+             * This is necessary because otherwise the CSS transitions of the toast won't work (is it a problem with the promise?)
+             * Anyway, this works.
+             */
+            var showToastDelayed = function(type, message) {
+                $timeout(function() {
+                    ToastSrv.long(type, message);
+                }, 50);
+            };
+
             var updateUser = function() {
                 UserSrv.updateBasic($scope.userObj).then(function(data) {
                     // update user object
@@ -29,7 +39,7 @@ angular
                     $scope.user.color = $scope.userObj.color;
                     $scope.user.emailUpdates = $scope.userObj.emailUpdates;
 
-                    ToastSrv.long('success', 'Einstellungen wurden erfolgreich gespeichert');
+                    showToastDelayed('success', 'Einstellungen wurden erfolgreich gespeichert');
                 }).catch(function(err) {
                     LogSrv.error('Update user', err);
 
@@ -49,7 +59,7 @@ angular
                             break;
                     }
 
-                    ToastSrv.long('error', messageText);
+                    showToastDelayed('error', messageText);
                 });
             };
 

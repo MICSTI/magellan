@@ -2,8 +2,18 @@
 
 angular
     .module('magellan')
-    .controller('ForgotCtrl', function($scope, UserSrv, LogSrv, FocusSrv, ToastSrv) {
+    .controller('ForgotCtrl', function($scope, UserSrv, LogSrv, FocusSrv, ToastSrv, $timeout) {
         $scope.passObj = {};
+
+        /**
+         * This is necessary because otherwise the CSS transitions of the toast won't work (is it a problem with the promise?)
+         * Anyway, this works.
+         */
+        var showToastDelayed = function(type, message) {
+            $timeout(function() {
+                ToastSrv.long(type, message);
+            }, 50);
+        };
 
         var forgotPassword = function() {
             if (!$scope.passObj.email) {
@@ -18,13 +28,13 @@ angular
 
                 var validText = validity !== undefined ? " Der Link ist " + validity + " Stunden lang gültig." : "";
 
-                ToastSrv.long('success', 'Das E-Mail wurde erfolgreich versandt.' + validText);
+                //ToastSrv.long('success', 'Das E-Mail wurde erfolgreich versandt.' + validText);
             }).catch(function(err) {
                 if (err.message === "No user with this e-mail address found") {
                     // This is intentional so as not to reveal too much to the user
-                    ToastSrv.long('error', 'Beim Versenden des Links ist etwas schiefgegangen');
+                    showToastDelayed('error', 'Beim Versenden des Links ist etwas schiefgegangen');
                 } else {
-                    ToastSrv.long('error', 'Beim Versenden des Links ist etwas schiefgegangen');
+                    showToastDelayed('error', 'Beim Versenden des Links ist etwas schiefgegangen');
                 }
             });
         };

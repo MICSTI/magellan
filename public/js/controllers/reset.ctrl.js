@@ -2,10 +2,20 @@
 
 angular
     .module('magellan')
-    .controller('ResetCtrl', function($scope, UserSrv, LogSrv, FocusSrv, $stateParams, ToastSrv) {
+    .controller('ResetCtrl', function($scope, UserSrv, LogSrv, FocusSrv, $stateParams, ToastSrv, $timeout) {
         $scope.passObj = {};
 
         var token = $stateParams.token;
+
+        /**
+         * This is necessary because otherwise the CSS transitions of the toast won't work (is it a problem with the promise?)
+         * Anyway, this works.
+         */
+        var showToastDelayed = function(type, message) {
+            $timeout(function() {
+                ToastSrv.long(type, message);
+            }, 50);
+        };
 
         var resetPassword = function() {
             if (!$scope.passObj.new || !$scope.passObj.confirmation) {
@@ -27,14 +37,14 @@ angular
                 token: token,
                 password: $scope.passObj.new
             }).then(function() {
-                ToastSrv.long('success', 'Das Passwort wurde erfolgreich gespeichert');
+                showToastDelayed('success', 'Das Passwort wurde erfolgreich gespeichert');
             }).catch(function(err) {
                 if (err.message === "Invalid token") {
-                    ToastSrv.long('error', 'Der Zurücksetzen-Link ist leider nicht mehr gültig');
+                    showToastDelayed('error', 'Der Zurücksetzen-Link ist leider nicht mehr gültig');
                 } else if (err.message === "Password does not match requirements") {
-                    ToastSrv.long('error', 'Das Passwort entspricht nicht den Sicherheitsrichtlinien');
+                    showToastDelayed('error', 'Das Passwort entspricht nicht den Sicherheitsrichtlinien');
                 } else {
-                    ToastSrv.long('error', 'Das neue Passwort konnte nicht gespeichert werden');
+                    showToastDelayed('error', 'Das neue Passwort konnte nicht gespeichert werden');
                 }
             });
         };

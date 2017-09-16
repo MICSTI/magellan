@@ -36,7 +36,7 @@ angular
                     $timeout(function() {
                         // we finally have to delete the toast from the array
                         remove(toast.id);
-                    }, 500);
+                    }, 300);
                 }, 50 + 350 + toast.timeout);
             }, 50);
         };
