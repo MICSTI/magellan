@@ -24,7 +24,6 @@ module.exports = {
         numericChars: 1,
         specialChars: 1
     },
-    useAppCache: false,
     oauth: {
         facebook: {
             api_key: 'FACEBOOK_APP_ID',

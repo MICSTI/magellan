@@ -3,7 +3,6 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var authentication = require('./controllers/authentication');
-var appcache = require('./controllers/appcache');
 var errorHandler = require('./controllers/error-handler');
 var favicon = require('serve-favicon');
 var compression = require('compression');
@@ -29,9 +28,6 @@ app.use(authentication);
 
 // favicon
 app.use(favicon(__dirname + '/assets/favicon.ico'));
-
-// manifest file
-app.use('/magellan.appcache', appcache);
 
 // compression (should be placed before express.static)
 app.use(compression({
