@@ -1,5 +1,5 @@
 // name for all files that should be pre-fetched
-const PRECACHE = 'magellan-v23';
+const PRECACHE = 'magellan-v25';
 
 // maximum time for fulfilling a network request
 const NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS = 6000;
@@ -315,7 +315,7 @@ self.addEventListener('fetch', event => {
                         }
 
                         console.log('serving from network', event.request.url);
-                        return fetch(event.request);
+                        return fetchFromNetwork(event.request, NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS).catch(err => console.error('failed to fetch', err));
                     })
                     .catch(err => {
                         console.error(err);
