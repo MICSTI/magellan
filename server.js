@@ -29,6 +29,11 @@ app.use(authentication);
 // favicon
 app.use(favicon(__dirname + '/assets/favicon.ico'));
 
+// service worker
+app.use('/sw.js', function(req, res, next) {
+    res.sendFile(__dirname + '/service-worker/service-worker.js');
+});
+
 // compression (should be placed before express.static)
 app.use(compression({
     filter: function (req, res) {
@@ -39,7 +44,6 @@ app.use(compression({
 
 // initialize passport
 app.use(passport.initialize());
-
 
 // set the static files location (/public/img will be /img for users)
 app.use(express.static(__dirname + "/public"));

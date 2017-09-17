@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .controller('PasswordCtrl', function($scope, UserSrv, LogSrv, FocusSrv, ToastSrv) {
+    .controller('PasswordCtrl', function($scope, UserSrv, LogSrv, FocusSrv, ToastSrv, $timeout) {
         $scope.passObj = {};
 
         $scope.userHasPassword = null;
@@ -25,6 +25,10 @@ angular
                     var hasPassword = user && user.hasPassword !== undefined ? user.hasPassword : null;
 
                     setScopeProp('userHasPassword', hasPassword);
+
+                    $timeout(function() {
+                        FocusSrv('#password-current');
+                    }, 30);
                 })
                 .catch(function(err) {
                     console.error(err);
@@ -64,8 +68,6 @@ angular
         var delegateSubmit = function() {
             updatePassword();
         };
-
-        FocusSrv('#password-current');
 
         $scope.updatePassword = updatePassword;
         $scope.delegateSubmit = delegateSubmit;
