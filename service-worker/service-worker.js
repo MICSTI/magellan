@@ -1,5 +1,5 @@
 // name for all files that should be pre-fetched
-const PRECACHE = 'magellan-v25';
+const PRECACHE = 'magellan-v26';
 
 // maximum time for fulfilling a network request
 const NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS = 6000;
