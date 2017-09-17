@@ -1,5 +1,5 @@
 // name for all files that should be pre-fetched
-const PRECACHE = 'magellan-v26';
+const PRECACHE = 'magellan-v27';
 
 // maximum time for fulfilling a network request
 const NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS = 6000;
@@ -49,6 +49,7 @@ const PRECACHE_URLS = [
     '/dist/views/templates/value-revealer.template.html',
 
     // images
+    '/favicon.ico',
     '/dist/images/world.svg',
     '/dist/images/fb_login_button.png',
     '/dist/images/btn_google_signin_light_normal_web.png',
