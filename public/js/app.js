@@ -147,5 +147,9 @@ magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, Aut
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js', {
         scope: './'
+    }).then(function(registration) {
+        console.log('Service worker registration successful', registration);
+    }).catch(function(err) {
+        console.error('Service worker registration failed', err);
     });
 }

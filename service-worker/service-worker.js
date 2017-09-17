@@ -1,4 +1,4 @@
-const PRECACHE = 'magellan-v2';
+const PRECACHE = 'magellan-v5';
 
 // list of local resources we always want to be cached
 const PRECACHE_URLS = [
@@ -33,7 +33,6 @@ self.addEventListener('activate', event => {
 
 // the fetch handler serves responses for same-origin responses from a cache
 self.addEventListener('fetch', event => {
-    console.log('fetch', event.request);
     // skip cross-origin requests
     if (event.request.url.startsWith(self.location.origin)) {
         event.respondWith(
@@ -44,6 +43,7 @@ self.addEventListener('fetch', event => {
                         return cachedResponse;
                     }
 
+                    console.log('serving from network', event.request.url);
                     return fetch(event.request);
                 })
                 .catch(err => {
