@@ -1,4 +1,4 @@
-const PRECACHE = 'magellan-v9';
+const PRECACHE = 'magellan-v13';
 
 // list of local resources we always want to be cached
 const PRECACHE_URLS = [
