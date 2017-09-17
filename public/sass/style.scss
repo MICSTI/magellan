@@ -1294,6 +1294,7 @@ value-revealer {
     }
 
     .reveal-value {
+      opacity: 0;
       align-self: center;
       text-align: right;
       flex-grow: 1;
@@ -1306,13 +1307,29 @@ value-revealer {
     top: 0;
     left: 0;
     height: 100%;
+    width: 0;
 
     z-index: 100;
+
+    -webkit-transition: width 1.4s ease-out;
+    -moz-transition: width 1.4s ease-out;
+    -o-transition: width 1.4s ease-out;
+    transition: width 1.4s ease-out;
+  }
+
+  .value-revealed {
+    display: inline-block;
+    opacity: 1 !important;
+
+    -webkit-transition: opacity 0.4s linear;
+    -moz-transition: opacity 0.4s linear;
+    -o-transition: opacity 0.4s linear;
+    transition: opacity 0.4s linear;
   }
 }
 /* ---------------------------------- */
 
-/* -------- Value revealer ---------- */
+/* -------- Sortable list ----------- */
 .draggable {
   cursor: move;
   user-select: none;

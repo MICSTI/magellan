@@ -1,6 +1,6 @@
 <div class="overlay-text">
     <span class="flag-icon flag-icon-{{countryAlpha2}}"></span>
     <span class="text" ng-bind="countryName"></span>
-    <span class="reveal-value" ng-bind="revealValue" ng-show="1"></span>
+    <span class="reveal-value" ng-bind="revealValue" ng-class="{ 'value-revealed': getRevealed() }"></span>
 </div>
-<div class="value-indicator" ng-style="revealStyle"></div>
+<div class="value-indicator" ng-style="getRevealStyle()"></div>
