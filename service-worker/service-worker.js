@@ -1,4 +1,13 @@
-const PRECACHE = 'magellan-v13';
+// name for all files that should be pre-fetched
+const PRECACHE = 'magellan-v23';
+
+// maximum time for fulfilling a network request
+const NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS = 6000;
+
+// URL prefixes that should always be fetched from network
+const ALWAYS_NETWORK_URL_PREFIXES = [
+    '/api'
+];
 
 // list of local resources we always want to be cached
 const PRECACHE_URLS = [
@@ -245,6 +254,19 @@ const PRECACHE_URLS = [
     '/lib/flags/flags/4x3/cy.svg'
 ];
 
+// method to fetch something from the network
+const fetchFromNetwork = (request, timeout) => {
+    return new Promise((fulfil, reject) => {
+        const timeoutId = setTimeout(reject, timeout);
+
+        fetch(request)
+            .then(response => {
+                clearTimeout(timeoutId);
+                fulfil(response);
+            }, reject);
+    });
+};
+
 // the install handler takes care of precaching the resources we always need
 self.addEventListener('install', event => {
     event.waitUntil(
@@ -271,22 +293,34 @@ self.addEventListener('activate', event => {
 
 // the fetch handler serves responses for same-origin responses from a cache
 self.addEventListener('fetch', event => {
-    // skip cross-origin requests
-    if (event.request.url.startsWith(self.location.origin)) {
-        event.respondWith(
-            caches.match(event.request)
-                .then(cachedResponse => {
-                    if (cachedResponse) {
-                        console.log('serving from cache', event.request.url);
-                        return cachedResponse;
-                    }
+    const origin = self.location.origin;
 
-                    console.log('serving from network', event.request.url);
-                    return fetch(event.request);
-                })
-                .catch(err => {
-                    console.error(err);
-                })
-        );
+    // skip cross-origin requests
+    if (event.request.url.startsWith(origin)) {
+        const routeWithoutOrigin = event.request.url.substr(origin.length);
+
+        // determine if the request URL starts with one that must always be served from the network
+        const fetchDirectlyFromNetwork = ALWAYS_NETWORK_URL_PREFIXES.filter(url => routeWithoutOrigin.startsWith(url)).length > 0;
+
+        if (fetchDirectlyFromNetwork) {
+            console.log('going directly to network for', event.request.url);
+            event.respondWith(fetchFromNetwork(event.request, NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS).catch(err => console.error('failed to fetch', err)));
+        } else {
+            event.respondWith(
+                caches.match(event.request)
+                    .then(cachedResponse => {
+                        if (cachedResponse) {
+                            console.log('serving from cache', event.request.url);
+                            return cachedResponse;
+                        }
+
+                        console.log('serving from network', event.request.url);
+                        return fetch(event.request);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    })
+            );
+        }
     }
 });
