@@ -1,3 +1,5 @@
+var SERVICE_WORKER_ENABLED = false;
+
 var magellan = angular.module("magellan", [
     'ui.router',
     'ngProgress',
@@ -147,12 +149,15 @@ magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, Aut
 
 // register service worker
 if ('serviceWorker' in navigator) {
-    /*navigator.serviceWorker.register('sw.js', {
-        scope: './'
-    }).then(function(registration) {
-        console.log('Service worker registration successful', registration);
-    }).catch(function(err) {
-        console.error('Service worker registration failed', err);
-    });*/
-    console.warn('Service worker currently disabled');
+    if (SERVICE_WORKER_ENABLED === true) {
+        navigator.serviceWorker.register('sw.js', {
+            scope: './'
+        }).then(function(registration) {
+            console.log('Service worker registration successful', registration);
+        }).catch(function(err) {
+            console.error('Service worker registration failed', err);
+        });
+    } else {
+        console.warn('Service worker currently disabled');
+    }
 }
