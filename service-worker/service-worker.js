@@ -1,5 +1,8 @@
+// debug flag
+const DEBUG = true;
+
 // name for all files that should be pre-fetched
-const PRECACHE = 'magellan-v28';
+const PRECACHE = 'magellan-v34';
 
 // maximum time for fulfilling a network request
 const NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS = 6000;
@@ -8,6 +11,34 @@ const NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS = 6000;
 const ALWAYS_NETWORK_URL_PREFIXES = [
     '/api'
 ];
+
+/**
+ * Log utility method.
+ * Logs only if DEBUG flag is set to true.
+ */
+const log = (...args) => {
+    if (DEBUG === true) {
+        return console.log.call(console, ...args);
+    }
+};
+
+/**
+ * Log with warning level.
+ * Logs only if DEBUG flag is set to true.
+ */
+const logWarn = (...args) => {
+    if (DEBUG === true) {
+        return console.warn.call(console, ...args);
+    }
+};
+
+/**
+ * Log with error level.
+ * Always logs regardless of DEBUG flag.
+ */
+const logError = (...args) => {
+    return console.error.call(console, ...args);
+};
 
 // list of local resources we always want to be cached
 const PRECACHE_URLS = [
@@ -295,10 +326,16 @@ self.addEventListener('activate', event => {
 // the fetch handler serves responses for same-origin responses from a cache
 self.addEventListener('fetch', event => {
     // ignore all requests that are not GET requests
-    if (event.request.method !== 'GET') { return; }
+    if (event.request.method !== 'GET') {
+        log(`skipping ${event.request.method} request`, event.request.url);
+        return;
+    }
 
-    // fetch can only handle HTTPS requests
-    if (/http:/.test(event.request.url)) { return; }
+    // fetch can only handle HTTPS requests (except on localhost)
+    if (/http:/.test(event.request.url) && !event.request.url.startsWith('http://localhost')) {
+        log('skipping insecure request', event.request.url);
+        return;
+    }
 
     const origin = self.location.origin;
 
@@ -310,22 +347,22 @@ self.addEventListener('fetch', event => {
         const fetchDirectlyFromNetwork = ALWAYS_NETWORK_URL_PREFIXES.filter(url => routeWithoutOrigin.startsWith(url)).length > 0;
 
         if (fetchDirectlyFromNetwork) {
-            console.log('going directly to network for', event.request.url);
-            event.respondWith(fetchFromNetwork(event.request, NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS).catch(err => console.error('failed to fetch', err)));
+            log('going directly to network for', event.request.url);
+            event.respondWith(fetchFromNetwork(event.request, NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS).catch(err => logError('failed to fetch', err)));
         } else {
             event.respondWith(
                 caches.match(event.request)
                     .then(cachedResponse => {
                         if (cachedResponse) {
-                            console.log('serving from cache', event.request.url);
+                            log('serving from cache', event.request.url);
                             return cachedResponse;
                         }
 
-                        console.log('serving from network', event.request.url);
-                        return fetchFromNetwork(event.request, NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS).catch(err => console.error('failed to fetch', err));
+                        log('serving from network', event.request.url);
+                        return fetchFromNetwork(event.request, NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS).catch(err => logError('failed to fetch', err));
                     })
                     .catch(err => {
-                        console.error(err);
+                        logError(err);
                     })
             );
         }
