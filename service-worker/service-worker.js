@@ -1,5 +1,5 @@
 // name for all files that should be pre-fetched
-const PRECACHE = 'magellan-v27';
+const PRECACHE = 'magellan-v28';
 
 // maximum time for fulfilling a network request
 const NETWORK_REQUEST_MAX_TIME_IN_MILLISECONDS = 6000;
@@ -294,6 +294,12 @@ self.addEventListener('activate', event => {
 
 // the fetch handler serves responses for same-origin responses from a cache
 self.addEventListener('fetch', event => {
+    // ignore all requests that are not GET requests
+    if (event.request.method !== 'GET') { return; }
+
+    // fetch can only handle HTTPS requests
+    if (/http:/.test(event.request.url)) { return; }
+
     const origin = self.location.origin;
 
     // skip cross-origin requests
