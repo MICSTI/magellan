@@ -22,7 +22,7 @@ angular
             };
         };
 
-       $scope.$on('value-revealer.reveal', function(event, data) {
+       $scope.$on('reveal', function(event, data) {
            revealing = true;
 
            $timeout(function() {
