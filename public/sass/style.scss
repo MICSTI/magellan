@@ -1347,16 +1347,20 @@ selectable {
   position: relative;
   width: 100%;
 
-  transition: border 0.35s linear;
+  transition: all 0.35s linear;
 
   &:last-child {
     margin-bottom: 0;
   }
 
-  &[is-selected=true] {
+  &:hover {
+    cursor: pointer;
     border: 2px solid lighten($jelly_bean, 10%);
+  }
 
-    transition: border 0.35s linear;
+  &[is-selected=true] {
+    background-color: darken($primary, 20%);
+    border: 2px solid lighten($jelly_bean, 10%);
   }
 
   .overlay-text {
