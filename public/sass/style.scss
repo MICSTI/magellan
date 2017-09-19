@@ -1340,15 +1340,23 @@ value-revealer {
 /* -------- Value revealer ---------- */
 selectable {
   display: flex;
-  border: 2px solid lighten($jelly_bean, 10%);
+  border: 2px solid lighten($jelly_bean, 30%);
   box-sizing: border-box;
   margin-bottom: 0.8em;
   padding: 0.25em 0.75em;
   position: relative;
   width: 100%;
 
+  transition: border 0.35s linear;
+
   &:last-child {
     margin-bottom: 0;
+  }
+
+  &[is-selected=true] {
+    border: 2px solid lighten($jelly_bean, 10%);
+
+    transition: border 0.35s linear;
   }
 
   .overlay-text {
