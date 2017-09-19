@@ -98,7 +98,7 @@ magellan.controller("AppCtrl", function($rootScope, $scope, $state, $window, Aut
     var goToHome = function() {
         $state.go('home');
 
-        $rootScope.$broadcast('value-revealer.reveal');
+        $rootScope.$broadcast('reveal');
     };
 
     $scope.goToHome = goToHome;
