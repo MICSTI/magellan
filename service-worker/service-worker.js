@@ -76,6 +76,7 @@ const PRECACHE_URLS = [
     '/dist/views/templates/map.template.html',
     '/dist/views/templates/password-requirements.template.html',
     '/dist/views/templates/quiz-directive.template.html',
+    '/dist/views/templates/selectable.template.html',
     '/dist/views/templates/sortable-list.template.html',
     '/dist/views/templates/value-revealer.template.html',
 
