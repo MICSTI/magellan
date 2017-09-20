@@ -248,6 +248,18 @@ angular
                         correct: country.area
                     };
 
+                case 'ORDER_BY_POPULATION':
+                    // TODO how do we get countries instead of country?
+                    return {
+                        correct: null
+                    };
+
+                case 'ORDER_BY_AREA':
+                    // TODO how do we get countries instead of country?
+                    return {
+                        correct: null
+                    };
+
                 case 'LOCATION_OF_COUNTRY':
                     return {
                         correct: country.alpha2Code
@@ -265,6 +277,10 @@ angular
 
                 case 'AREA_OF_COUNTRY':
                     return 'number.medium';
+
+                case 'ORDER_BY_POPULATION':
+                case 'ORDER_BY_AREA':
+                    return 'sortable';
 
                 case 'LOCATION_OF_COUNTRY':
                     return 'map.point';
@@ -325,6 +341,15 @@ angular
                         }
 
                         return points;
+                    };
+
+                case 'ORDER_BY_POPULATION':
+                case 'ORDER_BY_AREA':
+                    return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
+                        // TODO implement
+                        // here we simply need to check if the provided answer array is correctly
+                        // sorted based on the right property (population or area)
+                        return 0;
                     };
 
                 case 'POPULATION_OF_COUNTRY':
@@ -393,6 +418,8 @@ angular
 
                 case 'POPULATION_OF_COUNTRY':
                 case 'AREA_OF_COUNTRY':
+                case 'ORDER_BY_POPULATION':
+                case 'ORDER_BY_AREA':
                     return {
                         allowed: false
                     };
