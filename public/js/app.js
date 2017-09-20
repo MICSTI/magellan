@@ -24,8 +24,12 @@ magellan.constant("AppConfig", {
         2: "COUNTRY_OF_CAPITAL",
         3: "POPULATION_OF_COUNTRY",
         4: "AREA_OF_COUNTRY",
-        5: "FLAG_OF_COUNTRY"
-        //6: "LOCATION_OF_COUNTRY"
+        5: "FLAG_OF_COUNTRY",
+        6: "LOCATION_OF_COUNTRY_NAME",
+        7: "LOCATION_OF_COUNTRY_SHOW",
+        8: "BORDER_COUNTRIES_OF_COUNTRY",
+        9: "ORDER_BY_POPULATION",
+        10: "ORDER_BY_AREA"
     },
 
     "settings.user.colors": [
