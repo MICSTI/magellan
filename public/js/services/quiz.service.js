@@ -200,7 +200,7 @@ angular
                     return "Wie heißt die Hauptstadt von [" + country.name + "]";
 
                 case 'COUNTRY_OF_CAPITAL':
-                    return "[" + country.capital + "] ist die Hauptstadt von welchem Land"
+                    return "[" + country.capital + "] ist die Hauptstadt von welchem Land";
 
                 case 'POPULATION_OF_COUNTRY':
                     return "Wie viele Menschen leben in [" + country.name + "]";
@@ -213,6 +213,9 @@ angular
 
                 case 'LOCATION_OF_COUNTRY':
                     return "Wo befindet sich [" + country.name + "]";
+
+                case 'BORDER_COUNTRIES_OF_COUNTRY':
+                    return "Welche Länder grenzen an [" + country.name + "]";
 
                 default:
                     return "?"
@@ -253,6 +256,11 @@ angular
                         correct: country.alpha2Code
                     };
 
+                case 'BORDER_COUNTRIES_OF_COUNTRY':
+                    return {
+                        correct: country.borders
+                    };
+
                 default:
                     return "?"
             }
@@ -268,6 +276,9 @@ angular
 
                 case 'LOCATION_OF_COUNTRY':
                     return 'map.point';
+
+                case 'BORDER_COUNTRIES_OF_COUNTRY':
+                    return 'selectable';
 
                 case 'CAPITAL_OF_COUNTRY':
                 case 'COUNTRY_OF_CAPITAL':
@@ -372,6 +383,16 @@ angular
                         return points;
                     };
 
+                case 'BORDER_COUNTRIES_OF_COUNTRY':
+                    return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
+                        // beware: the answer (array of border countries) is not necessarily the correct answer
+                        // for countries with many border countries, only a few selected countries will be in the possible answers
+                        // so we have to check if ALL border countries from the provided selection have been selected
+                        // and further, if no countries that are NOT actually border countries have been selected
+                        // TODO implement
+                        return 0;
+                    };
+
                 default:
                     return "?";
             }
@@ -393,6 +414,7 @@ angular
 
                 case 'POPULATION_OF_COUNTRY':
                 case 'AREA_OF_COUNTRY':
+                case 'BORDER_COUNTRIES_OF_COUNTRY':
                     return {
                         allowed: false
                     };
@@ -437,7 +459,7 @@ angular
             }
 
             return quiz.getTotalPoints();
-        }
+        };
 
         /**
          * Concludes the quiz and puts the score to the API endpoint.
