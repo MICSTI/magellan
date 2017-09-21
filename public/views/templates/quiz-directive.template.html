@@ -41,7 +41,7 @@
             <select class="multiplierSelection" ng-model="answerInput.multiplier" ng-options="opt.label for opt in multiplierOptions track by opt.value"></select>
         </div>
 
-        <div ng-switch-when="selectable" class="quiz-input-selectable">
+        <div id="selectable-border-countries" ng-switch-when="selectable" class="quiz-input-selectable">
             <selectable ng-repeat="country in getQuestion().getInfo().possibleAnswers" country-name="{{country.name}}" country-alpha2="{{country.alpha2Code.toLocaleLowerCase()}}" is-selected="false"></selectable>
         </div>
 

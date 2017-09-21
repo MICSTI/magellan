@@ -543,7 +543,7 @@ angular
                     };
 
                 case 'BORDER_COUNTRIES_OF_COUNTRY':
-                    return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
+                    return function(answerArray, submittedAnswer, hintsUsed, hintCost, info) {
                         // beware: the answer (array of border countries) is not necessarily the correct answer
                         // for countries with many border countries, only a few selected countries will be in the possible answers
                         // so we have to check if ALL border countries from the provided selection have been selected

@@ -137,6 +137,18 @@ angular
                 } else {
                     FocusSrv('#btnContinueFinished');
                 }
+            } else if (!question.answered() && question.getInfo().type === 'BORDER_COUNTRIES_OF_COUNTRY') {
+                var parentElem = document.getElementById('selectable-border-countries');
+                var choiceArray = Array.prototype.slice.call(parentElem.children);
+
+                var answerArray = choiceArray.map(function(elem) {
+                    return {
+                        alpha2Code: elem.getAttribute('country-alpha2'),
+                        selected: elem.getAttribute('is-selected')
+                    };
+                });
+
+                $scope.answerInput.points = question.answer(answerArray);
             }
         };
 
