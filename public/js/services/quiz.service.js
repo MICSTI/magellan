@@ -64,6 +64,76 @@ angular
             }
         };
 
+        var createBorderCountriesOfCountryQuestion = function(country) {
+            console.log('country is', country);
+
+            // these are the actual border countries of the country (in an array)
+            var borderCountries = country.borders || [];
+
+            // as a first step, map the alpha3 strings to actual country objects
+            borderCountries = borderCountries.map(function(c) {
+                return CountrySrv.getCountryByAlpha3(c);
+            });
+
+            // these are the possible border countries (all border countries of the border countries)
+            // in this array there are no correct solutions, just possible solutions
+            var possibleWrongSolutions = [];
+
+            // first get all border countries of the border countries
+            borderCountries.forEach(function(borderCountry) {
+                // iterate over all border countries of the border country
+                var borderCountryBorderCountries = borderCountry.borders || [];
+
+                // map the alpha3 string to actual country objects
+                borderCountryBorderCountries = borderCountryBorderCountries.map(function(borderCountryAlpha3) {
+                    return CountrySrv.getCountryByAlpha3(borderCountryAlpha3);
+                });
+
+                // add it to the possible solutions array if
+                //   - it is NOT the country itself
+                //   - it is NOT already in there
+                //   - it is NOT an actual border country (thus a correct solution)
+                borderCountryBorderCountries.forEach(function(bc) {
+                    // in case a ghost country (undefined) is in the array, just skip it)
+                    if (!bc) {
+                        return;
+                    }
+
+                    // if it's the country itself, leave immediately
+                    if (bc.alpha3Code === country.alpha3Code) {
+                        return;
+                    }
+
+                    var shouldAdd = true;
+
+                    possibleWrongSolutions.forEach(function(p) {
+                        // if it is already in the possible wrong solutions, don't add it
+                        if (bc.alpha3Code === p.alpha3Code) {
+                            shouldAdd = false;
+                        }
+                    });
+
+                    if (!shouldAdd) {
+                        return;
+                    }
+
+                    borderCountries.forEach(function(b) {
+                        // if it is already in the possible wrong solutions, don't add it
+                        if (bc.alpha3Code === b.alpha3Code) {
+                            shouldAdd = false;
+                        }
+                    });
+
+                    if (shouldAdd === true) {
+                        possibleWrongSolutions.push(bc);
+                    }
+                });
+            });
+
+            console.log('borderCountries', borderCountries);
+            console.log('possible wrong solutions', possibleWrongSolutions);
+        };
+
         var createCountryQuiz = function() {
             var countryQuiz = new Quiz();
 
@@ -127,7 +197,9 @@ angular
             var questionTypeArray = [];
 
             for (var j = 0; j < numberOfQuestions; j++) {
-                if (j < 3) {
+                questionTypeArray.push(8);
+                // TODO re-add before merging
+                /*if (j < 3) {
                     questionTypeArray.push(1);
                 } else if (j < 6) {
                     questionTypeArray.push(2);
@@ -140,7 +212,7 @@ angular
                 } else {
                     // add one random question for the last one
                     questionTypeArray.push(getRandomInt(1, questionTypesLength));
-                }
+                }*/
             }
 
             var shuffledQuestionTypeArray = shuffle(questionTypeArray);
@@ -180,6 +252,11 @@ angular
                 if (questionType === 'LOCATION_OF_COUNTRY') {
                     info.media = 'map';
                     info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
+                }
+
+                // add info for borders of country
+                if (questionType === 'BORDER_COUNTRIES_OF_COUNTRY') {
+                    createBorderCountriesOfCountryQuestion(country);
                 }
 
                 countryQuiz.addQuestion(new Question({
