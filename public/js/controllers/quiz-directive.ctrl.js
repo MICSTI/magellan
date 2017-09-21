@@ -143,7 +143,7 @@ angular
 
                 var answerArray = choiceArray.map(function(elem) {
                     return {
-                        alpha2Code: elem.getAttribute('country-alpha2'),
+                        alpha3Code: elem.getAttribute('country-alpha3'),
                         selected: elem.getAttribute('is-selected')
                     };
                 });

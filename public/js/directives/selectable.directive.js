@@ -9,6 +9,7 @@ angular
             scope: {
                 countryName: '@countryName',
                 countryAlpha2: '@countryAlpha2',
+                countryAlpha3: '@countryAlpha3',
                 isSelected: '=isSelected'
             },
             link: function(scope, element, attrs) {

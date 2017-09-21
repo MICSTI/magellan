@@ -42,7 +42,7 @@
         </div>
 
         <div id="selectable-border-countries" ng-switch-when="selectable" class="quiz-input-selectable">
-            <selectable ng-repeat="country in getQuestion().getInfo().possibleAnswers" country-name="{{country.name}}" country-alpha2="{{country.alpha2Code.toLocaleLowerCase()}}" is-selected="false"></selectable>
+            <selectable ng-repeat="country in getQuestion().getInfo().possibleAnswers" country-name="{{country.name}}" country-alpha2="{{country.alpha2Code.toLocaleLowerCase()}}" country-alpha3="{{country.alpha3Code}}" is-selected="false"></selectable>
         </div>
 
         <div ng-switch-when="map.point" class="quiz-input-map">
