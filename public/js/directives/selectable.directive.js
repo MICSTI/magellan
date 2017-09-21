@@ -21,7 +21,7 @@ angular
                     attrs.$set('ariaChecked', scope.isSelected);
                 };
 
-                scope.toggleState = function() {
+                var toggleState = function() {
                     // toggle the "isSelected" flag
                     scope.isSelected = !scope.isSelected;
 
@@ -32,9 +32,18 @@ angular
                     setAriaChecked();
                 };
 
+                scope.toggleState = toggleState;
+
                 // initially set the aria attributes
                 setRole();
                 setAriaChecked();
+
+                // attach onclick listener to element
+                var domElement = element[0];
+
+                if (domElement) {
+                    domElement.addEventListener('click', toggleState, false);
+                }
             }
         }
     });
