@@ -44,6 +44,8 @@ router.get('/user', protectRoute, function(req, res, next) {
  * Returns an array containing info about the effect of the put request.
  */
 router.put('/', protectRoute, function(req, res, next) {
+    console.log('req.user', req.user);
+
     var score = req.body.score;
 
     if (score === undefined) {
@@ -165,13 +167,28 @@ router.put('/', protectRoute, function(req, res, next) {
             };
 
             if (saveEntry) {
-                // save the user object
-                req.user.save(function(err) {
+                User.findOne({
+                    _id: req.user._id
+                }, function(err, user) {
                     if (err) {
                         return next(err);
                     }
 
-                    return res.status(200).json(returnObject);
+                    if (!user) {
+                        return next(new Error('Something went wrong'));
+                    }
+
+                    // attach the scores array
+                    user.scores = req.user.scores;
+
+                    // save the user object
+                    user.save(function(err) {
+                        if (err) {
+                            return next(err);
+                        }
+
+                        return res.status(200).json(returnObject);
+                    });
                 });
             } else {
                 return res.status(200).json(returnObject);
