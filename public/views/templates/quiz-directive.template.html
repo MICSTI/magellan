@@ -56,7 +56,7 @@
 
     <!-- Solution -->
     <div class="solution-container" ng-if="questionAnswered()">
-        <div class="answer-correct">
+        <div class="answer-correct" ng-hide="getQuestion().getInfo().hideAnswerText === true">
             Die richtige Antwort lautet: <span class="highlight-green" ng-class="{ 'highlight-green': answerInput.points > 0, 'highlight-red': answerInput.points <= 0 }" ng-bind="getQuestion().solution().correct | textOrNumber"></span>
         </div>
 

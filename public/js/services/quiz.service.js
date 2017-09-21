@@ -339,6 +339,9 @@ angular
                 if (questionType === 'BORDER_COUNTRIES_OF_COUNTRY') {
                     var bcQuestion = createBorderCountriesOfCountryQuestion(country);
                     info.possibleAnswers = bcQuestion.possibleAnswers || null;
+
+                    // hide the answer text after submitting an answer
+                    info.hideAnswerText = true;
                 }
 
                 countryQuiz.addQuestion(new Question({
