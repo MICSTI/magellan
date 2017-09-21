@@ -34,6 +34,16 @@ angular
 
                 scope.toggleState = toggleState;
 
+                // attach event listener (so the component can be informed how to reveal if the solution was correct or not)
+                scope.$on('selectable_solution', function(event, dataArr) {
+                    dataArr.forEach(function(item) {
+                        // check if the event item is for our component
+                        if (item.alpha3Code === scope.countryAlpha3) {
+                            attrs.$set('answer-correct', item.correct);
+                        }
+                    });
+                });
+
                 // initially set the aria attributes
                 setRole();
                 setAriaChecked();

@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .factory('QuizSrv', function(AppConfig, CountrySrv, ScoreSrv, EventSrv) {
+    .factory('QuizSrv', function($rootScope, AppConfig, CountrySrv, ScoreSrv, EventSrv) {
         var countries = null;
         var countriesByAlpha3 = null;
 
@@ -547,18 +547,35 @@ angular
 
                 case 'BORDER_COUNTRIES_OF_COUNTRY':
                     return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
+                        var eventArray = [];
+
                         // check if the "selected" status of all four countries in the submittedAnswer array is correct
                         var mistakes = 0;
 
                         submittedAnswer.forEach(function(item) {
+                            // assume the item is incorrect by default
+                            var itemCorrect = false;
+
                             var isBorderCountry = answer.correct.indexOf(item.alpha3Code) >= 0;
 
                             if (isBorderCountry && item.selected !== 'true') {
                                 mistakes++;
                             } else if (!isBorderCountry && item.selected !== 'false') {
                                 mistakes++;
+                            } else {
+                                // it was correct, set value to true
+                                itemCorrect = true;
                             }
+
+                            eventArray.push({
+                                alpha3Code: item.alpha3Code,
+                                correct: itemCorrect
+                            });
                         });
+
+                        // for this question, we also have to broadcast an event so the selectable components
+                        // know if they have been selected correctly or not.
+                        $rootScope.$broadcast('selectable_solution', eventArray);
 
                         // for one mistake, the player gets 50 points, for no mistakes 100 points
                         if (mistakes === 0) {
