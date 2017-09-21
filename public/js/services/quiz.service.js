@@ -544,15 +544,27 @@ angular
 
                 case 'BORDER_COUNTRIES_OF_COUNTRY':
                     return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
-                        console.log('answer', answer);
-                        console.log('submitted', submittedAnswer);
-                        console.log('hints', hintsUsed);
-                        console.log('hintCost', hintCost);
-                        console.log('info', info);
+                        // check if the "selected" status of all four countries in the submittedAnswer array is correct
+                        var mistakes = 0;
 
+                        submittedAnswer.forEach(function(item) {
+                            var isBorderCountry = answer.correct.indexOf(item.alpha3Code) >= 0;
 
+                            if (isBorderCountry && item.selected !== 'true') {
+                                mistakes++;
+                            } else if (!isBorderCountry && item.selected !== 'false') {
+                                mistakes++;
+                            }
+                        });
 
-                        return 0;
+                        // for one mistake, the player gets 50 points, for no mistakes 100 points
+                        if (mistakes === 0) {
+                            return 100;
+                        } else if (mistakes === 1) {
+                            return 50;
+                        } else {
+                            return 0;
+                        }
                     };
 
                 default:
