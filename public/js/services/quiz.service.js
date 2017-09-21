@@ -69,8 +69,6 @@ angular
         };
 
         var createBorderCountriesOfCountryQuestion = function(country) {
-            console.log('country is', country);
-
             // these are the actual border countries of the country (in an array)
             var borderCountries = country.borders || [];
 
@@ -340,7 +338,7 @@ angular
                 // add info for borders of country
                 if (questionType === 'BORDER_COUNTRIES_OF_COUNTRY') {
                     var bcQuestion = createBorderCountriesOfCountryQuestion(country);
-                    console.log('got border country question', bcQuestion);
+                    info.possibleAnswers = bcQuestion.possibleAnswers || null;
                 }
 
                 countryQuiz.addQuestion(new Question({
@@ -376,7 +374,7 @@ angular
                     return "Wo befindet sich [" + country.name + "]";
 
                 case 'BORDER_COUNTRIES_OF_COUNTRY':
-                    return "Welche Länder grenzen an [" + country.name + "]";
+                    return "Welche dieser Länder grenzen an [" + country.name + "]";
 
                 default:
                     return "?"

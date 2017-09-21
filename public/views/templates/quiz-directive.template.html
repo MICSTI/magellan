@@ -12,7 +12,7 @@
 
     <!-- Question media (map of the world, flag, ...) -->
     <div class="question-media-container" ng-if="getQuestionMedia()" ng-switch="getQuestionMedia()">
-        <span ng-switch-when="flag" class="flag-icon flag-icon-{{getQuestion().getInfo().alpha2Code}}"></span>
+        <span ng-switch-when="flag" class="flag-icon flag-icon-large flag-icon-{{getQuestion().getInfo().alpha2Code}}"></span>
 
         <div ng-switch-when="map">
             <x-map></x-map>
@@ -39,6 +39,10 @@
             <input type="number" class="answerInput" ng-model="answerInput.answer" placeholder="Antwort" ng-keypress="handleKeyPress($event)" />
 
             <select class="multiplierSelection" ng-model="answerInput.multiplier" ng-options="opt.label for opt in multiplierOptions track by opt.value"></select>
+        </div>
+
+        <div ng-switch-when="selectable" class="quiz-input-selectable">
+            <selectable ng-repeat="country in getQuestion().getInfo().possibleAnswers" country-name="{{country.name}}" country-alpha2="{{country.alpha2Code.toLocaleLowerCase()}}" is-selected="false"></selectable>
         </div>
 
         <div ng-switch-when="map.point" class="quiz-input-map">
