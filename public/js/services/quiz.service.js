@@ -176,13 +176,44 @@ angular
                 }
             }
 
-            // TODO out of the countries, select 4 as possible solutions
+            // add "correct" property to all countries
+            borderCountries = borderCountries.map(function(item) {
+                item['correct'] = true;
+
+                return item;
+            });
+
+            possibleWrongSolutions = possibleWrongSolutions.map(function(item) {
+                item['correct'] = false;
+
+                return item;
+            });
+
+            randomCountries = randomCountries.map(function(item) {
+                item['correct'] = false;
+
+                return item;
+            });
+
+            // put all countries together in one array and shuffle it for good measure
+            var finalArray = shuffle(borderCountries.concat(possibleWrongSolutions).concat(randomCountries));
+
+            // now we pick 4 random elements from the final array - these are the possible answers to the question
+            var possibleAnswers = [];
+
+            while (possibleAnswers.length < 4) {
+                var randomNumber = getRandomInt(0, finalArray.length - 1);
+
+                var element = finalArray.splice(randomNumber, 1)[0];
+
+                if (element) {
+                    possibleAnswers.push(element);
+                }
+            }
 
             return {
                 country: country,
-                borderCountries: borderCountries,
-                realisticWrongCountries: possibleWrongSolutions,
-                randomCountries: randomCountries
+                possibleAnswers: possibleAnswers
             };
         };
 
