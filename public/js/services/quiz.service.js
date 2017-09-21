@@ -64,6 +64,10 @@ angular
             }
         };
 
+        var getRandomCountry = function() {
+            return countries.length > 0 ? countries[getRandomInt(0, countries.length - 1)] : null;
+        };
+
         var createBorderCountriesOfCountryQuestion = function(country) {
             console.log('country is', country);
 
@@ -130,8 +134,56 @@ angular
                 });
             });
 
-            console.log('borderCountries', borderCountries);
-            console.log('possible wrong solutions', possibleWrongSolutions);
+            // add some random countries
+            var entriesSoFar = borderCountries.length + possibleWrongSolutions.length;
+
+            // get 4 random countries if there are not enough possible solutions yet
+            // this is the case for island countries, for instance
+            var numberOfRandomCountriesLeft = entriesSoFar < 3 ? 4 : 2;
+
+            var randomCountries = [];
+
+            while (numberOfRandomCountriesLeft > 0) {
+                var candidate = getRandomCountry();
+
+                var ok = true;
+
+                borderCountries.forEach(function(c) {
+                    if (c.alpha3Code === candidate.alpha3Code) {
+                        ok = false;
+                    }
+                });
+
+                if (ok) {
+                    possibleWrongSolutions.forEach(function(c) {
+                        if (c.alpha3Code === candidate.alpha3Code) {
+                            ok = false;
+                        }
+                    });
+                }
+
+                if (ok) {
+                    randomCountries.forEach(function(c) {
+                        if (c.alpha3Code === candidate.alpha3Code) {
+                            ok = false;
+                        }
+                    });
+                }
+
+                if (ok) {
+                    randomCountries.push(candidate);
+                    numberOfRandomCountriesLeft--;
+                }
+            }
+
+            // TODO out of the countries, select 4 as possible solutions
+
+            return {
+                country: country,
+                borderCountries: borderCountries,
+                realisticWrongCountries: possibleWrongSolutions,
+                randomCountries: randomCountries
+            };
         };
 
         var createCountryQuiz = function() {
@@ -256,7 +308,8 @@ angular
 
                 // add info for borders of country
                 if (questionType === 'BORDER_COUNTRIES_OF_COUNTRY') {
-                    createBorderCountriesOfCountryQuestion(country);
+                    var bcQuestion = createBorderCountriesOfCountryQuestion(country);
+                    console.log('got border country question', bcQuestion);
                 }
 
                 countryQuiz.addQuestion(new Question({
