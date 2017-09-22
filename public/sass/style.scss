@@ -1363,12 +1363,25 @@ selectable {
     border: 2px solid lighten($jelly_bean, 10%);
   }
 
-  &[answer-correct=true] {
-    background-color: darken($gossip, 20%);
+  &[is-selected=true][answer-correct=true] {
+    background-color: lighten($gossip, 10%);
+    border: 2px solid darken($gossip, 10%);
+    font-weight: bold;
   }
 
-  &[answer-correct=false] {
-    background-color: darken($new_york_pink, 20%);
+  &[is-selected=true][answer-correct=false] {
+    background-color: lighten($new_york_pink, 10%);
+    border: 2px solid darken($new_york_pink, 10%);
+    color: lighten($text_primary, 25%);
+  }
+
+  &[is-selected=false][answer-correct=false] {
+    border: 2px solid darken($new_york_pink, 10%);
+    font-weight: bold;
+  }
+
+  &[is-selected=false][answer-correct=true] {
+    color: lighten($text_primary, 25%);
   }
 
   .overlay-text {
