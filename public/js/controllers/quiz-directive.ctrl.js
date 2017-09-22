@@ -3,7 +3,7 @@
 
 angular
     .module('magellan')
-    .controller('QuizDirectiveController', function($scope, QuizSrv, LogSrv, FocusSrv, ngProgressFactory, $filter) {
+    .controller('QuizDirectiveController', function($scope, QuizSrv, LogSrv, FocusSrv, ngProgressFactory, $filter, $timeout) {
         var question;
 
         var initCtrl = function() {
@@ -161,11 +161,21 @@ angular
         };
 
         var nextQuestion = function() {
-            QuizSrv.nextQuestion();
+            var useTimeout = !wasLastQuestion() && question.getInfo().type === 'BORDER_COUNTRIES_OF_COUNTRY';
 
-            $scope.answerInput.answer = "";
+            var timeout = useTimeout ? 520 : 0;
 
-            updateUi();
+            if (useTimeout) {
+                question.getInfo().possibleAnswers.length = 0;
+            }
+
+            $timeout(function() {
+                QuizSrv.nextQuestion();
+
+                $scope.answerInput.answer = "";
+
+                updateUi();
+            }, timeout);
         };
 
         var requestHint = function() {
