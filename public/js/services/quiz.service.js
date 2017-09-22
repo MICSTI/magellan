@@ -552,13 +552,20 @@ angular
                         // check if the "selected" status of all four countries in the submittedAnswer array is correct
                         var mistakes = 0;
 
+                        // this variable only counts the selected countries that were actually correct
+                        // just not selecting a false solution does not count here
+                        var corrects = 0;
+
                         submittedAnswer.forEach(function(item) {
                             // assume the item is incorrect by default
                             var itemCorrect = false;
 
                             var isBorderCountry = answer.correct.indexOf(item.alpha3Code) >= 0;
 
-                            if (isBorderCountry && item.selected !== 'true') {
+                            if (isBorderCountry && item.selected === 'true') {
+                                corrects++;
+                                itemCorrect = true;
+                            } else if (isBorderCountry && item.selected !== 'true') {
                                 mistakes++;
                             } else if (!isBorderCountry && item.selected !== 'false') {
                                 mistakes++;
@@ -577,10 +584,11 @@ angular
                         // know if they have been selected correctly or not.
                         $rootScope.$broadcast('selectable_solution', eventArray);
 
-                        // for one mistake, the player gets 50 points, for no mistakes 100 points
+                        // for no mistakes the player gets 100 points
+                        // for one mistake with actually selecting at least one item correctly, he gets 50 points
                         if (mistakes === 0) {
                             return 100;
-                        } else if (mistakes === 1) {
+                        } else if (mistakes === 1 && corrects >= 1) {
                             return 50;
                         } else {
                             return 0;
