@@ -44,8 +44,6 @@ router.get('/user', protectRoute, function(req, res, next) {
  * Returns an array containing info about the effect of the put request.
  */
 router.put('/', protectRoute, function(req, res, next) {
-    console.log('req.user', req.user);
-
     var score = req.body.score;
 
     if (score === undefined) {
