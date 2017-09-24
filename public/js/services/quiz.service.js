@@ -127,7 +127,9 @@ angular
             var questionTypeArray = [];
 
             for (var j = 0; j < numberOfQuestions; j++) {
-                if (j < 3) {
+                // TODO revert before merge
+                questionTypeArray.push(9);
+                /*if (j < 3) {
                     questionTypeArray.push(1);
                 } else if (j < 6) {
                     questionTypeArray.push(2);
@@ -140,7 +142,7 @@ angular
                 } else {
                     // add one random question for the last one
                     questionTypeArray.push(getRandomInt(1, questionTypesLength));
-                }
+                }*/
             }
 
             var shuffledQuestionTypeArray = shuffle(questionTypeArray);
@@ -213,6 +215,12 @@ angular
 
                 case 'LOCATION_OF_COUNTRY':
                     return "Wo befindet sich [" + country.name + "]";
+
+                case 'ORDER_BY_POPULATION':
+                    return "Reihen Sie diese Länder absteigend nach Einwohnerzahl";
+
+                case 'ORDER_BY_AREA':
+                    return "Reihen Sie diese Länder absteigend nach Fläche";
 
                 default:
                     return "?"
