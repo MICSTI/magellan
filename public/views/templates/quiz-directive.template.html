@@ -12,7 +12,7 @@
 
     <!-- Question media (map of the world, flag, ...) -->
     <div class="question-media-container" ng-if="getQuestionMedia()" ng-switch="getQuestionMedia()">
-        <span ng-switch-when="flag" class="flag-icon flag-icon-{{getQuestion().getInfo().alpha2Code}}"></span>
+        <span ng-switch-when="flag" class="flag-icon flag-icon-large flag-icon-{{getQuestion().getInfo().alpha2Code}}"></span>
 
         <div ng-switch-when="map">
             <x-map></x-map>
@@ -41,6 +41,10 @@
             <select class="multiplierSelection" ng-model="answerInput.multiplier" ng-options="opt.label for opt in multiplierOptions track by opt.value"></select>
         </div>
 
+        <div id="selectable-border-countries" ng-switch-when="selectable" class="quiz-input-selectable">
+            <selectable ng-repeat="country in getQuestion().getInfo().possibleAnswers" country-name="{{country.name}}" country-alpha2="{{country.alpha2Code.toLocaleLowerCase()}}" country-alpha3="{{country.alpha3Code}}" is-selected="false"></selectable>
+        </div>
+
         <div ng-switch-when="map.point" class="quiz-input-map">
 
         </div>
@@ -52,7 +56,7 @@
 
     <!-- Solution -->
     <div class="solution-container" ng-if="questionAnswered()">
-        <div class="answer-correct">
+        <div class="answer-correct" ng-hide="getQuestion().getInfo().hideAnswerText === true">
             Die richtige Antwort lautet: <span class="highlight-green" ng-class="{ 'highlight-green': answerInput.points > 0, 'highlight-red': answerInput.points <= 0 }" ng-bind="getQuestion().solution().correct | textOrNumber"></span>
         </div>
 

@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .factory('QuizSrv', function(AppConfig, CountrySrv, ScoreSrv, EventSrv) {
+    .factory('QuizSrv', function($rootScope, AppConfig, CountrySrv, ScoreSrv, EventSrv) {
         var countries = null;
         var countriesByAlpha3 = null;
 
@@ -62,6 +62,167 @@ angular
                 default:
                     return createCountryQuiz();
             }
+        };
+
+        var getRandomCountry = function() {
+            return countries.length > 0 ? countries[getRandomInt(0, countries.length - 1)] : null;
+        };
+
+        var createBorderCountriesOfCountryQuestion = function(country) {
+            // these are the actual border countries of the country (in an array)
+            var borderCountries = country.borders || [];
+
+            // as a first step, map the alpha3 strings to actual country objects
+            borderCountries = borderCountries.map(function(c) {
+                return CountrySrv.getCountryByAlpha3(c);
+            });
+
+            // these are the possible border countries (all border countries of the border countries)
+            // in this array there are no correct solutions, just possible solutions
+            var possibleWrongSolutions = [];
+
+            // first get all border countries of the border countries
+            borderCountries.forEach(function(borderCountry) {
+                // iterate over all border countries of the border country
+                var borderCountryBorderCountries = borderCountry.borders || [];
+
+                // map the alpha3 string to actual country objects
+                borderCountryBorderCountries = borderCountryBorderCountries.map(function(borderCountryAlpha3) {
+                    return CountrySrv.getCountryByAlpha3(borderCountryAlpha3);
+                });
+
+                // add it to the possible solutions array if
+                //   - it is NOT the country itself
+                //   - it is NOT already in there
+                //   - it is NOT an actual border country (thus a correct solution)
+                borderCountryBorderCountries.forEach(function(bc) {
+                    // in case a ghost country (undefined) is in the array, just skip it)
+                    if (!bc) {
+                        return;
+                    }
+
+                    // if it's the country itself, leave immediately
+                    if (bc.alpha3Code === country.alpha3Code) {
+                        return;
+                    }
+
+                    var shouldAdd = true;
+
+                    possibleWrongSolutions.forEach(function(p) {
+                        // if it is already in the possible wrong solutions, don't add it
+                        if (bc.alpha3Code === p.alpha3Code) {
+                            shouldAdd = false;
+                        }
+                    });
+
+                    if (!shouldAdd) {
+                        return;
+                    }
+
+                    borderCountries.forEach(function(b) {
+                        // if it is already in the possible wrong solutions, don't add it
+                        if (bc.alpha3Code === b.alpha3Code) {
+                            shouldAdd = false;
+                        }
+                    });
+
+                    if (shouldAdd === true) {
+                        possibleWrongSolutions.push(bc);
+                    }
+                });
+            });
+
+            // add some random countries
+            var entriesSoFar = borderCountries.length + possibleWrongSolutions.length;
+
+            // get 4 random countries if there are not enough possible solutions yet
+            // this is the case for island countries, for instance
+            var numberOfRandomCountriesLeft = entriesSoFar < 3 ? 4 : 2;
+
+            var randomCountries = [];
+
+            while (numberOfRandomCountriesLeft > 0) {
+                var candidate = getRandomCountry();
+
+                var ok = true;
+
+                // check if the random country is the country of the question itself
+                if (candidate.alpha3Code === country.alpha3Code) {
+                    ok = false;
+                }
+
+                // check all border countries if the random country is already in there
+                if (ok) {
+                    borderCountries.forEach(function(c) {
+                        if (c.alpha3Code === candidate.alpha3Code) {
+                            ok = false;
+                        }
+                    });
+                }
+
+                // check all possible wrong solutions if the random country is already in there
+                if (ok) {
+                    possibleWrongSolutions.forEach(function(c) {
+                        if (c.alpha3Code === candidate.alpha3Code) {
+                            ok = false;
+                        }
+                    });
+                }
+
+                // finally, check all random countries to see if the candidate random country is already in there
+                if (ok) {
+                    randomCountries.forEach(function(c) {
+                        if (c.alpha3Code === candidate.alpha3Code) {
+                            ok = false;
+                        }
+                    });
+                }
+
+                if (ok) {
+                    randomCountries.push(candidate);
+                    numberOfRandomCountriesLeft--;
+                }
+            }
+
+            // add "correct" property to all countries
+            borderCountries = borderCountries.map(function(item) {
+                item['correct'] = true;
+
+                return item;
+            });
+
+            possibleWrongSolutions = possibleWrongSolutions.map(function(item) {
+                item['correct'] = false;
+
+                return item;
+            });
+
+            randomCountries = randomCountries.map(function(item) {
+                item['correct'] = false;
+
+                return item;
+            });
+
+            // put all countries together in one array and shuffle it for good measure
+            var finalArray = shuffle(borderCountries.concat(possibleWrongSolutions).concat(randomCountries));
+
+            // now we pick 4 random elements from the final array - these are the possible answers to the question
+            var possibleAnswers = [];
+
+            while (possibleAnswers.length < 4) {
+                var randomNumber = getRandomInt(0, finalArray.length - 1);
+
+                var element = finalArray.splice(randomNumber, 1)[0];
+
+                if (element) {
+                    possibleAnswers.push(element);
+                }
+            }
+
+            return {
+                country: country,
+                possibleAnswers: possibleAnswers
+            };
         };
 
         var createCountryQuiz = function() {
@@ -182,6 +343,15 @@ angular
                     info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
                 }
 
+                // add info for borders of country
+                if (questionType === 'BORDER_COUNTRIES_OF_COUNTRY') {
+                    var bcQuestion = createBorderCountriesOfCountryQuestion(country);
+                    info.possibleAnswers = bcQuestion.possibleAnswers || null;
+
+                    // hide the answer text after submitting an answer
+                    info.hideAnswerText = true;
+                }
+
                 countryQuiz.addQuestion(new Question({
                     text: text,
                     info: info,
@@ -200,7 +370,7 @@ angular
                     return "Wie heißt die Hauptstadt von [" + country.name + "]";
 
                 case 'COUNTRY_OF_CAPITAL':
-                    return "[" + country.capital + "] ist die Hauptstadt von welchem Land"
+                    return "[" + country.capital + "] ist die Hauptstadt von welchem Land";
 
                 case 'POPULATION_OF_COUNTRY':
                     return "Wie viele Menschen leben in [" + country.name + "]";
@@ -213,6 +383,9 @@ angular
 
                 case 'LOCATION_OF_COUNTRY':
                     return "Wo befindet sich [" + country.name + "]";
+
+                case 'BORDER_COUNTRIES_OF_COUNTRY':
+                    return "Welche dieser Länder grenzen an [" + country.name + "]";
 
                 default:
                     return "?"
@@ -253,6 +426,11 @@ angular
                         correct: country.alpha2Code
                     };
 
+                case 'BORDER_COUNTRIES_OF_COUNTRY':
+                    return {
+                        correct: country.borders
+                    };
+
                 default:
                     return "?"
             }
@@ -268,6 +446,9 @@ angular
 
                 case 'LOCATION_OF_COUNTRY':
                     return 'map.point';
+
+                case 'BORDER_COUNTRIES_OF_COUNTRY':
+                    return 'selectable';
 
                 case 'CAPITAL_OF_COUNTRY':
                 case 'COUNTRY_OF_CAPITAL':
@@ -372,6 +553,56 @@ angular
                         return points;
                     };
 
+                case 'BORDER_COUNTRIES_OF_COUNTRY':
+                    return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
+                        var eventArray = [];
+
+                        // check if the "selected" status of all four countries in the submittedAnswer array is correct
+                        var mistakes = 0;
+
+                        // this variable only counts the selected countries that were actually correct
+                        // just not selecting a false solution does not count here
+                        var corrects = 0;
+
+                        submittedAnswer.forEach(function(item) {
+                            // assume the item is incorrect by default
+                            var itemCorrect = false;
+
+                            var isBorderCountry = answer.correct.indexOf(item.alpha3Code) >= 0;
+
+                            if (isBorderCountry && item.selected === 'true') {
+                                corrects++;
+                                itemCorrect = true;
+                            } else if (isBorderCountry && item.selected !== 'true') {
+                                mistakes++;
+                            } else if (!isBorderCountry && item.selected !== 'false') {
+                                mistakes++;
+                            } else {
+                                // it was correct, set value to true
+                                itemCorrect = true;
+                            }
+
+                            eventArray.push({
+                                alpha3Code: item.alpha3Code,
+                                correct: itemCorrect
+                            });
+                        });
+
+                        // for this question, we also have to broadcast an event so the selectable components
+                        // know if they have been selected correctly or not.
+                        $rootScope.$broadcast('selectable_solution', eventArray);
+
+                        // for no mistakes the player gets 100 points
+                        // for one mistake with actually selecting at least one item correctly, he gets 50 points
+                        if (mistakes === 0) {
+                            return 100;
+                        } else if (mistakes === 1 && corrects >= 1) {
+                            return 50;
+                        } else {
+                            return 0;
+                        }
+                    };
+
                 default:
                     return "?";
             }
@@ -393,6 +624,7 @@ angular
 
                 case 'POPULATION_OF_COUNTRY':
                 case 'AREA_OF_COUNTRY':
+                case 'BORDER_COUNTRIES_OF_COUNTRY':
                     return {
                         allowed: false
                     };
@@ -437,7 +669,7 @@ angular
             }
 
             return quiz.getTotalPoints();
-        }
+        };
 
         /**
          * Concludes the quiz and puts the score to the API endpoint.

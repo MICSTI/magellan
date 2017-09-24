@@ -121,6 +121,10 @@ input[type=text], input[type=password], input[type=email] {
   font-size: 1.2em !important;
 }
 
+.hide {
+  opacity: 0;
+}
+
 /* ------------ Messages ------------ */
 .ui-message {
   padding: 1em;
@@ -791,7 +795,7 @@ quiz {
     margin-top: 0.5em;
   }
 
-  .flag-icon {
+  .flag-icon-large {
     width: 10em;
     line-height: 9em;
   }
@@ -986,6 +990,10 @@ quiz {
     font-size: 1.3em;
     text-align: right;
   }
+}
+
+.quiz-input-selectable {
+  transition: all 0.1s linear;
 }
 
 input[type=number]:-moz-placeholder {
@@ -1361,6 +1369,31 @@ selectable {
   &[is-selected=true] {
     background-color: darken($primary, 20%);
     border: 2px solid lighten($jelly_bean, 10%);
+  }
+
+  &[is-selected=true][answer-correct=true] {
+    background-color: lighten($gossip, 10%);
+    border: 2px solid darken($gossip, 10%);
+    font-weight: bold;
+    pointer-events: none;
+  }
+
+  &[is-selected=true][answer-correct=false] {
+    background-color: lighten($new_york_pink, 10%);
+    border: 2px solid darken($new_york_pink, 10%);
+    color: lighten($text_primary, 25%);
+    pointer-events: none;
+  }
+
+  &[is-selected=false][answer-correct=false] {
+    border: 2px solid darken($new_york_pink, 10%);
+    font-weight: bold;
+    pointer-events: none;
+  }
+
+  &[is-selected=false][answer-correct=true] {
+    color: lighten($text_primary, 25%);
+    pointer-events: none;
   }
 
   .overlay-text {

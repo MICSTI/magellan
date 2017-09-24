@@ -9,6 +9,7 @@ angular
             scope: {
                 countryName: '@countryName',
                 countryAlpha2: '@countryAlpha2',
+                countryAlpha3: '@countryAlpha3',
                 isSelected: '=isSelected'
             },
             link: function(scope, element, attrs) {
@@ -20,7 +21,7 @@ angular
                     attrs.$set('ariaChecked', scope.isSelected);
                 };
 
-                scope.toggleState = function() {
+                var toggleState = function() {
                     // toggle the "isSelected" flag
                     scope.isSelected = !scope.isSelected;
 
@@ -31,9 +32,28 @@ angular
                     setAriaChecked();
                 };
 
+                scope.toggleState = toggleState;
+
+                // attach event listener (so the component can be informed how to reveal if the solution was correct or not)
+                scope.$on('selectable_solution', function(event, dataArr) {
+                    dataArr.forEach(function(item) {
+                        // check if the event item is for our component
+                        if (item.alpha3Code === scope.countryAlpha3) {
+                            attrs.$set('answer-correct', item.correct);
+                        }
+                    });
+                });
+
                 // initially set the aria attributes
                 setRole();
                 setAriaChecked();
+
+                // attach onclick listener to element
+                var domElement = element[0];
+
+                if (domElement) {
+                    domElement.addEventListener('click', toggleState, false);
+                }
             }
         }
     });
