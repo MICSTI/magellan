@@ -146,12 +146,21 @@ angular
 
                 var ok = true;
 
-                borderCountries.forEach(function(c) {
-                    if (c.alpha3Code === candidate.alpha3Code) {
-                        ok = false;
-                    }
-                });
+                // check if the random country is the country of the question itself
+                if (candidate.alpha3Code === country.alpha3Code) {
+                    ok = false;
+                }
 
+                // check all border countries if the random country is already in there
+                if (ok) {
+                    borderCountries.forEach(function(c) {
+                        if (c.alpha3Code === candidate.alpha3Code) {
+                            ok = false;
+                        }
+                    });
+                }
+
+                // check all possible wrong solutions if the random country is already in there
                 if (ok) {
                     possibleWrongSolutions.forEach(function(c) {
                         if (c.alpha3Code === candidate.alpha3Code) {
@@ -160,6 +169,7 @@ angular
                     });
                 }
 
+                // finally, check all random countries to see if the candidate random country is already in there
                 if (ok) {
                     randomCountries.forEach(function(c) {
                         if (c.alpha3Code === candidate.alpha3Code) {
