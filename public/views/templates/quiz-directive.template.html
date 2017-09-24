@@ -45,6 +45,10 @@
 
         </div>
 
+        <div ng-switch-when="sortable" class="quiz-input-sortable">
+            <sortable-list></sortable-list>
+        </div>
+
         <div ng-switch-default>
             {{getQuestion().getInfo().input}}
         </div>
