@@ -152,6 +152,12 @@ angular
             } else if (!question.answered() && (question.getInfo().type === 'ORDER_BY_POPULATION' || question.getInfo().type === 'ORDER_BY_AREA')) {
                 $scope.answerInput.points = question.answer([]);
 
+                var containerElem = document.getElementById('sortable-order');
+
+                if (containerElem) {
+                    containerElem.classList.add('no-interaction');
+                }
+
                 // broadcast the "reveal" event
                 $scope.$broadcast('reveal');
             }
