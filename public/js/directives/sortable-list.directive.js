@@ -11,10 +11,10 @@ angular
             },
             link: function(scope, element, attrs) {
                 scope.countries = [
-                    { 'name': 'Australien', 'alpha2': 'au', 'fillValue': 73, 'revealValue': 1 },
-                    { 'name': 'Österreich', 'alpha2': 'at', 'fillValue': 42, 'revealValue': 2 },
-                    { 'name': 'Kroatien', 'alpha2': 'hr', 'fillValue': 12, 'revealValue': 3 },
-                    { 'name': 'Vatikan', 'alpha2': 'va', 'fillValue': 8, 'revealValue': 4 }
+                    { 'name': 'Australien', 'alpha2': 'au', 'fillValue': 100, 'revealValue': 23781000 },
+                    { 'name': 'Österreich', 'alpha2': 'at', 'fillValue': 36.2, 'revealValue': 8611000 },
+                    { 'name': 'Kroatien', 'alpha2': 'hr', 'fillValue': 17.76, 'revealValue': 4224000 },
+                    { 'name': 'Vatikan', 'alpha2': 'va', 'fillValue': 0.05, 'revealValue': 842 }
                 ];
             }
         }
