@@ -78,7 +78,7 @@ angular
         };
 
         var renderQuestionText = function() {
-            return render(getQuestion().question(), 'question-highlight') + '?';
+            return render(getQuestion().question(), 'question-highlight');
         };
 
         var getQuestionMedia = function() {

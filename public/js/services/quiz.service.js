@@ -199,22 +199,22 @@ angular
         var getQuestionText = function(type, country) {
             switch (type) {
                 case 'CAPITAL_OF_COUNTRY':
-                    return "Wie heißt die Hauptstadt von [" + country.name + "]";
+                    return "Wie heißt die Hauptstadt von [" + country.name + "]?";
 
                 case 'COUNTRY_OF_CAPITAL':
-                    return "[" + country.capital + "] ist die Hauptstadt von welchem Land"
+                    return "[" + country.capital + "] ist die Hauptstadt von welchem Land?";
 
                 case 'POPULATION_OF_COUNTRY':
-                    return "Wie viele Menschen leben in [" + country.name + "]";
+                    return "Wie viele Menschen leben in [" + country.name + "]?";
 
                 case 'AREA_OF_COUNTRY':
-                    return "Wie groß ist die Fläche von [" + country.name + "]";
+                    return "Wie groß ist die Fläche von [" + country.name + "]?";
 
                 case 'FLAG_OF_COUNTRY':
-                    return "Welches Land hat diese Flagge";
+                    return "Welches Land hat diese Flagge?";
 
                 case 'LOCATION_OF_COUNTRY':
-                    return "Wo befindet sich [" + country.name + "]";
+                    return "Wo befindet sich [" + country.name + "]?";
 
                 case 'ORDER_BY_POPULATION':
                     return "Reihen Sie diese Länder absteigend nach Einwohnerzahl";
