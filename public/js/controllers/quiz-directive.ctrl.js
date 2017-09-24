@@ -149,6 +149,11 @@ angular
                 });
 
                 $scope.answerInput.points = question.answer(answerArray);
+            } else if (!question.answered() && (question.getInfo().type === 'ORDER_BY_POPULATION' || question.getInfo().type === 'ORDER_BY_AREA')) {
+                $scope.answerInput.points = question.answer([]);
+
+                // broadcast the "reveal" event
+                $scope.$broadcast('reveal');
             }
         };
 

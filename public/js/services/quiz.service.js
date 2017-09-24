@@ -225,6 +225,11 @@ angular
             };
         };
 
+        var createOrderCountriesQuestion = function(type, country) {
+            // TODO implement
+            return {};
+        };
+
         var createCountryQuiz = function() {
             var countryQuiz = new Quiz();
 
@@ -333,24 +338,34 @@ angular
                     info['bonus'] = true;
                 }
 
-                // add info for flag of country
                 if (questionType === 'FLAG_OF_COUNTRY') {
+                    // add info for flag of country
                     info.media = 'flag';
                     info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
-                }
-
-                // add info for location of country
-                if (questionType === 'LOCATION_OF_COUNTRY') {
+                } else if (questionType === 'LOCATION_OF_COUNTRY') {
+                    // add info for location of country
                     info.media = 'map';
                     info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
-                }
-
-                // add info for borders of country
-                if (questionType === 'BORDER_COUNTRIES_OF_COUNTRY') {
+                } else if (questionType === 'BORDER_COUNTRIES_OF_COUNTRY') {
+                    // add info for borders of country
                     var bcQuestion = createBorderCountriesOfCountryQuestion(country);
                     info.possibleAnswers = bcQuestion.possibleAnswers || null;
 
                     // hide the answer text after submitting an answer
+                    info.hideAnswerText = true;
+                } else if (questionType === 'ORDER_BY_POPULATION') {
+                    // add info for order by population
+                    var orderQuestion = createOrderCountriesQuestion('population', country);
+
+                    // TODO add question info to info object
+
+                    info.hideAnswerText = true;
+                } else if (questionType === 'ORDER_BY_AREA') {
+                    // add info for order by area question
+                    var orderQuestion = createOrderCountriesQuestion('area', country);
+
+                    // TODO add question info to info object
+
                     info.hideAnswerText = true;
                 }
 
