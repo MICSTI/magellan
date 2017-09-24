@@ -121,6 +121,10 @@ input[type=text], input[type=password], input[type=email] {
   font-size: 1.2em !important;
 }
 
+.hide {
+  opacity: 0;
+}
+
 /* ------------ Messages ------------ */
 .ui-message {
   padding: 1em;
@@ -986,6 +990,10 @@ quiz {
     font-size: 1.3em;
     text-align: right;
   }
+}
+
+.quiz-input-selectable {
+  transition: all 0.1s linear;
 }
 
 input[type=number]:-moz-placeholder {

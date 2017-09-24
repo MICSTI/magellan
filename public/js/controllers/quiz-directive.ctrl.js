@@ -161,13 +161,19 @@ angular
         };
 
         var nextQuestion = function() {
-            var useTimeout = !wasLastQuestion() && question.getInfo().type === 'BORDER_COUNTRIES_OF_COUNTRY';
+            var hideSelectableContainer = !wasLastQuestion() && question.getInfo().type === 'BORDER_COUNTRIES_OF_COUNTRY';
 
-            var timeout = useTimeout ? 520 : 0;
+            // add "hide" class to selectable container and remove it again
+            if (hideSelectableContainer) {
+                var containerElement = document.getElementById('selectable-border-countries');
+                containerElement.classList.add('hide');
 
-            if (useTimeout) {
-                question.getInfo().possibleAnswers.length = 0;
+                $timeout(function() {
+                    containerElement.classList.remove('hide');
+                }, 700);
             }
+
+            var timeout = hideSelectableContainer ? 100 : 0;
 
             $timeout(function() {
                 QuizSrv.nextQuestion();
