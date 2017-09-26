@@ -563,22 +563,18 @@ angular
                             copiedArray.push(item);
                         });
 
-                        var answerArray = null;
-
                         // create the correct solution array
-                        if (info.type === 'ORDER_BY_POPULATION' || info.type === 'ORDER_BY_AREA') {
-                            answerArray = copiedArray.sort(function(a, b) {
-                                if (a.revealValue < b.revealValue) {
-                                    return 1;
-                                } else if (a.revealValue > b.revealValue) {
-                                    return -1;
-                                } else {
-                                    return 0;
-                                }
-                            }).map(function(item) {
-                                return item.alpha3;
-                            });
-                        }
+                        var answerArray = copiedArray.sort(function(a, b) {
+                            if (a.revealValue < b.revealValue) {
+                                return 1;
+                            } else if (a.revealValue > b.revealValue) {
+                                return -1;
+                            } else {
+                                return 0;
+                            }
+                        }).map(function(item) {
+                            return item.alpha3;
+                        });
 
                         // now, compare the two arrays and count the mistakes
                         var mistakes = 0;
