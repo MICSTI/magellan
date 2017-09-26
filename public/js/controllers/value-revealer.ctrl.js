@@ -22,6 +22,11 @@ angular
             };
         };
 
+        $scope.$on('reset', function(event, data) {
+            revealing = false;
+            revealed = false;
+        });
+
        $scope.$on('reveal', function(event, data) {
            revealing = true;
 
