@@ -6,6 +6,9 @@ angular
         var countries = null;
         var countriesByAlpha3 = null;
 
+        var countriesSortedByPopulation = null;
+        var countriesSortedByArea = null;
+
         var quiz = null;
 
         var setCountries = function(_countries) {
@@ -225,7 +228,165 @@ angular
             };
         };
 
+        var sortCountriesByPopulation = function() {
+            countriesSortedByPopulation = countries.sort(function(a, b) {
+                if (a.population > b.population) {
+                    return -1;
+                } else if (a.population < b.population) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+        };
+
+        var sortCountriesByArea = function() {
+            countriesSortedByArea = countries.sort(function(a, b) {
+                if (a.area > b.area) {
+                    return -1;
+                } else if (a.area < b.area) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+        };
+
+        var getEasyOrderCountriesQuestion = function(type) {
+            // easy order countries questions are made up like this:
+            // 48 adjourning countries [(random 1-12) (random 13-24) (random 25-36) (random 37-48)]
+
+            var arrayOk = false;
+
+            var countryArray = [];
+
+            while (!arrayOk) {
+                countryArray.length = 0;
+
+                var startBound = getRandomInt(0, countries.length - 48 - 1);
+
+                // do 4 iterations
+                for (var i = 0; i < 4; i++) {
+                    var lower = startBound + 0 + (i * 12);
+                    var upper = startBound + ((i + 1) * 12) - 1;
+
+                    var pickedCountry = null;
+
+                    if (type === 'population') {
+                        pickedCountry = countriesSortedByPopulation[getRandomInt(lower, upper)];
+                    } else if (type === 'area') {
+                        pickedCountry = countriesSortedByArea(getRandomInt(lower, upper));
+                    }
+
+                    if (pickedCountry) {
+                        countryArray.push(pickedCountry);
+                    }
+                }
+
+                // check if there are no countries with the "same" property value in the array
+                arrayOk = true;
+
+                for (var j = 0; j < 3; j++) {
+                    if (countryArray[j][type] === countryArray[j + 1][type]) {
+                        arrayOk = false;
+                    }
+                }
+            }
+
+            return countryArray;
+        };
+
+        var getMediumOrderCountriesQuestion = function(type) {
+            // medium order countries questions are made up like this:
+            // 24 adjourning countries [(random 1-6) (random 7-12) (random 13-18) (random 19-24)]
+
+            var arrayOk = false;
+
+            var countryArray = [];
+
+            while (!arrayOk) {
+                countryArray.length = 0;
+
+                var startBound = getRandomInt(0, countries.length - 24 - 1);
+
+                // do 4 iterations
+                for (var i = 0; i < 4; i++) {
+                    var lower = startBound + 0 + (i * 6);
+                    var upper = startBound + ((i + 1) * 6) - 1;
+
+                    var pickedCountry = null;
+
+                    if (type === 'population') {
+                        pickedCountry = countriesSortedByPopulation[getRandomInt(lower, upper)];
+                    } else if (type === 'area') {
+                        pickedCountry = countriesSortedByArea(getRandomInt(lower, upper));
+                    }
+
+                    if (pickedCountry) {
+                        countryArray.push(pickedCountry);
+                    }
+                }
+
+                // check if there are no countries with the "same" property value in the array
+                arrayOk = true;
+
+                for (var j = 0; j < 3; j++) {
+                    if (countryArray[j][type] === countryArray[j + 1][type]) {
+                        arrayOk = false;
+                    }
+                }
+            }
+
+            return countryArray;
+        };
+
+        var getHardOrderCountriesQuestion = function(type) {
+            // hard order countries questions are made up like this:
+            // randomly picked from 10 adjourning countries
+
+            var arrayOk = false;
+
+            var countryArray = [];
+
+            while (!arrayOk) {
+                countryArray.length = 0;
+
+                var startBound = getRandomInt(0, countries.length - 10 - 1);
+                var endBound = startBound + 10;
+
+                var arraySlice = null;
+
+                if (type === 'population') {
+                    arraySlice = countriesSortedByPopulation.slice(startBound, endBound);
+                } else if (type === 'area') {
+                    arraySlice = countriesSortedByArea.slice(startBound, endBound);
+                }
+
+                for (var i = 0; i < 4; i++) {
+                    countryArray.push(arraySlice.splice(getRandomInt(0, arraySlice.length - 1), 1)[0]);
+                }
+
+                // check if there are no countries with the "same" property value in the array
+                arrayOk = true;
+
+                for (var j = 0; j < 3; j++) {
+                    if (countryArray[j][type] === countryArray[j + 1][type]) {
+                        arrayOk = false;
+                    }
+                }
+            }
+
+            return countryArray;
+        };
+
         var createOrderCountriesQuestion = function(type, country) {
+            // we don't actually use the country, we just need the difficulty type
+            var difficulty = country.difficulty;
+
+            var countryArray = getEasyOrderCountriesQuestion(type);
+
+            console.log('country array', countryArray);
+
             // TODO implement
             return {};
         };
@@ -245,6 +406,10 @@ angular
             // select countries for questions
             var selectedCountries = [];
             var numberOfQuestions = AppConfig['quiz.country.questions'];
+
+            // additionally save array copies sorted by population and area for convenience
+            sortCountriesByArea();
+            sortCountriesByPopulation();
 
             // there are five easy, five medium and five hard questions (later to be shuffled randomly)
             // the 16th and last question is always a hard one.
