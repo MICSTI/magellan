@@ -150,7 +150,14 @@ angular
 
                 $scope.answerInput.points = question.answer(answerArray);
             } else if (!question.answered() && (question.getInfo().type === 'ORDER_BY_POPULATION' || question.getInfo().type === 'ORDER_BY_AREA')) {
-                $scope.answerInput.points = question.answer([]);
+                var sortableElem = document.getElementById('sortit');
+                var sortableArray = Array.prototype.slice.call(sortableElem.children);
+
+                var sortableAnswerArray = sortableArray.map(function(elem) {
+                    return elem.getAttribute('country-alpha3');
+                });
+
+                $scope.answerInput.points = question.answer(sortableAnswerArray);
 
                 var containerElem = document.getElementById('sortable-order');
 

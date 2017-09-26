@@ -359,10 +359,10 @@ angular
 
                     // TODO add question info to info object
                     info.countries = [
-                        { 'name': 'Australien', 'alpha2': 'au', 'fillValue': 100, 'revealValue': 23781000 },
-                        { 'name': 'Österreich', 'alpha2': 'at', 'fillValue': 36.2, 'revealValue': 8611000 },
-                        { 'name': 'Kroatien', 'alpha2': 'hr', 'fillValue': 17.76, 'revealValue': 4224000 },
-                        { 'name': 'Vatikan', 'alpha2': 'va', 'fillValue': 0.05, 'revealValue': 842 }
+                        { 'name': 'Australien', 'alpha2': 'au', 'alpha3': 'AUS', 'fillValue': 100, 'revealValue': 23781000 },
+                        { 'name': 'Österreich', 'alpha2': 'at', 'alpha3': 'AUT', 'fillValue': 36.2, 'revealValue': 8611000 },
+                        { 'name': 'Kroatien', 'alpha2': 'hr', 'alpha3': 'HRV', 'fillValue': 17.76, 'revealValue': 4224000 },
+                        { 'name': 'Vatikan', 'alpha2': 'va', 'alpha3': 'VAT', 'fillValue': 0.05, 'revealValue': 842 }
                     ];
 
                     info.hideAnswerText = true;
@@ -372,10 +372,10 @@ angular
 
                     // TODO add question info to info object
                     info.countries = [
-                        { 'name': 'Australien', 'alpha2': 'au', 'fillValue': 100, 'revealValue': 23781000 },
-                        { 'name': 'Österreich', 'alpha2': 'at', 'fillValue': 36.2, 'revealValue': 8611000 },
-                        { 'name': 'Kroatien', 'alpha2': 'hr', 'fillValue': 17.76, 'revealValue': 4224000 },
-                        { 'name': 'Vatikan', 'alpha2': 'va', 'fillValue': 0.05, 'revealValue': 842 }
+                        { 'name': 'Australien', 'alpha2': 'au', 'alpha3': 'AUS', 'fillValue': 100, 'revealValue': 23781000 },
+                        { 'name': 'Österreich', 'alpha2': 'at', 'alpha3': 'AUT', 'fillValue': 36.2, 'revealValue': 8611000 },
+                        { 'name': 'Kroatien', 'alpha2': 'hr', 'alpha3': 'HRV', 'fillValue': 17.76, 'revealValue': 4224000 },
+                        { 'name': 'Vatikan', 'alpha2': 'va', 'alpha3': 'VAT', 'fillValue': 0.05, 'revealValue': 842 }
                     ];
 
                     info.hideAnswerText = true;
@@ -456,14 +456,9 @@ angular
                         correct: country.area
                     };
 
-                case 'ORDER_BY_POPULATION':
-                    // TODO how do we get countries instead of country?
-                    return {
-                        correct: null
-                    };
-
                 case 'ORDER_BY_AREA':
-                    // TODO how do we get countries instead of country?
+                case 'ORDER_BY_POPULATION':
+                    // we don't really need to return the real answer because we have to check the answer array dynamically
                     return {
                         correct: null
                     };
@@ -565,6 +560,10 @@ angular
                         // TODO implement
                         // here we simply need to check if the provided answer array is correctly
                         // sorted based on the right property (population or area)
+                        console.log('answer', answer);
+                        console.log('submitted', submittedAnswer);
+                        console.log('info', info);
+
                         return 0;
                     };
 
