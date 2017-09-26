@@ -557,14 +557,49 @@ angular
                 case 'ORDER_BY_POPULATION':
                 case 'ORDER_BY_AREA':
                     return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
-                        // TODO implement
-                        // here we simply need to check if the provided answer array is correctly
-                        // sorted based on the right property (population or area)
-                        console.log('answer', answer);
-                        console.log('submitted', submittedAnswer);
-                        console.log('info', info);
+                        // copy array first (otherwise the UI will also be updated)
+                        var copiedArray = [];
+                        info.countries.forEach(function(item) {
+                            copiedArray.push(item);
+                        });
 
-                        return 0;
+                        var answerArray = null;
+
+                        // create the correct solution array
+                        if (info.type === 'ORDER_BY_POPULATION' || info.type === 'ORDER_BY_AREA') {
+                            answerArray = copiedArray.sort(function(a, b) {
+                                if (a.revealValue < b.revealValue) {
+                                    return 1;
+                                } else if (a.revealValue > b.revealValue) {
+                                    return -1;
+                                } else {
+                                    return 0;
+                                }
+                            }).map(function(item) {
+                                return item.alpha3;
+                            });
+                        }
+
+                        // now, compare the two arrays and count the mistakes
+                        var mistakes = 0;
+
+                        var arrLength = copiedArray.length;
+
+                        for (var i = 0; i < arrLength; i++) {
+                            if (answerArray[i] !== submittedAnswer[i]) {
+                                mistakes++;
+                            }
+                        }
+
+                        // if everything is correct, award 100 points
+                        if (mistakes === 0) {
+                            return 100;
+                        } else if (mistakes <= 2) {
+                            // for up to two mistakes, award 50 points
+                            return 50;
+                        } else {
+                            return 0;
+                        }
                     };
 
                 case 'POPULATION_OF_COUNTRY':
