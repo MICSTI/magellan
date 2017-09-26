@@ -157,8 +157,6 @@ angular
                     return elem.getAttribute('country-alpha3');
                 });
 
-                $scope.answerInput.points = question.answer(sortableAnswerArray);
-
                 var containerElem = document.getElementById('sortable-order');
 
                 if (containerElem) {
@@ -167,6 +165,11 @@ angular
 
                 // broadcast the "reveal" event
                 $scope.$broadcast('reveal');
+
+                // delay answering the question until the CSS transition is finished
+                $timeout(function() {
+                    $scope.answerInput.points = question.answer(sortableAnswerArray);
+                }, 1600);
             }
         };
 
