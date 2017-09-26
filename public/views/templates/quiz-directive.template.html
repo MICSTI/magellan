@@ -50,7 +50,7 @@
         </div>
 
         <div id="sortable-order" ng-switch-when="sortable" class="quiz-input-sortable">
-            <sortable-list></sortable-list>
+            <sortable-list items="getQuestion().getInfo().countries"></sortable-list>
         </div>
 
         <div ng-switch-default>
