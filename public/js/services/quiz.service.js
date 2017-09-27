@@ -762,11 +762,21 @@ angular
                         // now, compare the two arrays and count the mistakes
                         var mistakes = 0;
 
+                        // flags for keeping track where the mistakes happened
+                        var firstWrong = false;
+                        var lastWrong = false;
+
                         var arrLength = copiedArray.length;
 
                         for (var i = 0; i < arrLength; i++) {
                             if (answerArray[i] !== submittedAnswer[i]) {
                                 mistakes++;
+
+                                if (i === 0) {
+                                    firstWrong = true;
+                                } else if (i === arrLength - 1) {
+                                    lastWrong = true;
+                                }
                             }
                         }
 
@@ -775,7 +785,12 @@ angular
                             return 100;
                         } else if (mistakes <= 2) {
                             // for up to two mistakes, award 50 points
-                            return 50;
+                            // unless the two mistakes resulted from getting #1 and #4 wrong - in that case it's 0 points
+                            if (firstWrong && lastWrong) {
+                                return 0;
+                            } else {
+                                return 50;
+                            }
                         } else {
                             return 0;
                         }
