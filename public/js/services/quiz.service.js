@@ -379,16 +379,46 @@ angular
             return countryArray;
         };
 
+        var mapOrderCountryQuestionArray = function(arr, type) {
+            // first determine the max value to know how to calculate the percentage fill value
+            var maxValue = 0;
+
+            arr.forEach(function(item) {
+                if (item[type] > maxValue) {
+                    maxValue = item[type];
+                }
+            });
+
+            return arr.map(function(item) {
+                return {
+                    name: item.name,
+                    alpha2: item.alpha2Code.toLocaleLowerCase(),
+                    alpha3: item.alpha3Code,
+                    fillValue: (item[type] / maxValue) * 100,
+                    revealValue: item[type]
+                };
+            });
+        };
+
         var createOrderCountriesQuestion = function(type, country) {
             // we don't actually use the country, we just need the difficulty type
             var difficulty = country.difficulty;
 
-            var countryArray = getEasyOrderCountriesQuestion(type);
+            var countryArray = null;
 
-            console.log('country array', countryArray);
+            if (difficulty === 'easy') {
+                countryArray = getEasyOrderCountriesQuestion(type);
+            } else if (difficulty === 'medium') {
+                countryArray = getMediumOrderCountriesQuestion(type);
+            } else if (difficulty === 'hard') {
+                countryArray = getHardOrderCountriesQuestion(type);
+            } else {
+                console.error('unknown difficulty status');
+            }
 
-            // TODO implement
-            return {};
+            return {
+                countries: countryArray
+            };
         };
 
         var createCountryQuiz = function() {
@@ -520,28 +550,16 @@ angular
                     info.hideAnswerText = true;
                 } else if (questionType === 'ORDER_BY_POPULATION') {
                     // add info for order by population
-                    var orderQuestion = createOrderCountriesQuestion('population', country);
+                    var orderByPopulationQuestion = createOrderCountriesQuestion('population', country);
 
-                    // TODO add question info to info object
-                    info.countries = [
-                        { 'name': 'Australien', 'alpha2': 'au', 'alpha3': 'AUS', 'fillValue': 100, 'revealValue': 23781000 },
-                        { 'name': 'Österreich', 'alpha2': 'at', 'alpha3': 'AUT', 'fillValue': 36.2, 'revealValue': 8611000 },
-                        { 'name': 'Kroatien', 'alpha2': 'hr', 'alpha3': 'HRV', 'fillValue': 17.76, 'revealValue': 4224000 },
-                        { 'name': 'Vatikan', 'alpha2': 'va', 'alpha3': 'VAT', 'fillValue': 0.05, 'revealValue': 842 }
-                    ];
+                    info.countries = shuffle(mapOrderCountryQuestionArray(orderByPopulationQuestion.countries, 'population'));
 
                     info.hideAnswerText = true;
                 } else if (questionType === 'ORDER_BY_AREA') {
                     // add info for order by area question
-                    var orderQuestion = createOrderCountriesQuestion('area', country);
+                    var orderByAreaQuestion = createOrderCountriesQuestion('area', country);
 
-                    // TODO add question info to info object
-                    info.countries = [
-                        { 'name': 'Australien', 'alpha2': 'au', 'alpha3': 'AUS', 'fillValue': 100, 'revealValue': 23781000 },
-                        { 'name': 'Österreich', 'alpha2': 'at', 'alpha3': 'AUT', 'fillValue': 36.2, 'revealValue': 8611000 },
-                        { 'name': 'Kroatien', 'alpha2': 'hr', 'alpha3': 'HRV', 'fillValue': 17.76, 'revealValue': 4224000 },
-                        { 'name': 'Vatikan', 'alpha2': 'va', 'alpha3': 'VAT', 'fillValue': 0.05, 'revealValue': 842 }
-                    ];
+                    info.countries = shuffle(mapOrderCountryQuestionArray(orderByAreaQuestion.countries, 'area'));
 
                     info.hideAnswerText = true;
                 }

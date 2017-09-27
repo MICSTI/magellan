@@ -202,6 +202,13 @@ angular
                 $scope.answerInput.answer = "";
 
                 updateUi();
+
+                // remove the "no-interaction" class from the sortable container element
+                var containerElem = document.getElementById('sortable-order');
+
+                if (containerElem) {
+                    containerElem.classList.remove('no-interaction');
+                }
             }, timeout);
         };
 
