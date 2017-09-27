@@ -488,7 +488,9 @@ angular
             var questionTypeArray = [];
 
             for (var j = 0; j < numberOfQuestions; j++) {
-                if (j < 3) {
+                // TODO revert before merging
+                questionTypeArray.push(6);
+                /*if (j < 3) {
                     questionTypeArray.push(1);
                 } else if (j < 6) {
                     questionTypeArray.push(2);
@@ -501,7 +503,7 @@ angular
                 } else {
                     // add one random question for the last one
                     questionTypeArray.push(getRandomInt(1, questionTypesLength));
-                }
+                }*/
             }
 
             var shuffledQuestionTypeArray = shuffle(questionTypeArray);
@@ -535,7 +537,7 @@ angular
                     // add info for flag of country
                     info.media = 'flag';
                     info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
-                } else if (questionType === 'LOCATION_OF_COUNTRY') {
+                } else if (questionType === 'LOCATION_OF_COUNTRY_NAME') {
                     // add info for location of country
                     info.media = 'map';
                     info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
@@ -591,7 +593,7 @@ angular
                 case 'FLAG_OF_COUNTRY':
                     return "Welches Land hat diese Flagge?";
 
-                case 'LOCATION_OF_COUNTRY':
+                case 'LOCATION_OF_COUNTRY_NAME':
                     return "Wo befindet sich [" + country.name + "]?";
 
                 case 'ORDER_BY_POPULATION':
@@ -644,7 +646,7 @@ angular
                         correct: null
                     };
 
-                case 'LOCATION_OF_COUNTRY':
+                case 'LOCATION_OF_COUNTRY_NAME':
                     return {
                         correct: country.alpha2Code
                     };
@@ -671,7 +673,7 @@ angular
                 case 'ORDER_BY_AREA':
                     return 'sortable';
 
-                case 'LOCATION_OF_COUNTRY':
+                case 'LOCATION_OF_COUNTRY_NAME':
                     return 'map.point';
 
                 case 'BORDER_COUNTRIES_OF_COUNTRY':
@@ -703,7 +705,7 @@ angular
                 case 'CAPITAL_OF_COUNTRY':
                 case 'COUNTRY_OF_CAPITAL':
                 case 'FLAG_OF_COUNTRY':
-                case 'LOCATION_OF_COUNTRY':
+                case 'LOCATION_OF_COUNTRY_NAME':
                     return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
                         var allowedSpellings;
 
