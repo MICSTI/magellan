@@ -275,7 +275,7 @@ angular
                     if (type === 'population') {
                         pickedCountry = countriesSortedByPopulation[getRandomInt(lower, upper)];
                     } else if (type === 'area') {
-                        pickedCountry = countriesSortedByArea(getRandomInt(lower, upper));
+                        pickedCountry = countriesSortedByArea[getRandomInt(lower, upper)];
                     }
 
                     if (pickedCountry) {
@@ -319,7 +319,7 @@ angular
                     if (type === 'population') {
                         pickedCountry = countriesSortedByPopulation[getRandomInt(lower, upper)];
                     } else if (type === 'area') {
-                        pickedCountry = countriesSortedByArea(getRandomInt(lower, upper));
+                        pickedCountry = countriesSortedByArea[getRandomInt(lower, upper)];
                     }
 
                     if (pickedCountry) {
@@ -489,7 +489,7 @@ angular
 
             for (var j = 0; j < numberOfQuestions; j++) {
                 // TODO revert before merge
-                questionTypeArray.push(9);
+                questionTypeArray.push(10);
                 /*if (j < 3) {
                     questionTypeArray.push(1);
                 } else if (j < 6) {

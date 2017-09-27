@@ -182,34 +182,51 @@ angular
         };
 
         var nextQuestion = function() {
-            var hideSelectableContainer = !wasLastQuestion() && question.getInfo().type === 'BORDER_COUNTRIES_OF_COUNTRY';
+            // only use a timeout if it is not the last question
 
-            // add "hide" class to selectable container and remove it again
-            if (hideSelectableContainer) {
-                var containerElement = document.getElementById('selectable-border-countries');
-                containerElement.classList.add('hide');
-
-                $timeout(function() {
-                    containerElement.classList.remove('hide');
-                }, 700);
-            }
-
-            var timeout = hideSelectableContainer ? 100 : 0;
-
-            $timeout(function() {
-                QuizSrv.nextQuestion();
-
-                $scope.answerInput.answer = "";
-
-                updateUi();
-
+            if (wasLastQuestion()) {
                 // remove the "no-interaction" class from the sortable container element
                 var containerElem = document.getElementById('sortable-order');
 
                 if (containerElem) {
                     containerElem.classList.remove('no-interaction');
                 }
-            }, timeout);
+
+                QuizSrv.nextQuestion();
+
+                $scope.answerInput.answer = "";
+
+                updateUi();
+            } else {
+                var hideSelectableContainer = question.getInfo().type === 'BORDER_COUNTRIES_OF_COUNTRY';
+
+                // add "hide" class to selectable container and remove it again
+                if (hideSelectableContainer) {
+                    var containerElement = document.getElementById('selectable-border-countries');
+                    containerElement.classList.add('hide');
+
+                    $timeout(function() {
+                        containerElement.classList.remove('hide');
+                    }, 700);
+                }
+
+                var timeout = hideSelectableContainer ? 100 : 0;
+
+                $timeout(function() {
+                    // remove the "no-interaction" class from the sortable container element
+                    var containerElem = document.getElementById('sortable-order');
+
+                    if (containerElem) {
+                        containerElem.classList.remove('no-interaction');
+                    }
+
+                    QuizSrv.nextQuestion();
+
+                    $scope.answerInput.answer = "";
+
+                    updateUi();
+                }, timeout);
+            }
         };
 
         var requestHint = function() {
