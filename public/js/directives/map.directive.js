@@ -6,7 +6,6 @@ angular
         return {
             restrict: 'E',
             templateUrl: 'dist/views/templates/map.template.html',
-            controller: 'MapCtrl',
             link: function link(scope, element, attrs) {
                 var map = new Datamap({
                     scope: 'world',
