@@ -597,10 +597,10 @@ angular
                     return "Wo befindet sich [" + country.name + "]?";
 
                 case 'ORDER_BY_POPULATION':
-                    return "Reihen Sie diese Länder absteigend nach Einwohnerzahl";
+                    return "Reihen Sie diese Länder absteigend nach [Einwohnerzahl]";
 
                 case 'ORDER_BY_AREA':
-                    return "Reihen Sie diese Länder absteigend nach Fläche";
+                    return "Reihen Sie diese Länder absteigend nach [Fläche]";
 
                 case 'BORDER_COUNTRIES_OF_COUNTRY':
                     return "Welche dieser Länder grenzen an [" + country.name + "]";
