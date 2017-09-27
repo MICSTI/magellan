@@ -2,7 +2,7 @@
 
 angular
     .module('magellan')
-    .directive('map', function() {
+    .directive('map', function(CountrySrv) {
         return {
             restrict: 'E',
             templateUrl: 'dist/views/templates/map.template.html',
@@ -14,12 +14,20 @@ angular
                         defaultFill: '#22a7f0'
                     },
                     geographyConfig: {
-                        highlightOnHover: true,
-                        popuponHover: true,
+                        scope: 'world',
+                        highlightBorderColor: 'rgba(200, 247, 197, 0.4)',
                         highlightFillColor: '#019875',
-                        highlightBorderColor: 'rgba(200, 247, 197, 0.4)'
+                        highlightOnHover: true,
+                        popupOnHover: true,
+                        popupTemplate: function(geography, data) {
+                            var country = CountrySrv.getCountryByAlpha3(geography.id);
+
+                            var countryName = country ? country.name : geography.properties.name;
+
+                            return '<div class="hoverinfo"><strong>' + countryName + '</strong></div>';
+                        }
                     }
                 });
             }
         }
-    })
+    });
