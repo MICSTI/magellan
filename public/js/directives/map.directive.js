@@ -9,12 +9,15 @@ angular
             controller: 'MapCtrl',
             link: function link(scope, element, attrs) {
                 var map = new Datamap({
+                    scope: 'world',
+                    done: function() {
+                        console.log('map has finished drawing');
+                    },
                     element: document.getElementById('map-container'),
                     fills: {
                         defaultFill: '#22a7f0'
                     },
                     geographyConfig: {
-                        scope: 'world',
                         highlightBorderColor: 'rgba(200, 247, 197, 0.4)',
                         highlightFillColor: '#019875',
                         highlightOnHover: true,
