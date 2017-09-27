@@ -488,9 +488,7 @@ angular
             var questionTypeArray = [];
 
             for (var j = 0; j < numberOfQuestions; j++) {
-                // TODO revert before merge
-                questionTypeArray.push(10);
-                /*if (j < 3) {
+                if (j < 3) {
                     questionTypeArray.push(1);
                 } else if (j < 6) {
                     questionTypeArray.push(2);
@@ -503,7 +501,7 @@ angular
                 } else {
                     // add one random question for the last one
                     questionTypeArray.push(getRandomInt(1, questionTypesLength));
-                }*/
+                }
             }
 
             var shuffledQuestionTypeArray = shuffle(questionTypeArray);
