@@ -6,8 +6,10 @@ angular
         return {
             restrict: 'E',
             templateUrl: 'dist/views/templates/sortable-list.template.html',
-            controller: 'SortableListCtrl',
             scope: {
+                items: '='
+            },
+            link: function(scope, element, attrs) {
 
             }
         }

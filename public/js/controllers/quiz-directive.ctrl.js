@@ -78,7 +78,7 @@ angular
         };
 
         var renderQuestionText = function() {
-            return render(getQuestion().question(), 'question-highlight') + '?';
+            return render(getQuestion().question(), 'question-highlight');
         };
 
         var getQuestionMedia = function() {
@@ -149,6 +149,27 @@ angular
                 });
 
                 $scope.answerInput.points = question.answer(answerArray);
+            } else if (!question.answered() && (question.getInfo().type === 'ORDER_BY_POPULATION' || question.getInfo().type === 'ORDER_BY_AREA')) {
+                var sortableElem = document.getElementById('sortit');
+                var sortableArray = Array.prototype.slice.call(sortableElem.children);
+
+                var sortableAnswerArray = sortableArray.map(function(elem) {
+                    return elem.getAttribute('country-alpha3');
+                });
+
+                var containerElem = document.getElementById('sortable-order');
+
+                if (containerElem) {
+                    containerElem.classList.add('no-interaction');
+                }
+
+                // broadcast the "reveal" event
+                $scope.$broadcast('reveal');
+
+                // delay answering the question until the CSS transition is finished
+                $timeout(function() {
+                    $scope.answerInput.points = question.answer(sortableAnswerArray);
+                }, 1600);
             }
         };
 
@@ -161,27 +182,51 @@ angular
         };
 
         var nextQuestion = function() {
-            var hideSelectableContainer = !wasLastQuestion() && question.getInfo().type === 'BORDER_COUNTRIES_OF_COUNTRY';
+            // only use a timeout if it is not the last question
 
-            // add "hide" class to selectable container and remove it again
-            if (hideSelectableContainer) {
-                var containerElement = document.getElementById('selectable-border-countries');
-                containerElement.classList.add('hide');
+            if (wasLastQuestion()) {
+                // remove the "no-interaction" class from the sortable container element
+                var containerElem = document.getElementById('sortable-order');
 
-                $timeout(function() {
-                    containerElement.classList.remove('hide');
-                }, 700);
-            }
+                if (containerElem) {
+                    containerElem.classList.remove('no-interaction');
+                }
 
-            var timeout = hideSelectableContainer ? 100 : 0;
-
-            $timeout(function() {
                 QuizSrv.nextQuestion();
 
                 $scope.answerInput.answer = "";
 
                 updateUi();
-            }, timeout);
+            } else {
+                var hideSelectableContainer = question.getInfo().type === 'BORDER_COUNTRIES_OF_COUNTRY';
+
+                // add "hide" class to selectable container and remove it again
+                if (hideSelectableContainer) {
+                    var containerElement = document.getElementById('selectable-border-countries');
+                    containerElement.classList.add('hide');
+
+                    $timeout(function() {
+                        containerElement.classList.remove('hide');
+                    }, 700);
+                }
+
+                var timeout = hideSelectableContainer ? 100 : 0;
+
+                $timeout(function() {
+                    // remove the "no-interaction" class from the sortable container element
+                    var containerElem = document.getElementById('sortable-order');
+
+                    if (containerElem) {
+                        containerElem.classList.remove('no-interaction');
+                    }
+
+                    QuizSrv.nextQuestion();
+
+                    $scope.answerInput.answer = "";
+
+                    updateUi();
+                }, timeout);
+            }
         };
 
         var requestHint = function() {

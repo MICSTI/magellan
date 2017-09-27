@@ -6,6 +6,9 @@ angular
         var countries = null;
         var countriesByAlpha3 = null;
 
+        var countriesSortedByPopulation = null;
+        var countriesSortedByArea = null;
+
         var quiz = null;
 
         var setCountries = function(_countries) {
@@ -225,6 +228,199 @@ angular
             };
         };
 
+        var sortCountriesByPopulation = function() {
+            countriesSortedByPopulation = countries.sort(function(a, b) {
+                if (a.population > b.population) {
+                    return -1;
+                } else if (a.population < b.population) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+        };
+
+        var sortCountriesByArea = function() {
+            countriesSortedByArea = countries.sort(function(a, b) {
+                if (a.area > b.area) {
+                    return -1;
+                } else if (a.area < b.area) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+        };
+
+        var getEasyOrderCountriesQuestion = function(type) {
+            // easy order countries questions are made up like this:
+            // 48 adjourning countries [(random 1-12) (random 13-24) (random 25-36) (random 37-48)]
+
+            var arrayOk = false;
+
+            var countryArray = [];
+
+            while (!arrayOk) {
+                countryArray.length = 0;
+
+                var startBound = getRandomInt(0, countries.length - 48 - 1);
+
+                // do 4 iterations
+                for (var i = 0; i < 4; i++) {
+                    var lower = startBound + 0 + (i * 12);
+                    var upper = startBound + ((i + 1) * 12) - 1;
+
+                    var pickedCountry = null;
+
+                    if (type === 'population') {
+                        pickedCountry = countriesSortedByPopulation[getRandomInt(lower, upper)];
+                    } else if (type === 'area') {
+                        pickedCountry = countriesSortedByArea[getRandomInt(lower, upper)];
+                    }
+
+                    if (pickedCountry) {
+                        countryArray.push(pickedCountry);
+                    }
+                }
+
+                // check if there are no countries with the "same" property value in the array
+                arrayOk = true;
+
+                for (var j = 0; j < 3; j++) {
+                    if (countryArray[j][type] === countryArray[j + 1][type]) {
+                        arrayOk = false;
+                    }
+                }
+            }
+
+            return countryArray;
+        };
+
+        var getMediumOrderCountriesQuestion = function(type) {
+            // medium order countries questions are made up like this:
+            // 24 adjourning countries [(random 1-6) (random 7-12) (random 13-18) (random 19-24)]
+
+            var arrayOk = false;
+
+            var countryArray = [];
+
+            while (!arrayOk) {
+                countryArray.length = 0;
+
+                var startBound = getRandomInt(0, countries.length - 24 - 1);
+
+                // do 4 iterations
+                for (var i = 0; i < 4; i++) {
+                    var lower = startBound + 0 + (i * 6);
+                    var upper = startBound + ((i + 1) * 6) - 1;
+
+                    var pickedCountry = null;
+
+                    if (type === 'population') {
+                        pickedCountry = countriesSortedByPopulation[getRandomInt(lower, upper)];
+                    } else if (type === 'area') {
+                        pickedCountry = countriesSortedByArea[getRandomInt(lower, upper)];
+                    }
+
+                    if (pickedCountry) {
+                        countryArray.push(pickedCountry);
+                    }
+                }
+
+                // check if there are no countries with the "same" property value in the array
+                arrayOk = true;
+
+                for (var j = 0; j < 3; j++) {
+                    if (countryArray[j][type] === countryArray[j + 1][type]) {
+                        arrayOk = false;
+                    }
+                }
+            }
+
+            return countryArray;
+        };
+
+        var getHardOrderCountriesQuestion = function(type) {
+            // hard order countries questions are made up like this:
+            // randomly picked from 10 adjourning countries
+
+            var arrayOk = false;
+
+            var countryArray = [];
+
+            while (!arrayOk) {
+                countryArray.length = 0;
+
+                var startBound = getRandomInt(0, countries.length - 10 - 1);
+                var endBound = startBound + 10;
+
+                var arraySlice = null;
+
+                if (type === 'population') {
+                    arraySlice = countriesSortedByPopulation.slice(startBound, endBound);
+                } else if (type === 'area') {
+                    arraySlice = countriesSortedByArea.slice(startBound, endBound);
+                }
+
+                for (var i = 0; i < 4; i++) {
+                    countryArray.push(arraySlice.splice(getRandomInt(0, arraySlice.length - 1), 1)[0]);
+                }
+
+                // check if there are no countries with the "same" property value in the array
+                arrayOk = true;
+
+                for (var j = 0; j < 3; j++) {
+                    if (countryArray[j][type] === countryArray[j + 1][type]) {
+                        arrayOk = false;
+                    }
+                }
+            }
+
+            return countryArray;
+        };
+
+        var mapOrderCountryQuestionArray = function(arr, type) {
+            // first determine the max value to know how to calculate the percentage fill value
+            var maxValue = 0;
+
+            arr.forEach(function(item) {
+                if (item[type] > maxValue) {
+                    maxValue = item[type];
+                }
+            });
+
+            return arr.map(function(item) {
+                return {
+                    name: item.name,
+                    alpha2: item.alpha2Code.toLocaleLowerCase(),
+                    alpha3: item.alpha3Code,
+                    fillValue: (item[type] / maxValue) * 100,
+                    revealValue: item[type]
+                };
+            });
+        };
+
+        var createOrderCountriesQuestion = function(type, country) {
+            // we don't actually use the country, we just need the difficulty type
+            var difficulty = country.difficulty;
+
+            var countryArray = null;
+
+            if (difficulty === 'easy') {
+                countryArray = getEasyOrderCountriesQuestion(type);
+            } else if (difficulty === 'medium') {
+                countryArray = getMediumOrderCountriesQuestion(type);
+            } else if (difficulty === 'hard') {
+                countryArray = getHardOrderCountriesQuestion(type);
+            } else {
+                console.error('unknown difficulty status');
+            }
+
+            return {
+                countries: countryArray
+            };
+        };
+
         var createCountryQuiz = function() {
             var countryQuiz = new Quiz();
 
@@ -240,6 +436,10 @@ angular
             // select countries for questions
             var selectedCountries = [];
             var numberOfQuestions = AppConfig['quiz.country.questions'];
+
+            // additionally save array copies sorted by population and area for convenience
+            sortCountriesByArea();
+            sortCountriesByPopulation();
 
             // there are five easy, five medium and five hard questions (later to be shuffled randomly)
             // the 16th and last question is always a hard one.
@@ -331,24 +531,34 @@ angular
                     info['bonus'] = true;
                 }
 
-                // add info for flag of country
                 if (questionType === 'FLAG_OF_COUNTRY') {
+                    // add info for flag of country
                     info.media = 'flag';
                     info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
-                }
-
-                // add info for location of country
-                if (questionType === 'LOCATION_OF_COUNTRY') {
+                } else if (questionType === 'LOCATION_OF_COUNTRY') {
+                    // add info for location of country
                     info.media = 'map';
                     info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
-                }
-
-                // add info for borders of country
-                if (questionType === 'BORDER_COUNTRIES_OF_COUNTRY') {
+                } else if (questionType === 'BORDER_COUNTRIES_OF_COUNTRY') {
+                    // add info for borders of country
                     var bcQuestion = createBorderCountriesOfCountryQuestion(country);
                     info.possibleAnswers = bcQuestion.possibleAnswers || null;
 
                     // hide the answer text after submitting an answer
+                    info.hideAnswerText = true;
+                } else if (questionType === 'ORDER_BY_POPULATION') {
+                    // add info for order by population
+                    var orderByPopulationQuestion = createOrderCountriesQuestion('population', country);
+
+                    info.countries = shuffle(mapOrderCountryQuestionArray(orderByPopulationQuestion.countries, 'population'));
+
+                    info.hideAnswerText = true;
+                } else if (questionType === 'ORDER_BY_AREA') {
+                    // add info for order by area question
+                    var orderByAreaQuestion = createOrderCountriesQuestion('area', country);
+
+                    info.countries = shuffle(mapOrderCountryQuestionArray(orderByAreaQuestion.countries, 'area'));
+
                     info.hideAnswerText = true;
                 }
 
@@ -367,22 +577,28 @@ angular
         var getQuestionText = function(type, country) {
             switch (type) {
                 case 'CAPITAL_OF_COUNTRY':
-                    return "Wie heißt die Hauptstadt von [" + country.name + "]";
+                    return "Wie heißt die Hauptstadt von [" + country.name + "]?";
 
                 case 'COUNTRY_OF_CAPITAL':
-                    return "[" + country.capital + "] ist die Hauptstadt von welchem Land";
+                    return "[" + country.capital + "] ist die Hauptstadt von welchem Land?";
 
                 case 'POPULATION_OF_COUNTRY':
-                    return "Wie viele Menschen leben in [" + country.name + "]";
+                    return "Wie viele Menschen leben in [" + country.name + "]?";
 
                 case 'AREA_OF_COUNTRY':
-                    return "Wie groß ist die Fläche von [" + country.name + "]";
+                    return "Wie groß ist die Fläche von [" + country.name + "]?";
 
                 case 'FLAG_OF_COUNTRY':
-                    return "Welches Land hat diese Flagge";
+                    return "Welches Land hat diese Flagge?";
 
                 case 'LOCATION_OF_COUNTRY':
-                    return "Wo befindet sich [" + country.name + "]";
+                    return "Wo befindet sich [" + country.name + "]?";
+
+                case 'ORDER_BY_POPULATION':
+                    return "Reihen Sie diese Länder absteigend nach [Einwohnerzahl]";
+
+                case 'ORDER_BY_AREA':
+                    return "Reihen Sie diese Länder absteigend nach [Fläche]";
 
                 case 'BORDER_COUNTRIES_OF_COUNTRY':
                     return "Welche dieser Länder grenzen an [" + country.name + "]";
@@ -421,6 +637,13 @@ angular
                         correct: country.area
                     };
 
+                case 'ORDER_BY_AREA':
+                case 'ORDER_BY_POPULATION':
+                    // we don't really need to return the real answer because we have to check the answer array dynamically
+                    return {
+                        correct: null
+                    };
+
                 case 'LOCATION_OF_COUNTRY':
                     return {
                         correct: country.alpha2Code
@@ -443,6 +666,10 @@ angular
 
                 case 'AREA_OF_COUNTRY':
                     return 'number.medium';
+
+                case 'ORDER_BY_POPULATION':
+                case 'ORDER_BY_AREA':
+                    return 'sortable';
 
                 case 'LOCATION_OF_COUNTRY':
                     return 'map.point';
@@ -506,6 +733,65 @@ angular
                         }
 
                         return points;
+                    };
+
+                case 'ORDER_BY_POPULATION':
+                case 'ORDER_BY_AREA':
+                    return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
+                        // copy array first (otherwise the UI will also be updated)
+                        var copiedArray = [];
+                        info.countries.forEach(function(item) {
+                            copiedArray.push(item);
+                        });
+
+                        // create the correct solution array
+                        var answerArray = copiedArray.sort(function(a, b) {
+                            if (a.revealValue < b.revealValue) {
+                                return 1;
+                            } else if (a.revealValue > b.revealValue) {
+                                return -1;
+                            } else {
+                                return 0;
+                            }
+                        }).map(function(item) {
+                            return item.alpha3;
+                        });
+
+                        // now, compare the two arrays and count the mistakes
+                        var mistakes = 0;
+
+                        // flags for keeping track where the mistakes happened
+                        var firstWrong = false;
+                        var lastWrong = false;
+
+                        var arrLength = copiedArray.length;
+
+                        for (var i = 0; i < arrLength; i++) {
+                            if (answerArray[i] !== submittedAnswer[i]) {
+                                mistakes++;
+
+                                if (i === 0) {
+                                    firstWrong = true;
+                                } else if (i === arrLength - 1) {
+                                    lastWrong = true;
+                                }
+                            }
+                        }
+
+                        // if everything is correct, award 100 points
+                        if (mistakes === 0) {
+                            return 100;
+                        } else if (mistakes <= 2) {
+                            // for up to two mistakes, award 50 points
+                            // unless the two mistakes resulted from getting #1 and #4 wrong - in that case it's 0 points
+                            if (firstWrong && lastWrong) {
+                                return 0;
+                            } else {
+                                return 50;
+                            }
+                        } else {
+                            return 0;
+                        }
                     };
 
                 case 'POPULATION_OF_COUNTRY':
@@ -624,6 +910,8 @@ angular
 
                 case 'POPULATION_OF_COUNTRY':
                 case 'AREA_OF_COUNTRY':
+                case 'ORDER_BY_POPULATION':
+                case 'ORDER_BY_AREA':
                 case 'BORDER_COUNTRIES_OF_COUNTRY':
                     return {
                         allowed: false

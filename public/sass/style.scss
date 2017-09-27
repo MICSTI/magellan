@@ -86,6 +86,10 @@ input[type=text], input[type=password], input[type=email] {
   opacity: 0.5;
 }
 
+.no-interaction {
+  pointer-events: none;
+}
+
 .highlight {
   color: $jelly_bean;
   font-weight: bold;
