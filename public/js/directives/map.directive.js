@@ -166,25 +166,20 @@ angular
                         shift, temp = [];
 
                     if (this.scrolled) {
-
                         for (shift = 0; shift <= lastShift; shift++) {
                             temp.push(Math.abs(scaleSet[shift] - currentScale));
                         }
 
                         shift = temp.indexOf(Math.min.apply(null, temp));
 
-                        if (currentScale >= scaleSet[shift] && shift < lastShift) {
+                        if (direction === "in" && currentScale >= scaleSet[shift] && shift < lastShift) {
                             shift++;
-                        }
-
-                        if (direction === "out" && shift > 0) {
+                        } else if (direction === "out" && shift > 0) {
                             shift--;
                         }
 
                         this.scrolled = false;
-
                     } else {
-
                         shift = this.scale.currentShift;
 
                         if (direction === "out") {
