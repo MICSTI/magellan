@@ -828,9 +828,13 @@ quiz {
 }
 
 .map-container {
+  background-color: white;
+  border: 2px solid darken($primary, 10%);
+  border-radius: 0.25em;
   position: relative;
-  width: 500px;
-  height: 300px;
+  width: 620px;
+  height: 350px;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 630px) {
@@ -841,7 +845,8 @@ quiz {
 
 @media screen and (max-width: 530px) {
   .map-container {
-    width: 450px;
+    width: 430px;
+    height: 280px;
   }
 }
 
@@ -854,6 +859,7 @@ quiz {
 @media screen and (max-width: 430px) {
   .map-container {
     width: 350px;
+    height: 240px;
   }
 }
 
