@@ -153,7 +153,7 @@ angular
                         scaleMaxLog = Math.log(this.scale.max);
 
                     for (var i = 0; i <= 10; i++) {
-                        array.push(Math.pow(Math.E, 0.1 * i * scaleMaxLog));
+                        array.push(Math.pow(Math.E, 0.15 * i * scaleMaxLog));
                     }
 
                     return array;
