@@ -30,6 +30,14 @@ angular
                         }
                     }
                 });
+
+                scope.zoomIn = function() {
+                    console.log('zoom in');
+                };
+
+                scope.zoomOut = function() {
+                    console.log('zoom out');
+                }
             }
         }
     });

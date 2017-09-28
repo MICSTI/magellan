@@ -302,6 +302,14 @@ input[type=text], input[type=password], input[type=email] {
   color: #f4f7f7;
   background: $alge;
 }
+
+.button-zoom {
+  font-size: 1.3em;
+  font-weight: 700;
+  padding: 0.25em;
+  min-width: 0;
+  width: 2em;
+}
 /* ---------------------------------- */
 
 /* ---------- User profile ---------- */
@@ -875,6 +883,19 @@ quiz {
     width: 100px;
     height: 100px;
   }
+}
+
+.zoom-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zoom-info {
+  display: inline-block;
+  width: 3em;
+  margin: 0 0.5em;
+  text-align: center;
 }
 
 .input-container {
