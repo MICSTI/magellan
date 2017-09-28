@@ -16,6 +16,7 @@ angular
                     fills: {
                         defaultFill: '#22a7f0'
                     },
+                    projection: 'mercator',
                     geographyConfig: {
                         highlightBorderColor: 'rgba(200, 247, 197, 0.4)',
                         highlightFillColor: '#019875',
