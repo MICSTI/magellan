@@ -196,15 +196,18 @@ angular
 
                 var Map = function() {
                     this.$container = $("#map-container");
+                    this.selectedCountry = null;
                     this.instance = new Datamap({
                         scope: 'world',
                         element: this.$container.get(0),
                         projection: 'mercator',
                         done: this._handleMapReady.bind(this),
                         fills: {
-                            defaultFill: '#22a7f0'
+                            defaultFill: '#89c4f4',
+                            selected: '#1f3a93'
                         },
                         geographyConfig: {
+                            dataUrl: null, //if not null, datamaps will fetch the map JSON (currently only supports topojson)
                             highlightBorderColor: 'rgba(200, 247, 197, 0.4)',
                             highlightFillColor: '#019875',
                             highlightOnHover: true,
@@ -220,13 +223,62 @@ angular
                     });
                 };
 
+                Map.prototype._changeColor = function(countryCode) {
+                    // reset the previously selected country first
+                    if (this.selectedCountry) {
+                        var resetObj = {};
+                        resetObj[this.selectedCountry] = {
+                            fillKey: 'defaultFill'
+                        };
+                        this.instance.updateChoropleth(resetObj);
+                    }
+
+                    // select the new country
+                    this.selectedCountry = countryCode;
+
+                    var updateObj = {};
+                    updateObj[countryCode] = {
+                        fillKey: 'selected'
+                    };
+                    this.instance.updateChoropleth(updateObj);
+                };
+
                 Map.prototype._handleMapReady = function(datamap) {
+                    var _this = this;
+
+                    // attack zoom handler
                     this.zoom = new Zoom({
                         $container: this.$container,
                         datamap: datamap
                     });
+
+                    // attach on click listener for countries
+                    datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+                        _this._changeColor(geography.id);
+                    });
+
+                    // test
+                    datamap.svg.selectAll('.datamaps-subunit')
+                        .on('mouseout', function(d) {
+                            var $this = d3.select(this);
+
+                            var previousAttributes = JSON.parse($this.attr('data-previousAttributes'));
+
+                            for (var attr in previousAttributes) {
+                                // check if the color changed while the item was highlighted
+                                if (attr === 'fill' && _this.selectedCountry === d.id) {
+                                    $this.style('fill', '#1f3a93');
+                                } else {
+                                    $this.style(attr, previousAttributes[attr]);
+                                }
+                            }
+
+                            $this.on('mousemove', null);
+                            d3.selectAll('.datamaps-hoverover').style('display', 'none');
+                        });
                 };
 
+                // init map
                 new Map();
             }
         }
