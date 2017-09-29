@@ -260,6 +260,24 @@ angular
                     });
                 };
 
+                Map.prototype._init = function() {
+                    // change all colors back to default
+                    this.selectedCountry !== null && this._changeColor(this.selectedCountry, 'defaultFill');
+                    this.correctCountry !== null && this._changeColor(this.correctCountry, 'defaultFill');
+                    this.incorrectCountry !== null && this._changeColor(this.incorrectCountry, 'defaultFill');
+
+                    // reset all values
+                    this.selectedCountry = null;
+                    this.correctCountry = null;
+                    this.incorrectCountry = null;
+
+                    // delete attribute
+                    attrs.$set('data-selected', null);
+
+                    // reset zoom
+                    this.zoom.reset();
+                };
+
                 Map.prototype._selectCountry = function(countryCode) {
                     // first check if the country is not already selected
                     if (this.selectedCountry && this.selectedCountry === countryCode) {
@@ -304,7 +322,6 @@ angular
                         }
                     });
 
-                    // test
                     datamap.svg.selectAll('.datamaps-subunit')
                         .on('mouseout', function(d) {
                             var $this = d3.select(this);
@@ -355,6 +372,12 @@ angular
 
                     map._changeColor(data.correct, 'correct');
                     map._changeColor(data.incorrect, 'incorrect')
+                });
+
+                scope.$on('init', function(event, data) {
+                    hasQuestionBeenAnswered = false;
+
+                    map._init();
                 });
             }
         }

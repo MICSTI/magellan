@@ -57,6 +57,11 @@ angular
                     $scope.answerInput.multiplier = null;
                 }
 
+                // broadcast init event for map
+                if (question.getInfo().media === 'map') {
+                    $scope.$broadcast('init');
+                }
+
                 // update progress bar
                 updateProgressBar();
 
