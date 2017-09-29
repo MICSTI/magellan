@@ -12,6 +12,9 @@ angular
                 var COLOR_HOVER = '#4183d7';
                 var COLOR_SELECTED = '#1f3a93';
 
+                // are the country names visible on hover
+                var countryNamesVisible = false;
+
                 // ZOOM FUNCTION COPYRIGHT TO https://jsfiddle.net/wunderbart/Lom3b0gb/
                 // zoom function
                 var Zoom = function(args) {
@@ -217,6 +220,11 @@ angular
                             highlightOnHover: true,
                             popupOnHover: true,
                             popupTemplate: function(geography, data) {
+                                // only display a popup if they are enabled
+                                if (!countryNamesVisible) {
+                                    return null;
+                                }
+
                                 var country = CountrySrv.getCountryByAlpha3(geography.id);
 
                                 var countryName = country ? country.name : geography.properties.name;
@@ -245,6 +253,9 @@ angular
                         fillKey: 'selected'
                     };
                     this.instance.updateChoropleth(updateObj);
+
+                    // also set the selected country as an attribute of the map element
+                    attrs.$set('data-selected', countryCode);
                 };
 
                 Map.prototype._handleMapReady = function(datamap) {
