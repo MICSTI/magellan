@@ -334,6 +334,18 @@ angular
                 // init map
                 var map = new Map();
 
+                scope.getSolutionText = function() {
+                    if (hasQuestionBeenAnswered) {
+                        if (map.incorrectCountry) {
+                            return "Leider, das ist " + CountrySrv.getCountryByAlpha3(map.incorrectCountry).name || map.incorrectCountry;
+                        } else {
+                            return "Ja, das ist richtig!";
+                        }
+                    } else {
+                        return "";
+                    }
+                };
+
                 // event listeners
                 scope.$on('answered', function(event, data) {
                     hasQuestionBeenAnswered = true;

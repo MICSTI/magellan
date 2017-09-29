@@ -677,6 +677,9 @@ angular
                     return 'sortable';
 
                 case 'LOCATION_OF_COUNTRY_SHOW':
+                    return null;
+
+                case 'LOCATION_OF_COUNTRY_NAME':
                     return 'map.point';
 
                 case 'BORDER_COUNTRIES_OF_COUNTRY':

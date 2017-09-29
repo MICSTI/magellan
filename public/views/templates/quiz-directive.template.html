@@ -22,7 +22,7 @@
     </div>
 
     <!-- Answer input -->
-    <div class="input-container" ng-switch="getQuestion().getInfo().input">
+    <div class="input-container" ng-switch="getQuestion().getInfo().input" ng-class="{ 'remove-padding': getQuestion().getInfo().input === null }">
         <div ng-switch-when="text.standard" class="quiz-input-text">
             <input type="text" class="answerInput" ng-model="answerInput.answer" placeholder="Antwort" ng-keypress="handleKeyPress($event)" />
         </div>

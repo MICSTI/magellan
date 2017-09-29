@@ -837,6 +837,10 @@ quiz {
   overflow: hidden;
 }
 
+.map-container + .answer-container {
+  text-align: center;
+}
+
 @media screen and (max-width: 630px) {
   .map-container {
     width: 500px;
@@ -906,6 +910,10 @@ quiz {
 
 .input-container {
   padding: 0.6em 0;
+
+  &.remove-padding {
+    padding: 0;
+  }
 }
 
 .hint-container {
