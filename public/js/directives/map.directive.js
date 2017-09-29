@@ -7,8 +7,12 @@ angular
             restrict: 'E',
             templateUrl: 'dist/views/templates/map.template.html',
             link: function link(scope, element, attrs) {
-                // ZOOM FUNCTION COPYRIGHT TO https://jsfiddle.net/wunderbart/Lom3b0gb/
+                // color definitions
+                var COLOR_DEFAULT = '#89c4f4';
+                var COLOR_HOVER = '#4183d7';
+                var COLOR_SELECTED = '#1f3a93';
 
+                // ZOOM FUNCTION COPYRIGHT TO https://jsfiddle.net/wunderbart/Lom3b0gb/
                 // zoom function
                 var Zoom = function(args) {
                     $.extend(this, {
@@ -203,13 +207,13 @@ angular
                         projection: 'mercator',
                         done: this._handleMapReady.bind(this),
                         fills: {
-                            defaultFill: '#89c4f4',
-                            selected: '#1f3a93'
+                            defaultFill: COLOR_DEFAULT,
+                            selected: COLOR_SELECTED
                         },
                         geographyConfig: {
                             dataUrl: null, //if not null, datamaps will fetch the map JSON (currently only supports topojson)
                             highlightBorderColor: 'rgba(200, 247, 197, 0.4)',
-                            highlightFillColor: '#019875',
+                            highlightFillColor: COLOR_HOVER,
                             highlightOnHover: true,
                             popupOnHover: true,
                             popupTemplate: function(geography, data) {
@@ -268,7 +272,7 @@ angular
                                 if (previousAttributes.hasOwnProperty(attr)) {
                                     // check if the color changed while the item was highlighted
                                     if (attr === 'fill' && _this.selectedCountry === d.id) {
-                                        $this.style('fill', '#1f3a93');
+                                        $this.style('fill', COLOR_SELECTED);
                                     } else {
                                         $this.style(attr, previousAttributes[attr]);
                                     }
