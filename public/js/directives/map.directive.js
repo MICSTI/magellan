@@ -265,11 +265,13 @@ angular
                             var previousAttributes = JSON.parse($this.attr('data-previousAttributes'));
 
                             for (var attr in previousAttributes) {
-                                // check if the color changed while the item was highlighted
-                                if (attr === 'fill' && _this.selectedCountry === d.id) {
-                                    $this.style('fill', '#1f3a93');
-                                } else {
-                                    $this.style(attr, previousAttributes[attr]);
+                                if (previousAttributes.hasOwnProperty(attr)) {
+                                    // check if the color changed while the item was highlighted
+                                    if (attr === 'fill' && _this.selectedCountry === d.id) {
+                                        $this.style('fill', '#1f3a93');
+                                    } else {
+                                        $this.style(attr, previousAttributes[attr]);
+                                    }
                                 }
                             }
 
