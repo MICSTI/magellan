@@ -15,7 +15,7 @@
         <span ng-switch-when="flag" class="flag-icon flag-icon-large flag-icon-{{getQuestion().getInfo().alpha2Code}}"></span>
 
         <div ng-switch-when="map">
-            <x-map></x-map>
+            <x-map id="map-element"></x-map>
         </div>
 
         <div ng-switch-default>Unknown media type {{getQuestionMedia()}}</div>

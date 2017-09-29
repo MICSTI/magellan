@@ -489,7 +489,7 @@ angular
 
             for (var j = 0; j < numberOfQuestions; j++) {
                 // TODO revert before merging
-                questionTypeArray.push(6);
+                questionTypeArray.push(7);
                 /*if (j < 3) {
                     questionTypeArray.push(1);
                 } else if (j < 6) {
@@ -537,7 +537,7 @@ angular
                     // add info for flag of country
                     info.media = 'flag';
                     info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
-                } else if (questionType === 'LOCATION_OF_COUNTRY_NAME') {
+                } else if (questionType === 'LOCATION_OF_COUNTRY_SHOW') {
                     // add info for location of country
                     info.media = 'map';
                     info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
@@ -593,7 +593,7 @@ angular
                 case 'FLAG_OF_COUNTRY':
                     return "Welches Land hat diese Flagge?";
 
-                case 'LOCATION_OF_COUNTRY_NAME':
+                case 'LOCATION_OF_COUNTRY_SHOW':
                     return "Wo befindet sich [" + country.name + "]?";
 
                 case 'ORDER_BY_POPULATION':
@@ -646,9 +646,9 @@ angular
                         correct: null
                     };
 
-                case 'LOCATION_OF_COUNTRY_NAME':
+                case 'LOCATION_OF_COUNTRY_SHOW':
                     return {
-                        correct: country.alpha2Code
+                        correct: country.alpha3Code
                     };
 
                 case 'BORDER_COUNTRIES_OF_COUNTRY':
@@ -673,7 +673,7 @@ angular
                 case 'ORDER_BY_AREA':
                     return 'sortable';
 
-                case 'LOCATION_OF_COUNTRY_NAME':
+                case 'LOCATION_OF_COUNTRY_SHOW':
                     return 'map.point';
 
                 case 'BORDER_COUNTRIES_OF_COUNTRY':
@@ -735,6 +735,14 @@ angular
                         }
 
                         return points;
+                    };
+
+                case 'LOCATION_OF_COUNTRY_SHOW':
+                    return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
+                        console.log('answer', answer);
+                        console.log('submitted answer', submittedAnswer);
+
+                        return 0;
                     };
 
                 case 'ORDER_BY_POPULATION':

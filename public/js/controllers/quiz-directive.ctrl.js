@@ -149,6 +149,16 @@ angular
                 });
 
                 $scope.answerInput.points = question.answer(answerArray);
+            } else if (!question.answered() && question.getInfo().type === 'LOCATION_OF_COUNTRY_SHOW') {
+                var mapAnswer = null;
+
+                var mapElement = document.getElementById('map-element');
+
+                if (mapElement) {
+                    mapAnswer = mapElement.getAttribute('data-selected');
+                }
+
+                $scope.answerInput.points = question.answer(mapAnswer);
             } else if (!question.answered() && (question.getInfo().type === 'ORDER_BY_POPULATION' || question.getInfo().type === 'ORDER_BY_AREA')) {
                 var sortableElem = document.getElementById('sortit');
                 var sortableArray = Array.prototype.slice.call(sortableElem.children);
