@@ -541,6 +541,9 @@ angular
                     // add info for location of country
                     info.media = 'map';
                     info.alpha2Code = country.alpha2Code.toLocaleLowerCase();
+
+                    // hide the answer text after submitting an answer
+                    info.hideAnswerText = true;
                 } else if (questionType === 'BORDER_COUNTRIES_OF_COUNTRY') {
                     // add info for borders of country
                     var bcQuestion = createBorderCountriesOfCountryQuestion(country);
@@ -739,10 +742,21 @@ angular
 
                 case 'LOCATION_OF_COUNTRY_SHOW':
                     return function(answer, submittedAnswer, hintsUsed, hintCost, info) {
-                        console.log('answer', answer);
-                        console.log('submitted answer', submittedAnswer);
+                        var points = 0;
 
-                        return 0;
+                        var answerObj = {
+                            correct: answer.correct
+                        };
+
+                        if (answer.correct === submittedAnswer) {
+                            points = 100;
+                        } else {
+                            answerObj.incorrect = submittedAnswer;
+                        }
+
+                        $rootScope.$broadcast('answered', answerObj);
+
+                        return points;
                     };
 
                 case 'ORDER_BY_POPULATION':

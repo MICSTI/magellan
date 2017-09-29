@@ -11,9 +11,15 @@ angular
                 var COLOR_DEFAULT = '#89c4f4';
                 var COLOR_HOVER = '#4183d7';
                 var COLOR_SELECTED = '#1f3a93';
+                var COLOR_CORRECT = '#00b16a';
+                var COLOR_INCORRECT = '#d91e18';
 
-                // are the country names visible on hover
-                var countryNamesVisible = false;
+                var COLOR_SELECTED_HOVER = '#67809f'
+                var COLOR_CORRECT_HOVER = '#1e824c';
+                var COLOR_INCORRECT_HOVER = '#96281b';
+
+                // question answered
+                var hasQuestionBeenAnswered = false;
 
                 // ZOOM FUNCTION COPYRIGHT TO https://jsfiddle.net/wunderbart/Lom3b0gb/
                 // zoom function
@@ -204,6 +210,8 @@ angular
                 var Map = function() {
                     this.$container = $("#map-container");
                     this.selectedCountry = null;
+                    this.correctCountry = null;
+                    this.incorrectCountry = null;
                     this.instance = new Datamap({
                         scope: 'world',
                         element: this.$container.get(0),
@@ -211,17 +219,34 @@ angular
                         done: this._handleMapReady.bind(this),
                         fills: {
                             defaultFill: COLOR_DEFAULT,
-                            selected: COLOR_SELECTED
+                            selected: COLOR_SELECTED,
+                            correct: COLOR_CORRECT,
+                            incorrect: COLOR_INCORRECT
                         },
                         geographyConfig: {
                             dataUrl: null, //if not null, datamaps will fetch the map JSON (currently only supports topojson)
                             highlightBorderColor: 'rgba(200, 247, 197, 0.4)',
-                            highlightFillColor: COLOR_HOVER,
+                            highlightFillColor: function(data) {
+                                if (data.fillKey) {
+                                    if (data.fillKey === 'selected') {
+                                        return COLOR_SELECTED_HOVER;
+                                    } else if (data.fillKey === 'correct') {
+                                        return COLOR_CORRECT_HOVER;
+                                    } else if (data.fillKey === 'incorrect') {
+                                        return COLOR_INCORRECT_HOVER;
+                                    } else {
+                                        return COLOR_HOVER;
+                                    }
+                                } else {
+                                    // just return the standard hover color
+                                    return COLOR_HOVER;
+                                }
+                            },
                             highlightOnHover: true,
                             popupOnHover: true,
                             popupTemplate: function(geography, data) {
                                 // only display a popup if they are enabled
-                                if (!countryNamesVisible) {
+                                if (!hasQuestionBeenAnswered) {
                                     return null;
                                 }
 
@@ -235,27 +260,32 @@ angular
                     });
                 };
 
-                Map.prototype._changeColor = function(countryCode) {
+                Map.prototype._selectCountry = function(countryCode) {
+                    // first check if the country is not already selected
+                    if (this.selectedCountry && this.selectedCountry === countryCode) {
+                        return;
+                    }
+
                     // reset the previously selected country first
                     if (this.selectedCountry) {
-                        var resetObj = {};
-                        resetObj[this.selectedCountry] = {
-                            fillKey: 'defaultFill'
-                        };
-                        this.instance.updateChoropleth(resetObj);
+                        this._changeColor(this.selectedCountry, 'defaultFill');
                     }
 
                     // select the new country
                     this.selectedCountry = countryCode;
 
-                    var updateObj = {};
-                    updateObj[countryCode] = {
-                        fillKey: 'selected'
-                    };
-                    this.instance.updateChoropleth(updateObj);
+                    this._changeColor(this.selectedCountry, 'selected');
 
                     // also set the selected country as an attribute of the map element
                     attrs.$set('data-selected', countryCode);
+                };
+
+                Map.prototype._changeColor = function(countryCode, fillKey) {
+                    var updateObj = {};
+                    updateObj[countryCode] = {
+                        fillKey: fillKey
+                    };
+                    this.instance.updateChoropleth(updateObj);
                 };
 
                 Map.prototype._handleMapReady = function(datamap) {
@@ -269,7 +299,9 @@ angular
 
                     // attach on click listener for countries
                     datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
-                        _this._changeColor(geography.id);
+                        if (!hasQuestionBeenAnswered) {
+                            _this._selectCountry(geography.id);
+                        }
                     });
 
                     // test
@@ -282,7 +314,11 @@ angular
                             for (var attr in previousAttributes) {
                                 if (previousAttributes.hasOwnProperty(attr)) {
                                     // check if the color changed while the item was highlighted
-                                    if (attr === 'fill' && _this.selectedCountry === d.id) {
+                                    if (attr === 'fill' && _this.correctCountry === d.id) {
+                                        $this.style('fill', COLOR_CORRECT);
+                                    } else if (attr === 'fill' && _this.incorrectCountry === d.id) {
+                                        $this.style('fill', COLOR_INCORRECT);
+                                    } else if (attr === 'fill' && _this.selectedCountry === d.id) {
                                         $this.style('fill', COLOR_SELECTED);
                                     } else {
                                         $this.style(attr, previousAttributes[attr]);
@@ -296,7 +332,18 @@ angular
                 };
 
                 // init map
-                new Map();
+                var map = new Map();
+
+                // event listeners
+                scope.$on('answered', function(event, data) {
+                    hasQuestionBeenAnswered = true;
+
+                    map.correctCountry = data.correct;
+                    map.incorrectCountry = data.incorrect;
+
+                    map._changeColor(data.correct, 'correct');
+                    map._changeColor(data.incorrect, 'incorrect')
+                });
             }
         }
     });
