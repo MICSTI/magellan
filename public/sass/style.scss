@@ -239,6 +239,14 @@ input[type=text], input[type=password], input[type=email] {
 .color-gold {
   color: $buttercup;
 }
+
+.color-correct {
+  color: $eucalyptus;
+}
+
+.color-incorrect {
+  color: $thunderbird;
+}
 /* ---------------------------------- */
 
 /* ------------- Buttons ------------ */
@@ -838,6 +846,7 @@ quiz {
 }
 
 .map-container + .answer-container {
+  margin: 1.25em 0 -.5em 0;
   text-align: center;
 }
 

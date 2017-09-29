@@ -337,9 +337,9 @@ angular
                 scope.getSolutionText = function() {
                     if (hasQuestionBeenAnswered) {
                         if (map.incorrectCountry) {
-                            return "Leider, das ist " + CountrySrv.getCountryByAlpha3(map.incorrectCountry).name || map.incorrectCountry;
+                            return 'Leider nicht, das ist <span class="color-incorrect bold">' + (CountrySrv.getCountryByAlpha3(map.incorrectCountry).name || map.incorrectCountry) + '</span>';
                         } else {
-                            return "Ja, das ist richtig!";
+                            return '<span class="color-correct bold">Ja, das ist richtig!</span>';
                         }
                     } else {
                         return "";
