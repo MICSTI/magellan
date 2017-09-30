@@ -28,7 +28,7 @@ angular
 
                 var validText = validity !== undefined ? " Der Link ist " + validity + " Stunden lang gültig." : "";
 
-                //ToastSrv.long('success', 'Das E-Mail wurde erfolgreich versandt.' + validText);
+                showToastDelayed('success', 'Das E-Mail wurde erfolgreich versandt.' + validText);
             }).catch(function(err) {
                 if (err.message === "No user with this e-mail address found") {
                     // This is intentional so as not to reveal too much to the user
