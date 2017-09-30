@@ -11,6 +11,9 @@ angular
 
         var quiz = null;
 
+        // these countries are not possible to show on a map
+        var COUNTRIES_NO_MAP = ['AND', 'MCO', 'VAT'];
+
         var setCountries = function(_countries) {
             countries = _countries;
         };
@@ -488,6 +491,9 @@ angular
             var questionTypeArray = [];
 
             for (var j = 0; j < numberOfQuestions; j++) {
+
+                // BEWARE: Here it must be ensured that a map question does not be mached to a country that is in COUNTRIES_NO_MAP array
+
                 // TODO revert before merging
                 questionTypeArray.push(7);
                 /*if (j < 3) {
