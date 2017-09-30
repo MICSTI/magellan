@@ -606,7 +606,7 @@ angular
                     return "Reihen Sie diese Länder absteigend nach [Fläche]";
 
                 case 'BORDER_COUNTRIES_OF_COUNTRY':
-                    return "Welche dieser Länder grenzen an [" + country.name + "]";
+                    return "Welche dieser Länder grenzen an [" + country.name + "]?";
 
                 default:
                     return "?"
