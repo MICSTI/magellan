@@ -14,7 +14,7 @@ angular
                 var COLOR_CORRECT = '#00b16a';
                 var COLOR_INCORRECT = '#d91e18';
 
-                var COLOR_SELECTED_HOVER = '#67809f'
+                var COLOR_SELECTED_HOVER = '#67809f';
                 var COLOR_CORRECT_HOVER = '#1e824c';
                 var COLOR_INCORRECT_HOVER = '#96281b';
 
