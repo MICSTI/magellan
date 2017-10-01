@@ -306,6 +306,11 @@ angular
                     this.instance.updateChoropleth(updateObj);
                 };
 
+                Map.prototype._centerOnCountry = function(countryCode) {
+                    // TODO implement
+                    
+                };
+
                 Map.prototype._handleMapReady = function(datamap) {
                     var _this = this;
 
@@ -317,6 +322,7 @@ angular
 
                     // attach on click listener for countries
                     datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+                        console.log('c', geography);
                         if (!hasQuestionBeenAnswered) {
                             _this._selectCountry(geography.id);
                         }
