@@ -108,6 +108,9 @@ var saveUserWithOAuthProviderId = function(userProfile) {
                     user.color = 'soft_red';
                 }
 
+                // variable for storing family name (the full family name should not be disclosed automatically, unless the user does so himself / herself
+                var familyName;
+
                 // get username - we only have to do this if the user object didn't already exist
                 switch (provider) {
                     case 'facebook':
@@ -116,7 +119,14 @@ var saveUserWithOAuthProviderId = function(userProfile) {
                         } else if (userProfile.displayName !== undefined) {
                             user.username = userProfile.displayName;
                         } else {
-                            user.username = userProfile.name.givenName + ' ' + userProfile.name.familyName;
+                            // only use the first letter of familyName
+                            familyName = userProfile.name.familyName ? userProfile.name.familyName.substr(0, 1) + '.' : "";
+
+                            if (familyName) {
+                                user.username = userProfile.name.givenName + ' ' + familyName;
+                            } else {
+                                user.username = userProfile.name.givenName;
+                            }
                         }
 
                         break;
@@ -127,7 +137,14 @@ var saveUserWithOAuthProviderId = function(userProfile) {
                         } else if (userProfile.displayName !== undefined) {
                             user.username = userProfile.displayName;
                         } else {
-                            user.username = userProfile.name.givenName + ' ' + userProfile.name.familyName;
+                            // only use the first letter of familyName
+                            familyName = userProfile.name.familyName ? userProfile.name.familyName.substr(0, 1) + '.' : "";
+
+                            if (familyName) {
+                                user.username = userProfile.name.givenName + ' ' + familyName;
+                            } else {
+                                user.username = userProfile.name.givenName;
+                            }
                         }
 
                         break;
