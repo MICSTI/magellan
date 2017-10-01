@@ -161,6 +161,8 @@ var saveUserWithOAuthProviderId = function(userProfile) {
             // add provider to user
             user[provider] = id;
 
+            // TODO we must ensure that the username is unique!!!
+
             // save new user object
             user.save(function(err) {
                 if (err) {
