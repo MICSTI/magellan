@@ -161,16 +161,37 @@ var saveUserWithOAuthProviderId = function(userProfile) {
             // add provider to user
             user[provider] = id;
 
-            // TODO we must ensure that the username is unique!!!
+            // we use a recursive function to check if the username is unique
+            var recursiveUniqueCheck = function() {
+                User.findOne({
+                    username: user.username
+                }, function(err, _user) {
+                    if (err) {
+                        return reject(err);
+                    }
 
-            // save new user object
-            user.save(function(err) {
-                if (err) {
-                    return reject(err);
-                }
+                    if (_user) {
+                        // a user with this username already exists, so we append a random number to the username
+                        user.username += ' ' + getRandomInt(1000, 9999);
 
-                resolve(user);
-            });
+                        recursiveUniqueCheck();
+                    } else {
+                        // no such user exists, everything is ok
+
+                        // save new user object
+                        user.save(function(err) {
+                            if (err) {
+                                return reject(err);
+                            }
+
+                            resolve(user);
+                        });
+                    }
+                });
+            };
+
+            // call the recursive check function for the first time
+            recursiveUniqueCheck();
         });
     });
 };
