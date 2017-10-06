@@ -12,7 +12,7 @@ angular
         var quiz = null;
 
         // these countries are not possible to show on a map
-        var COUNTRIES_NO_MAP = ['AND', 'MCO', 'VAT', 'LIE'];
+        var COUNTRIES_NO_MAP = ['AND', 'MCO', 'VAT', 'LIE', 'MLT'];
 
         var setCountries = function(_countries) {
             countries = _countries;
