@@ -439,6 +439,14 @@ angular
             if (QuizSrv.hasQuizStarted() && QuizSrv.hasQuizEnded()) {
                 QuizSrv.dispose();
             }
+
+            // when the user leaves the page we destroy the progressbar element
+            // otherwise it will be added again and again
+            var progressbarContainerElement = document.getElementById('quiz-progress');
+
+            while (progressbarContainerElement.firstChild) {
+                progressbarContainerElement.removeChild(progressbarContainerElement.firstChild);
+            }
         });
 
         // init controller
