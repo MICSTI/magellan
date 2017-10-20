@@ -75,6 +75,8 @@ angular
 
                     this.scrolled = true;
 
+                    console.log("\"mapPosition\": " + JSON.stringify({ x: limited.translate[0], y: limited.translate[1], k: limited.scale }) + ",");
+
                     this._update(limited.translate, limited.scale);
                 };
 
@@ -109,6 +111,8 @@ angular
 
                     view.x += center[0] - l[0];
                     view.y += center[1] - l[1];
+
+                    console.log("\"mapPosition\": " + JSON.stringify(view) + ",");
 
                     bounded = this._bound([ view.x, view.y ], view.k);
 
@@ -395,7 +399,7 @@ angular
                     map._changeColor(data.correct, 'correct');
                     map._changeColor(data.incorrect, 'incorrect');
 
-                    map._centerOnCountry('RUS');
+                    map._centerOnCountry(data.correct);
                 });
 
                 scope.$on('init', function(event, data) {
