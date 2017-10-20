@@ -115,6 +115,14 @@ angular
                     this._animate(bounded.translate, bounded.scale);
                 };
 
+                Zoom.prototype._setPosition = function(position) {
+                    this.scrolled = true;
+
+                    var bounded = this._bound([ position.x, position.y ], position.k);
+
+                    this._animate(bounded.translate, bounded.scale);
+                };
+
                 Zoom.prototype._bound = function(translate, scale) {
                     var width = this.$container.width(),
                         height = this.$container.height();
@@ -307,8 +315,16 @@ angular
                 };
 
                 Map.prototype._centerOnCountry = function(countryCode) {
-                    // TODO implement
-                    
+                    // get the country's object
+                    var country = CountrySrv.getCountryByAlpha3(countryCode);
+
+                    var mapPosition = country.mapPosition || {
+                        k: 1,
+                        x: 0,
+                        y: 0
+                    };
+
+                    this.zoom._setPosition(mapPosition);
                 };
 
                 Map.prototype._handleMapReady = function(datamap) {
@@ -377,7 +393,9 @@ angular
                     map.incorrectCountry = data.incorrect;
 
                     map._changeColor(data.correct, 'correct');
-                    map._changeColor(data.incorrect, 'incorrect')
+                    map._changeColor(data.incorrect, 'incorrect');
+
+                    map._centerOnCountry('RUS');
                 });
 
                 scope.$on('init', function(event, data) {
