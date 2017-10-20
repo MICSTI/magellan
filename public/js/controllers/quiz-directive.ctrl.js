@@ -440,6 +440,11 @@ angular
                 QuizSrv.dispose();
             }
 
+            // if the question has been answered and we leave the page, already go to the next question to avoid state problems when the user comes back
+            if (questionAnswered() === true) {
+                QuizSrv.nextQuestion();
+            }
+
             // when the user leaves the page we destroy the progressbar element
             // otherwise it will be added again and again
             var progressbarContainerElement = document.getElementById('quiz-progress');
