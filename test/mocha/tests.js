@@ -36,6 +36,7 @@ describe('Countries file', function() {
             country.should.have.property('borders');
             country.should.have.property('alpha2Code');
             country.should.have.property('alpha3Code');
+            country.should.have.property('mapPosition');
         });
 
         done();
